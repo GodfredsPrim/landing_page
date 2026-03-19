@@ -1,0 +1,343 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Godfred Bio Conquest | Godfreds Prim 3.0</title>
+
+  <!-- Favicon (put favicon.ico in static/) -->
+  <link rel="icon" href="/static/favicon.ico" type="image/x-icon">
+
+  <!-- Open Graph / Social Preview -->
+  <meta property="og:title" content="Godfred Bio Conquest – Godfreds Prim 3.0">
+  <meta property="og:description" content="AI/ML Engineer • Full-Stack Developer • Building the future from Cape Coast, Ghana">
+  <meta property="og:image" content="https://YOURDOMAIN.com/static/images/og-preview.jpg">
+  <meta property="og:url" content="https://YOURDOMAIN.com">
+  <meta property="og:type" content="website">
+
+  <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;700;900&family=JetBrains+Mono&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.css" />
+  <style>
+  @keyframes float { 0%,100% { transform: translateY(0) rotate(0deg); } 50% { transform: translateY(-20px) rotate(5deg); } }
+  .animate-float { animation: float 20s ease-in-out infinite; }
+  .animate-pulse-slow { animation: pulse 8s cubic-bezier(0.4, 0, 0.6, 1) infinite; }
+</style>
+
+<script>
+// Mesmerizing particle background (lightweight, no library)
+const canvas = document.getElementById('hero-canvas');
+const ctx = canvas.getContext('2d');
+canvas.width = window.innerWidth;
+canvas.height = window.innerHeight;
+
+let particles = [];
+const colors = ['#06fbd0', '#a78bfa', '#c084fc', '#60a5fa'];
+
+class Particle {
+  constructor() {
+    this.x = Math.random() * canvas.width;
+    this.y = Math.random() * canvas.height;
+    this.size = Math.random() * 4 + 1;
+    this.speedX = Math.random() * 1.5 - 0.75;
+    this.speedY = Math.random() * 1.5 - 0.75;
+    this.color = colors[Math.floor(Math.random() * colors.length)];
+  }
+  update() {
+    this.x += this.speedX;
+    this.y += this.speedY;
+    if (this.x > canvas.width || this.x < 0) this.speedX *= -1;
+    if (this.y > canvas.height || this.y < 0) this.speedY *= -1;
+  }
+  draw() {
+    ctx.fillStyle = this.color + '30';
+    ctx.beginPath();
+    ctx.arc(this.x, this.y, this.size * 10, 0, Math.PI * 2);
+    ctx.fill();
+  }
+}
+
+function init() {
+  particles = [];
+  for (let i = 0; i < 50; i++) particles.push(new Particle());
+}
+function animate() {
+  ctx.clearRect(0, 0, canvas.width, canvas.height);
+  particles.forEach(p => { p.update(); p.draw(); });
+  requestAnimationFrame(animate);
+}
+init();
+animate();
+
+window.addEventListener('resize', () => {
+  canvas.width = window.innerWidth;
+  canvas.height = window.innerHeight;
+  init();
+});
+</script>
+
+  <style>
+    body 
+    { font-family: 'Inter', sans-serif; }
+    .glass { background: rgba(255,255,255,0.05); backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px); border: 1px solid rgba(255,255,255,0.1); border-radius: 24px; }
+    .terminal { font-family: 'JetBrains Mono', monospace; }
+    .typewriter h1 { overflow: hidden; border-right: .15em solid #06fbd0; white-space: nowrap; animation: typing 3.5s steps(30, end) forwards, blink .75s step-end infinite; }
+    @keyframes typing { from { width: 0 } to { width: 100% } }
+    @keyframes blink { from, to { border-color: transparent } 50% { border-color: #06fbd0; } }
+  </style>
+</head>
+<body class="bg-black text-white overflow-x-hidden">
+
+  <!-- Hero -->
+  <!-- HERO WITH LIVE ANIMATED BACKGROUND -->
+<section id="home" class="relative min-h-screen flex items-center justify-center overflow-hidden">
+  <!-- Animated Background Canvas -->
+  <div id="hero-canvas" class="absolute inset-0 -z-10"></div>
+  
+  <!-- Your photo blended beautifully on top -->
+  <img src="/static/images/hero.jpg" 
+       class="absolute inset-0 w-full h-full object-cover opacity-40 mix-blend-overlay pointer-events-none animate-pulse-slow">
+
+  <!-- Subtle gradient overlay (keeps text readable) -->
+  <div class="absolute inset-0 bg-gradient-to-br from-purple-900/60 via-black/70 to-cyan-700/60"></div>
+
+  <!-- All your existing hero content (unchanged) -->
+  <div class="relative z-10 max-w-7xl mx-auto px-8 text-center" data-aos="fade-up">
+    <div class="glass p-12 lg:p-20 max-w-5xl mx-auto">
+      <!-- Terminal + typing + all your existing content stays exactly the same -->
+      <!-- Just paste your current hero content here (from the terminal div down to the nav) -->
+      <!-- I’m including the key part so you don’t lose anything -->
+
+      <div class="terminal text-left text-cyan-400 text-sm mb-8 opacity-80">
+        <span class="text-green-400">$</span> whoami<br>
+        <span class="text-cyan-300">Godfred Bio Conquest</span><br>
+        <span class="text-green-400">$</span> cat mission.txt<br>
+        <span class="text-gray-400">“Build AI-powered solutions that solve real Ghanaian problems”</span>
+      </div>
+
+      <p class="text-cyan-400 text-sm tracking-widest uppercase mb-3">AI/ML Engineer · Web Developer · Graphic Designer</p>
+      <div class="typewriter inline-block">
+        <h1 class="text-6xl lg:text-8xl font-black leading-none">Godfred<br><span class="text-7xl lg:text-9xl text-cyan-300">Bio Conquest</span></h1>
+      </div>
+      <p class="text-4xl lg:text-6xl font-bold text-cyan-400 mt-4 animate-pulse">Godfreds Prim 3.0</p>
+
+      <div class="flex flex-wrap justify-center gap-6 mt-10 text-gray-300">
+        <span>godfredbio2004@gmail.com</span>
+        <span>+233 59 996 6902</span>
+        <span>Cape Coast • UCC</span>
+      </div>
+
+        <div class="flex justify-center gap-6 mt-12">
+          <a href="/static/Godfred_Bio_Conquest_Resume.pdf" download 
+   class="bg-cyan-400 text-black px-10 py-5 rounded-full font-bold hover:bg-cyan-300 transition">
+  Download CV
+</a>
+          <button onclick="copyEmail()" class="glass px-8 py-5 rounded-full font-medium hover:bg-white/10 transition">
+            Copy Email ✉
+          </button>
+        </div>
+
+        <!-- Live Visitor Counter + Badge -->
+        <div class="mt-12 text-center">
+          <span class="inline-block bg-green-500/20 text-green-400 px-6 py-2 rounded-full text-sm font-bold">Available for internships & freelance</span>
+          <p class="mt-4 text-gray-500 text-sm">
+            Visitors today: <span id="visitor-count">—</span> 👀
+          </p>
+        </div>
+
+        <nav class="flex flex-wrap justify-center gap-4 mt-16">
+          <a href="#home" class="glass px-6 py-3 rounded-full text-sm font-medium">Home</a>
+          <a href="#about" class="glass px-6 py-3 rounded-full text-sm font-medium">About</a>
+          <a href="#skills" class="glass px-6 py-3 rounded-full text-sm font-medium">Skills</a>
+          <a href="#projects" class="glass px-6 py-3 rounded-full text-sm font-medium">Projects</a>
+          <a href="#contact" class="glass px-6 py-3 rounded-full text-sm font-medium">Contact</a>
+        </nav>
+      </div>
+    </div>
+  </section>
+
+  <!-- All other sections (About, Skills, Projects with slideshow, Contact) stay exactly the same as last version -->
+  <!-- I’m keeping them here so you have the FULL file – just scroll down -->
+
+  <!-- About -->
+  <section id="about" class="py-32 px-8 max-w-7xl mx-auto" data-aos="fade-up">
+    <div class="glass p-12 lg:p-20">
+      <h2 class="text-5xl lg:text-6xl font-black text-cyan-400 mb-10">About Me</h2>
+      <p class="text-xl lg:text-2xl text-gray-300 leading-relaxed max-w-4xl">
+        I’m Godfred Bio Conquest — Godfreds Prim 3.0 — a Computer Science student at the University of Cape Coast building the future at the intersection of AI, full-stack development, and bold visual design. 
+        From training ML models on Ghanaian crop data to deploying production apps used by real schools and churches — I ship fast, clean, and impactful.
+      </p>
+    </div>
+  </section>
+
+  <!-- Skills (unchanged) -->
+  <section id="skills" class="py-32 px-8 max-w-7xl mx-auto" data-aos="fade-up">
+    <div class="glass p-12 lg:p-20">
+      <div class="flex justify-between items-center mb-16">
+        <div class="flex flex-wrap gap-8">
+          <img src="/static/images/python.jpeg" class="w-14" alt="Python">
+          <img src="/static/images/tensorflow.jpeg" class="w-14" alt="TensorFlow">
+          <img src="/static/images/flask.jpeg" class="w-14" alt="Flask">
+          <img src="/static/images/react.jpeg" class="w-14" alt="React">
+          <img src="/static/images/photoshop.jpeg" class="w-14" alt="Photoshop">
+          <img src="/static/images/streamlit.jpeg" class="w-14" alt="Streamlit">
+          <img src="/static/images/opencv.jpeg" class="w-14" alt="OpenCV">
+          <img src="/static/images/pandas.jpeg" class="w-14" alt="pandas">
+          <img src="/static/images/web.jpeg" class="w-14" alt="WEB">
+          <img src="/static/images/django.jpeg" class="w-14" alt="Django">
+          <img src="/static/images/github.jpeg" class="w-14" alt="GitHub">
+          <img src="/static/images/kaggle.jpeg" class="w-14" alt="Kaggle">
+        </div>
+        <a href="/static/Godfred_Bio_Conquest_Resume.pdf" download 
+   class="bg-cyan-400 text-black px-10 py-5 rounded-full font-bold hover:bg-cyan-300 transition">
+  Download CV
+</a>
+      </div>
+      <!-- Languages & Education – unchanged -->
+      <div class="grid md:grid-cols-2 gap-16">
+        <div>
+          <h3 class="text-cyan-400 text-2xl font-bold mb-8">Languages</h3>
+          <div class="space-y-6">
+            <div><div class="flex justify-between mb-2"><span class="text-gray-400">English</span><span>Native</span></div><div class="h-3 bg-cyan-400 rounded-full"></div></div>
+            <div><div class="flex justify-between mb-2"><span class="text-gray-400">Twi</span><span>Fluent</span></div><div class="h-3 bg-cyan-400 rounded-full w-11/12"></div></div>
+            <div><div class="flex justify-between mb-2"><span class="text-gray-400">Sefwi</span><span>Conversational</span></div><div class="h-3 bg-cyan-400 rounded-full w-10/12"></div></div>
+          </div>
+        </div>
+        <div>
+          <h3 class="text-cyan-400 text-2xl font-bold mb-8">Education</h3>
+          <p class="text-xl font-bold">BSc Computer Science</p>
+          <p class="text-cyan-300">University of Cape Coast • Expected 2028</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Projects – Now with Auto Slideshow -->
+<section id="projects" class="py-32 px-8 max-w-7xl mx-auto">
+  <div class="glass p-12 lg:p-20">
+    <h2 class="text-5xl lg:text-6xl font-black text-cyan-400 mb-20">Featured Projects</h2>
+    
+    <div class="space-y-32">
+
+      <!-- Job Match Ghana -->
+      <div class="grid lg:grid-cols-2 gap-16 items-center">
+        <!-- Slideshow -->
+        <div x-data="{ slides: ['jobmatch.jpeg','jobmatch1.jpeg','jobmatch2.jpeg','jobmatch3.jpeg'], index: 0 }"
+             @click="index = (index + 1) % slides.length"
+             class="relative rounded-3xl overflow-hidden cursor-pointer group">
+          <template x-for="(slide, i) in slides" :key="i">
+            <img :src="'/static/images/projects/' + slide"
+                 x-show="i === index"
+                 x-transition:enter="transition ease-out duration-700"
+                 x-transition:leave="transition ease-in duration-700"
+                 class="w-full rounded-3xl shadow-2xl border border-gray-800"
+                 alt="Job Match Ghana">
+          </template>
+          <!-- Indicators -->
+          <div class="absolute bottom-4 left-1/2 -translate-x-1/2 flex gap-2">
+            <template x-for="(slide, i) in slides">
+              <div :class="i === index ? 'w-8 bg-cyan-400' : 'w-2 bg-gray-600'"
+                   class="h-2 rounded-full transition-all"></div>
+            </template>
+          </div>
+          <!-- Auto-play -->
+          <script is:inline>
+            setInterval(() => document.querySelector('[x-data*="jobmatch"]').__x.$data.index = 
+              (document.querySelector('[x-data*="jobmatch"]').__x.$data.index + 1) % 4, 4000);
+          </script>
+        </div>
+
+        <div>
+          <h3 class="text-5xl font-bold text-cyan-400">Job Match Ghana</h3>
+          <p class="text-gray-400 mt-4">Full-Stack • Streamlit • Intelligent Matching Algorithm</p>
+          <p class="text-xl text-gray-300 mt-8 leading-relaxed">
+            A smart job platform that connects Ghanaian youth — especially in rural and peri-urban areas — to real local opportunities. Uses a custom scoring algorithm to match skills, location, and salary expectations.
+          </p>
+          <div class="mt-8 flex gap-6">
+            <a href="https://jobmatchgh.streamlit.app/" target="_blank" class="text-cyan-400 font-bold hover:underline">Live Demo</a>
+            <p class="text-cyan-400 font-bold">Publicly Deployed</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Daakye Student Analytics -->
+      <div class="grid lg:grid-cols-2 gap-16 items-center">
+        <div>
+          <h3 class="text-5xl font-bold text-cyan-400">Daakye Student Analytics</h3>
+          <p class="text-gray-400 mt-4">Data Dashboard • Streamlit • Educational Analytics</p>
+          <p class="text-xl text-gray-300 mt-8 leading-relaxed">
+            Real-time academic performance tracker used by D.O. Boadu Educational Complex. Interactive charts for attendance, grades, and trends across classes.
+          </p>
+          <div class="mt-8 flex gap-6">
+            <a href="https://daakye-analytics-by-bio-godfred0ai-ml-engineer.streamlit.app/" target="_blank" class="text-cyan-400 font-bold hover:underline">Live Demo</a>
+            <p class="text-cyan-400 font-bold">In active school use</p>
+          </div>
+        </div>
+
+        <div x-data="{ slides: ['student.jpeg','student1.jpeg','student2.jpeg'], index: 0 }"
+             @click="index = (index + 1) % slides.length"
+             class="relative rounded-3xl overflow-hidden cursor-pointer group">
+          <template x-for="(slide, i) in slides" :key="i">
+            <img :src="'/static/images/projects/' + slide" x-show="i === index" x-transition class="w-full rounded-3xl shadow-2xl border border-gray-800" alt="Daakye">
+          </template>
+          <div class="absolute bottom-4 left-1/2 -translate-x-1/2 flex gap-2">
+            <template x-for="(slide, i) in slides">
+              <div :class="i === index ? 'w-8 bg-cyan-400' : 'w-2 bg-gray-600'" class="h-2 rounded-full transition-all"></div>
+            </template>
+          </div>
+        </div>
+      </div>
+
+      <!-- DCLM Church Manager -->
+      <div class="grid lg:grid-cols-2 gap-16 items-center">
+        <div x-data="{ slides: ['dclm.jpeg'], index: 0 }" class="rounded-3xl overflow-hidden">
+          <img src="/static/images/projects/dclm.jpeg" class="w-full rounded-3xl shadow-2xl border border-gray-800" alt="DCLM App">
+        </div>
+
+        <div>
+          <h3 class="text-5xl font-bold text-cyan-400">DCLM Church Manager</h3>
+          <p class="text-gray-400 mt-4">Flask • Finance + Attendance System</p>
+          <p class="text-xl text-gray-300 mt-8 leading-relaxed">
+            Full church management system tracking attendance, offerings, tithes, and generating reports. Secure admin panel — actively used by a real church branch.
+          </p>
+          <div class="mt-8 flex gap-6">
+            <a href="https://dclm-mka6.onrender.com/" target="_blank" class="text-cyan-400 font-bold hover:underline">Live Demo</a>
+            <p class="text-cyan-400 font-bold">In production use</p>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+  <!-- Contact -->
+  <section id="contact" class="py-32 px-8 max-w-7xl mx-auto text-center" data-aos="fade-up">
+    <div class="glass p-20">
+      <h2 class="text-5xl font-black text-cyan-400 mb-8">Let’s Build the Future</h2>
+      <p class="text-2xl text-gray-300 mb-12">Open for internships • freelance • collaborations • full-time</p>
+      <a href="mailto:godfredbio2004@gmail.com" class="bg-cyan-400 text-black px-12 py-6 rounded-full text-xl font-bold hover:bg-cyan-300 transition inline-block">
+        Say Hello
+      </a>
+      <p class="mt-10 text-gray-500">Dribbble • Behance • GitHub • LinkedIn → coming soon</p>
+    </div>
+  </section>
+
+  <!-- Scripts -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.js"></script>
+  <script>
+    AOS.init({ duration: 1000, once: true });
+
+    // Copy email
+    function copyEmail() {
+      navigator.clipboard.writeText("godfredbio2004@gmail.com");
+      alert("Email copied to clipboard!");
+    }
+
+    // Simple visitor counter (free tier)
+    fetch('https://api.countapi.xyz/hit/godfredprim3/visits')
+      .then(res => res.json())
+      .then(data => document.getElementById('visitor-count').textContent = data.value);
+  </script>
+</body>
+</html>
