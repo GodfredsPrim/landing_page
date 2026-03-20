@@ -1,5 +1,7 @@
-from app import app
+from flask import Flask
 
+app = Flask(__name__)
 
-# Expose the Flask app for Vercel's Python runtime.
-handler = app
+@app.route("/")
+def home():
+    return "Hello World"
