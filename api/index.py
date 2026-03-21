@@ -1,7 +1,4 @@
-from flask import Flask
+from app import app
 
-app = Flask(__name__)
-
-@app.route("/")
-def home():
-    return "Hello World"
+def handler(event, context):
+    return app
