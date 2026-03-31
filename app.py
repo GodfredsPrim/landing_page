@@ -1,9 +1,8 @@
 import json
 import os
-from base64 import b64encode
 from urllib import error, request as urlrequest
 
-from flask import Flask, jsonify, render_template, request, send_file
+from flask import Flask, jsonify, render_template, request, send_file, url_for
 
 
 app = Flask(__name__)
@@ -88,11 +87,11 @@ def explain_topic(topic: str) -> tuple[str, str]:
 
 @app.route("/")
 def home():
-    profile_path = os.path.join(app.static_folder, "images", "profile.jpeg")
-    with open(profile_path, "rb") as image_file:
-        profile_image_b64 = b64encode(image_file.read()).decode("ascii")
-
-    return render_template("index.html", profile_image_b64=profile_image_b64)
+    return render_template(
+        "index.html",
+        profile_image_url=url_for("profile_image"),
+        profile_image_og_url=url_for("profile_image", _external=True),
+    )
 
 
 @app.route("/profile-image")
@@ -114,3 +113,5 @@ def api_explain():
 
 if __name__ == "__main__":
     app.run(debug=True)
+
+

@@ -2,12 +2,12 @@
 <html lang="en" class="scroll-smooth">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
   <title>Godfred Bio Conquest | AI Engineer & Full-Stack Developer</title>
   <meta name="description" content="Portfolio of Godfred Bio Conquest, an AI/ML engineer and full-stack developer building practical digital products in Ghana.">
   <meta property="og:title" content="Godfred Bio Conquest | AI Engineer & Full-Stack Developer">
   <meta property="og:description" content="AI, software, and product design focused on practical impact.">
-  <meta property="og:image" content="data:image/jpeg;base64,{{ profile_image_b64 }}">
+  <meta property="og:image" content="{{ profile_image_og_url }}">
   <meta property="og:type" content="website">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -76,6 +76,30 @@
 
     body {
       transition: background 0.3s ease, color 0.3s ease;
+    }
+
+    html {
+      width: 100%;
+      overflow-x: hidden;
+      background: var(--bg);
+    }
+
+    body {
+      max-width: 100%;
+      min-height: 100vh;
+      min-height: 100svh;
+    }
+
+    img,
+    svg,
+    video,
+    canvas {
+      display: block;
+      max-width: 100%;
+    }
+
+    [x-cloak] {
+      display: none !important;
     }
 
     .mono {
@@ -322,31 +346,93 @@
       transform: scale(1.08);
     }
 
+    @media (max-width: 1023px) {
+      .device-safe-grid {
+        grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      }
+
+      .project-image-card {
+        min-height: 22rem;
+      }
+    }
+
     @media (max-width: 767px) {
       .mobile-header-shell {
-        border-radius: 2rem;
-        padding: 1rem;
+        border-radius: 1.5rem;
+        padding: 0.9rem;
       }
 
       .hero-stage {
         min-height: auto;
-        gap: 2rem;
-        padding-top: 2.5rem;
+        gap: 1.75rem;
+        padding-top: 1rem;
+        padding-bottom: 0.5rem;
       }
 
       .hero-stage::before,
-      .hero-stage::after {
+      .hero-stage::after,
+      .hero-glow-ring {
         display: none;
+      }
+
+      .hero-backdrop,
+      .hero-portrait {
+        transform: none;
       }
 
       .impact-row {
         mask-image: none;
       }
+
+      .impact-track {
+        animation-duration: 28s;
+      }
+
+      .section-card {
+        border-radius: 1.6rem;
+      }
+
+      .toolbelt-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+
+      .device-safe-grid {
+        grid-template-columns: minmax(0, 1fr);
+      }
+
+      .tool-card img {
+        height: 4.75rem;
+      }
+
+      .motion-card:hover {
+        transform: none;
+        box-shadow: 0 18px 60px rgba(7, 17, 31, 0.08);
+      }
     }
 
     @media (max-width: 640px) {
       .project-image-card {
-        min-height: 22rem;
+        min-height: 18rem;
+      }
+    }
+
+    @media (max-width: 480px) {
+      .mobile-header-shell {
+        padding: 0.75rem;
+      }
+
+      .hero-stage {
+        gap: 1.25rem;
+      }
+
+      .section-card {
+        border-radius: 1.35rem;
+      }
+
+      .impact-pill,
+      .chip {
+        padding-left: 0.85rem;
+        padding-right: 0.85rem;
       }
     }
 
@@ -546,7 +632,7 @@
     </div>
   </div>
 
-  <header class="sticky top-0 z-50 px-4 pt-4 sm:px-6 lg:px-10" x-data="{ mobileNavOpen: false }">
+  <header class="sticky top-0 z-50 px-3 pt-3 sm:px-6 lg:px-10" x-data="{ mobileNavOpen: false }">
     <div class="glass mobile-header-shell mx-auto flex max-w-7xl flex-wrap items-center justify-between gap-3 rounded-full px-5 py-3 sm:flex-nowrap sm:px-7">
       <a href="#home" @click="mobileNavOpen = false" class="mono text-sm font-medium tracking-[0.25em] text-ink">GBC</a>
       <nav class="hidden items-center gap-7 text-sm text-slate-700 md:flex">
@@ -599,8 +685,8 @@
     </div>
   </header>
 
-  <main id="home" class="px-4 pb-20 sm:px-6 lg:px-10">
-    <section class="hero-stage mx-auto grid min-h-screen max-w-7xl items-center gap-10 py-14 lg:grid-cols-[1.1fr_0.9fr] lg:py-20" id="hero-stage">
+  <main id="home" class="px-3 pb-16 sm:px-6 lg:px-10">
+    <section class="hero-stage mx-auto grid min-h-screen max-w-7xl items-center gap-10 py-10 sm:py-14 lg:grid-cols-[1.1fr_0.9fr] lg:py-20" id="hero-stage">
       <div>
         <div class="fade-up inline-flex max-w-full flex-wrap items-center gap-3 rounded-full border border-black/10 bg-white/70 px-4 py-2 text-sm text-slate-700 shadow-sm shine">
           <span class="h-2.5 w-2.5 rounded-full bg-accent"></span>
@@ -630,7 +716,7 @@
         </div>
 
         <div class="fade-up stagger-4 mt-8 sm:hidden">
-          <img src="data:image/jpeg;base64,{{ profile_image_b64 }}" alt="Portrait of Godfred Bio Conquest" class="h-72 w-full rounded-[1.75rem] object-cover object-center shadow-2xl">
+          <img src="{{ profile_image_url }}" alt="Portrait of Godfred Bio Conquest" class="h-72 w-full rounded-[1.75rem] object-cover object-center shadow-2xl">
         </div>
 
         <div class="fade-up stagger-4 mt-10 flex flex-col gap-4 sm:flex-row">
@@ -699,7 +785,7 @@
 
             <div class="grid gap-4 sm:grid-cols-[0.88fr_1.12fr]">
               <div class="profile-spotlight hero-portrait float-delay h-[20rem] overflow-hidden rounded-[1.5rem] bg-ink shadow-glow sm:h-auto sm:min-h-[16rem]">
-                <img src="data:image/jpeg;base64,{{ profile_image_b64 }}" alt="Portrait of Godfred Bio Conquest" class="block h-full w-full object-cover object-center">
+                <img src="{{ profile_image_url }}" alt="Portrait of Godfred Bio Conquest" class="block h-full w-full object-cover object-center">
                 <div class="project-image-content p-4 sm:p-5">
                   <div class="stack-orbit inline-flex max-w-xs flex-col rounded-[1.25rem] border border-white/15 bg-black/35 px-4 py-3 text-white backdrop-blur-xl">
                     <span class="mono text-[11px] uppercase tracking-[0.18em] text-white/60">Stack Highlight</span>
@@ -732,10 +818,10 @@
     </section>
 
     <section id="profile" class="mx-auto max-w-7xl py-10">
-      <div class="section-card rounded-[2rem] p-8 lg:p-12">
+      <div class="section-card rounded-[2rem] p-5 sm:p-8 lg:p-12">
         <div class="grid gap-8 lg:grid-cols-[0.72fr_1.28fr] lg:items-center">
           <div class="profile-spotlight overflow-hidden rounded-[1.8rem] shadow-2xl">
-            <img src="data:image/jpeg;base64,{{ profile_image_b64 }}" alt="Godfred Bio Conquest profile portrait" class="block h-full w-full object-cover object-center">
+            <img src="{{ profile_image_url }}" alt="Godfred Bio Conquest profile portrait" loading="lazy" class="block h-full w-full object-cover object-center">
             <div class="project-image-content p-5 sm:p-6">
               <div class="inline-flex max-w-sm flex-col rounded-[1.3rem] border border-white/15 bg-black/35 px-4 py-3 text-white backdrop-blur-xl">
                 <span class="mono text-[11px] uppercase tracking-[0.18em] text-white/60">Why This Stack Stands Out</span>
@@ -760,7 +846,7 @@
     </section>
 
     <section id="about" class="mx-auto max-w-7xl py-10">
-      <div class="section-card grid gap-10 rounded-[2rem] p-8 lg:grid-cols-[0.9fr_1.1fr] lg:p-12">
+      <div class="section-card grid gap-10 rounded-[2rem] p-5 sm:p-8 lg:grid-cols-[0.9fr_1.1fr] lg:p-12">
         <div>
           <p class="eyebrow text-xs font-medium text-slate-500">About</p>
           <h2 class="mt-4 text-3xl font-bold text-ink sm:text-4xl">A builder with technical depth and design discipline.</h2>
@@ -777,7 +863,7 @@
     </section>
 
     <section id="demo" class="mx-auto max-w-7xl py-10">
-      <div class="section-card rounded-[2rem] p-8 lg:p-12">
+      <div class="section-card rounded-[2rem] p-5 sm:p-8 lg:p-12">
         <div class="grid gap-8 lg:grid-cols-[1.08fr_0.92fr]">
           <div>
             <p class="eyebrow text-xs font-medium text-slate-500">Live AI Demo</p>
@@ -841,7 +927,7 @@
     </section>
 
     <section id="micro" class="mx-auto max-w-7xl py-10">
-      <div class="section-card rounded-[2rem] p-8 lg:p-12">
+      <div class="section-card rounded-[2rem] p-5 sm:p-8 lg:p-12">
         <div class="grid gap-8 lg:grid-cols-2">
           <div>
             <p class="eyebrow text-xs font-medium text-slate-500">Try This</p>
@@ -873,7 +959,7 @@
     </section>
 
     <section id="toolbelt" class="mx-auto max-w-7xl py-10">
-      <div class="section-card rounded-[2rem] p-8 lg:p-12">
+      <div class="section-card rounded-[2rem] p-5 sm:p-8 lg:p-12">
         <div class="flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between">
           <div>
             <p class="eyebrow text-xs font-medium text-slate-500">Visual Toolbelt</p>
@@ -918,7 +1004,7 @@
     </section>
 
     <section id="skills" class="mx-auto max-w-7xl py-10">
-      <div class="section-card rounded-[2rem] p-8 lg:p-12">
+      <div class="section-card rounded-[2rem] p-5 sm:p-8 lg:p-12">
         <div class="flex flex-col gap-6 lg:flex-row lg:items-end lg:justify-between">
           <div>
             <p class="eyebrow text-xs font-medium text-slate-500">Capabilities</p>
@@ -1016,7 +1102,7 @@
         }
       }"
     >
-      <div class="section-card rounded-[2rem] p-8 lg:p-12">
+      <div class="section-card rounded-[2rem] p-5 sm:p-8 lg:p-12">
         <div class="flex flex-col gap-6 lg:flex-row lg:items-end lg:justify-between">
           <div>
             <p class="eyebrow text-xs font-medium text-slate-500">Selected Projects</p>
@@ -1036,7 +1122,7 @@
             <div class="motion-card overflow-hidden rounded-[1.75rem] bg-ink">
               <img src="/static/images/projects/jobmatch.jpeg" alt="Job Match Ghana interface" class="project-shot">
             </div>
-            <div class="motion-card flex flex-col justify-between rounded-[1.75rem] border border-black/8 bg-white/80 p-7">
+            <div class="motion-card flex flex-col justify-between rounded-[1.75rem] border border-black/8 bg-white/80 p-5 sm:p-7">
               <div>
                 <p class="mono text-xs uppercase tracking-[0.2em] text-slate-500">Recruitment Platform</p>
                 <h3 class="mt-4 text-3xl font-semibold text-ink">Job Match Ghana</h3>
@@ -1061,7 +1147,7 @@
             <div class="motion-card overflow-hidden rounded-[1.75rem] bg-ink">
               <img src="/static/images/projects/student.jpeg" alt="Daakye Student Analytics interface" class="project-shot">
             </div>
-            <div class="motion-card flex flex-col justify-between rounded-[1.75rem] border border-black/8 bg-white/80 p-7">
+            <div class="motion-card flex flex-col justify-between rounded-[1.75rem] border border-black/8 bg-white/80 p-5 sm:p-7">
               <div>
                 <p class="mono text-xs uppercase tracking-[0.2em] text-slate-500">Education Analytics</p>
                 <h3 class="mt-4 text-3xl font-semibold text-ink">Daakye Student Analytics</h3>
@@ -1086,7 +1172,7 @@
             <div class="motion-card overflow-hidden rounded-[1.75rem] bg-ink">
               <img src="/static/images/projects/dclm.jpeg" alt="DCLM Church Manager interface" class="project-shot">
             </div>
-            <div class="motion-card flex flex-col justify-between rounded-[1.75rem] border border-black/8 bg-white/80 p-7">
+            <div class="motion-card flex flex-col justify-between rounded-[1.75rem] border border-black/8 bg-white/80 p-5 sm:p-7">
               <div>
                 <p class="mono text-xs uppercase tracking-[0.2em] text-slate-500">Operations System</p>
                 <h3 class="mt-4 text-3xl font-semibold text-ink">DCLM Church Manager</h3>
@@ -1185,7 +1271,7 @@
     </section>
 
     <section id="future-projects" class="mx-auto max-w-7xl py-10">
-      <div class="section-card rounded-[2rem] p-8 lg:p-12">
+      <div class="section-card rounded-[2rem] p-5 sm:p-8 lg:p-12">
         <div class="flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between">
           <div>
             <p class="eyebrow text-xs font-medium text-slate-500">Future Projects</p>
@@ -1221,7 +1307,7 @@
     </section>
 
     <section id="contact" class="mx-auto max-w-7xl py-10">
-      <div class="section-card overflow-hidden rounded-[2rem] p-8 lg:p-12">
+      <div class="section-card overflow-hidden rounded-[2rem] p-5 sm:p-8 lg:p-12">
         <div class="grid gap-8 lg:grid-cols-[1.05fr_0.95fr] lg:items-center">
           <div>
             <p class="eyebrow text-xs font-medium text-slate-500">Contact</p>
@@ -1237,7 +1323,7 @@
             </a>
             <a href="https://github.com/GodfredsPrim" target="_blank" rel="noreferrer" class="rounded-[1.5rem] border border-black/8 bg-white/80 px-6 py-5 transition hover:border-accent/30 hover:bg-white">
               <span class="mono text-xs uppercase tracking-[0.2em] text-slate-500">GitHub</span>
-              <p class="mt-2 text-lg font-medium text-ink">github.com/GodfredsPrim</p>
+              <p class="mt-2 break-all text-lg font-medium text-ink">github.com/GodfredsPrim</p>
             </a>
             <a href="https://www.linkedin.com/in/godfred-bio-0707052bb/" target="_blank" rel="noreferrer" class="rounded-[1.5rem] border border-black/8 bg-white/80 px-6 py-5 transition hover:border-accent/30 hover:bg-white">
               <span class="mono text-xs uppercase tracking-[0.2em] text-slate-500">LinkedIn</span>
@@ -1517,3 +1603,4 @@
   </script>
 </body>
 </html>
+
