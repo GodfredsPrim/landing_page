@@ -11,24 +11,28 @@
   <meta property="og:type" content="website">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;700&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
   <script src="https://cdn.tailwindcss.com"></script>
   <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollToPlugin.min.js"></script>
   <script>
     tailwind.config = {
       darkMode: 'class',
       theme: {
         extend: {
           colors: {
-            ink: '#07111f',
-            steel: '#c9d6e7',
-            sand: '#f3efe5',
-            accent: '#0f766e',
-            gold: '#d4a84f',
-            slateblue: '#29527a'
+            primary: '#0f766e',
+            secondary: '#1e293b',
+            accent: '#d4a84f',
+            muted: '#64748b',
+            surface: '#f8fafc',
+            dark: '#0f172a'
           },
-          boxShadow: {
-            glow: '0 24px 80px rgba(7, 17, 31, 0.18)'
+          fontFamily: {
+            sans: ['Inter', 'system-ui', 'sans-serif'],
+            mono: ['JetBrains Mono', 'monospace']
           }
         }
       }
@@ -36,660 +40,241 @@
   </script>
   <style>
     :root {
-      --bg: #f4efe5;
-      --panel: rgba(255, 255, 255, 0.68);
-      --panel-strong: rgba(255, 255, 255, 0.88);
-      --line: rgba(7, 17, 31, 0.1);
-      --text: #07111f;
-      --muted: #516071;
+      --bg-primary: #f8fafc;
+      --bg-card: #ffffff;
+      --text-primary: #0f172a;
+      --text-secondary: #475569;
+      --border-color: #e2e8f0;
       --accent: #0f766e;
-      --accent-soft: rgba(15, 118, 110, 0.12);
-      --gold: #d4a84f;
+      --accent-light: rgba(15, 118, 110, 0.08);
     }
 
     .dark {
-      --bg: #08111b;
-      --panel: rgba(15, 23, 42, 0.76);
-      --panel-strong: rgba(15, 23, 42, 0.9);
-      --line: rgba(255, 255, 255, 0.08);
-      --text: #eef4ff;
-      --muted: #95a8bd;
-      --accent: #31c4b4;
-      --accent-soft: rgba(49, 196, 180, 0.12);
-      --gold: #e1b766;
+      --bg-primary: #0f172a;
+      --bg-card: #1e293b;
+      --text-primary: #f1f5f9;
+      --text-secondary: #94a3b8;
+      --border-color: #334155;
+      --accent: #2dd4bf;
+      --accent-light: rgba(45, 212, 191, 0.1);
     }
 
     * {
       box-sizing: border-box;
     }
 
-    body {
-      margin: 0;
-      font-family: 'Space Grotesk', sans-serif;
-      color: var(--text);
-      background:
-        radial-gradient(circle at top left, rgba(212, 168, 79, 0.18), transparent 28%),
-        radial-gradient(circle at 85% 20%, rgba(15, 118, 110, 0.18), transparent 22%),
-        linear-gradient(180deg, #f8f4eb 0%, #efe8dc 100%);
-      overflow-x: hidden;
+    html {
+      scroll-behavior: smooth;
     }
 
     body {
+      margin: 0;
+      font-family: 'Inter', system-ui, sans-serif;
+      background: var(--bg-primary);
+      color: var(--text-primary);
+      line-height: 1.6;
       transition: background 0.3s ease, color 0.3s ease;
     }
 
-    html {
-      width: 100%;
-      overflow-x: hidden;
-      background: var(--bg);
+    .text-gradient {
+      background: linear-gradient(135deg, #0f766e 0%, #2dd4bf 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
     }
 
-    body {
-      max-width: 100%;
-      min-height: 100vh;
-      min-height: 100svh;
+    .card {
+      background: var(--bg-card);
+      border: 1px solid var(--border-color);
+      border-radius: 1rem;
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
     }
 
-    img,
-    svg,
-    video,
-    canvas {
-      display: block;
-      max-width: 100%;
+    .card:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 20px 40px rgba(0, 0, 0, 0.08);
     }
 
-    [x-cloak] {
-      display: none !important;
+    .dark .card:hover {
+      box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
     }
 
-    .mono {
-      font-family: 'IBM Plex Mono', monospace;
+    .badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      padding: 0.375rem 0.875rem;
+      background: var(--accent-light);
+      color: var(--accent);
+      border-radius: 9999px;
+      font-size: 0.75rem;
+      font-weight: 500;
     }
 
-    .glass {
-      background: var(--panel);
-      backdrop-filter: blur(18px);
-      -webkit-backdrop-filter: blur(18px);
-      border: 1px solid rgba(255, 255, 255, 0.75);
-      box-shadow: 0 22px 70px rgba(7, 17, 31, 0.08);
+    .badge-dot {
+      width: 6px;
+      height: 6px;
+      background: var(--accent);
+      border-radius: 50%;
+      animation: pulse 2s ease-in-out infinite;
     }
 
-    .section-card {
-      background: var(--panel-strong);
-      border: 1px solid var(--line);
-      border-radius: 2rem;
-      box-shadow: 0 18px 60px rgba(7, 17, 31, 0.08);
+    .btn-primary {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.5rem;
+      padding: 0.875rem 1.75rem;
+      background: var(--accent);
+      color: white;
+      border-radius: 0.75rem;
+      font-weight: 600;
+      font-size: 0.875rem;
+      transition: all 0.2s ease;
+      border: none;
+      cursor: pointer;
     }
 
-    .hero-grid {
-      background-image:
-        linear-gradient(rgba(7, 17, 31, 0.05) 1px, transparent 1px),
-        linear-gradient(90deg, rgba(7, 17, 31, 0.05) 1px, transparent 1px);
-      background-size: 52px 52px;
-      mask-image: linear-gradient(180deg, rgba(0, 0, 0, 1), rgba(0, 0, 0, 0.15));
+    .btn-primary:hover {
+      transform: scale(1.02);
+      box-shadow: 0 8px 24px rgba(15, 118, 110, 0.3);
     }
 
-    .eyebrow {
-      letter-spacing: 0.22em;
+    .dark .btn-primary {
+      background: #2dd4bf;
+      color: #0f172a;
+    }
+
+    .btn-secondary {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.5rem;
+      padding: 0.875rem 1.75rem;
+      background: var(--bg-card);
+      color: var(--text-primary);
+      border: 1px solid var(--border-color);
+      border-radius: 0.75rem;
+      font-weight: 500;
+      font-size: 0.875rem;
+      transition: all 0.2s ease;
+      cursor: pointer;
+    }
+
+    .btn-secondary:hover {
+      border-color: var(--accent);
+      color: var(--accent);
+    }
+
+    .section-title {
+      font-size: 0.75rem;
+      font-weight: 600;
+      letter-spacing: 0.1em;
       text-transform: uppercase;
+      color: var(--accent);
+      margin-bottom: 0.5rem;
     }
 
-    .chip {
-      border: 1px solid rgba(7, 17, 31, 0.08);
-      background: rgba(255, 255, 255, 0.82);
+    .section-heading {
+      font-size: 2rem;
+      font-weight: 700;
+      color: var(--text-primary);
+      line-height: 1.2;
     }
 
-    .project-shot {
-      aspect-ratio: 16 / 10;
-      object-fit: cover;
-      width: 100%;
+    .section-description {
+      font-size: 1rem;
+      color: var(--text-secondary);
+      line-height: 1.7;
+      max-width: 42rem;
     }
 
-    .hero-stage {
-      position: relative;
-      isolation: isolate;
-    }
-
-    .hero-stage::before {
-      content: '';
-      position: absolute;
-      inset: 6% 8% auto auto;
-      width: 18rem;
-      height: 18rem;
-      border-radius: 999px;
-      background: radial-gradient(circle, rgba(15, 118, 110, 0.2), transparent 68%);
-      filter: blur(18px);
-      z-index: -1;
-      animation: driftOrb 10s ease-in-out infinite;
-    }
-
-    .hero-stage::after {
-      content: '';
-      position: absolute;
-      inset: auto auto 5% 2%;
-      width: 15rem;
-      height: 15rem;
-      border-radius: 999px;
-      background: radial-gradient(circle, rgba(212, 168, 79, 0.22), transparent 70%);
-      filter: blur(18px);
-      z-index: -1;
-      animation: driftOrb 12s ease-in-out infinite reverse;
-    }
-
-    .hero-backdrop {
-      position: absolute;
-      inset: 0;
-      background:
-        linear-gradient(135deg, rgba(7, 17, 31, 0.72), rgba(7, 17, 31, 0.18)),
-        url('{{ url_for('static', filename='images/hero.jpeg') }}') center/cover no-repeat;
-      transform: translate3d(calc(var(--mx, 0px) * 0.18), calc(var(--my, 0px) * 0.18), 0) scale(1.06);
-      transition: transform 220ms ease-out;
-    }
-
-    .hero-portrait {
-      transform: translate3d(calc(var(--mx, 0px) * -0.12), calc(var(--my, 0px) * -0.12), 0);
-      transition: transform 220ms ease-out;
-    }
-
-    .hero-glow-ring {
-      position: absolute;
-      border: 1px solid rgba(255, 255, 255, 0.18);
-      border-radius: 999px;
-      animation: pulseRing 7s ease-in-out infinite;
-    }
-
-    .impact-row {
-      overflow: hidden;
-      mask-image: linear-gradient(90deg, transparent, black 8%, black 92%, transparent);
-    }
-
-    .impact-track {
-      display: flex;
-      width: max-content;
-      animation: marquee 22s linear infinite;
-    }
-
-    .impact-pill {
-      border: 1px solid rgba(7, 17, 31, 0.08);
-      background: rgba(255, 255, 255, 0.78);
-      backdrop-filter: blur(12px);
-      -webkit-backdrop-filter: blur(12px);
-    }
-
-    .dark .impact-pill,
-    .dark .chip {
-      border-color: rgba(255, 255, 255, 0.08);
-      background: rgba(15, 23, 42, 0.74);
-      color: #eef4ff;
-    }
-
-    .typing-cursor::after {
-      content: '|';
-      margin-left: 0.2rem;
-      animation: blink 0.9s steps(1) infinite;
-    }
-
-    .demo-shell {
-      border: 1px solid var(--line);
-      background: rgba(255, 255, 255, 0.72);
-    }
-
-    .dark .demo-shell {
-      background: rgba(2, 6, 23, 0.6);
-    }
-
-    .command-overlay {
-      background: rgba(2, 6, 23, 0.56);
-      backdrop-filter: blur(10px);
-      -webkit-backdrop-filter: blur(10px);
-    }
-
-    .theme-thumb {
-      transition: transform 0.25s ease;
-    }
-
-    .dark .theme-thumb {
-      transform: translateX(1.5rem);
-    }
-
-    
-    .reveal {
-      opacity: 0;
-      transform: translate3d(0, 32px, 0) scale(0.985);
-      transition:
-        opacity 0.72s cubic-bezier(0.22, 1, 0.36, 1),
-        transform 0.9s cubic-bezier(0.22, 1, 0.36, 1);
-      transition-delay: var(--reveal-delay, 0s);
-      will-change: transform, opacity;
-    }
-
-    .reveal-left {
-      transform: translate3d(-40px, 24px, 0) scale(0.985);
-    }
-
-    .reveal-right {
-      transform: translate3d(40px, 24px, 0) scale(0.985);
-    }
-
-    .reveal-scale {
-      transform: translate3d(0, 26px, 0) scale(0.94);
-    }
-
-    .reveal.is-visible {
-      opacity: 1;
-      transform: translate3d(0, 0, 0) scale(1);
-    }
-
-    .reveal-delay-1 { --reveal-delay: 0.08s; }
-    .reveal-delay-2 { --reveal-delay: 0.16s; }
-    .reveal-delay-3 { --reveal-delay: 0.24s; }
-    .reveal-delay-4 { --reveal-delay: 0.32s; }
-
-    .section-frame {
-      position: relative;
-      isolation: isolate;
+    .skill-bar {
+      height: 6px;
+      background: var(--border-color);
+      border-radius: 9999px;
       overflow: hidden;
     }
 
-    .section-frame::before {
-      content: '';
-      position: absolute;
-      inset: -18% auto auto -10%;
-      width: 17rem;
-      height: 17rem;
-      border-radius: 999px;
-      background: radial-gradient(circle, rgba(15, 118, 110, 0.16), transparent 70%);
-      filter: blur(28px);
-      pointer-events: none;
-      z-index: 0;
-    }
-
-    .section-frame::after {
-      content: '';
-      position: absolute;
-      inset: auto -10% -18% auto;
-      width: 16rem;
-      height: 16rem;
-      border-radius: 999px;
-      background: radial-gradient(circle, rgba(212, 168, 79, 0.18), transparent 72%);
-      filter: blur(28px);
-      pointer-events: none;
-      z-index: 0;
-    }
-
-    .section-frame > * {
-      position: relative;
-      z-index: 1;
-    }
-
-    .about-stat {
-      border: 1px solid rgba(7, 17, 31, 0.08);
-      background: rgba(255, 255, 255, 0.8);
-      border-radius: 1.45rem;
-      padding: 1rem;
-      box-shadow: 0 18px 50px rgba(7, 17, 31, 0.06);
-    }
-
-    .dark .about-stat {
-      border-color: rgba(255, 255, 255, 0.08);
-      background: rgba(15, 23, 42, 0.74);
-    }
-
-    .flow-card {
-      position: relative;
-      overflow: hidden;
-      border: 1px solid var(--line);
-      background: rgba(255, 255, 255, 0.82);
-      border-radius: 1.65rem;
-      padding: 1.35rem;
-      padding-top: 4.4rem;
-      box-shadow: 0 20px 60px rgba(7, 17, 31, 0.08);
-    }
-
-    .dark .flow-card {
-      background: rgba(15, 23, 42, 0.8);
-    }
-
-    .flow-card::before {
-      content: attr(data-step);
-      position: absolute;
-      top: 1rem;
-      left: 1rem;
-      display: grid;
-      place-items: center;
-      width: 3rem;
-      height: 3rem;
-      border-radius: 999px;
-      background: linear-gradient(135deg, #0f766e, #29527a);
-      color: #fff;
-      font-family: 'IBM Plex Mono', monospace;
-      font-size: 0.72rem;
-      letter-spacing: 0.16em;
-    }
-
-    .flow-card::after {
-      content: '';
-      position: absolute;
-      inset: -15% -12% auto auto;
-      width: 7rem;
-      height: 7rem;
-      border-radius: 999px;
-      background: radial-gradient(circle, rgba(212, 168, 79, 0.22), transparent 72%);
-      pointer-events: none;
-    }
-
-    .visual-panel {
-      position: relative;
-      overflow: hidden;
-      border-radius: 1.75rem;
-      border: 1px solid rgba(255, 255, 255, 0.1);
-      background: linear-gradient(145deg, rgba(7, 17, 31, 0.96), rgba(18, 40, 68, 0.88));
-      color: #fff;
-      box-shadow: 0 24px 80px rgba(7, 17, 31, 0.18);
-    }
-
-    .visual-panel::before {
-      content: '';
-      position: absolute;
-      inset: auto auto -26% -8%;
-      width: 16rem;
-      height: 16rem;
-      border-radius: 999px;
-      background: radial-gradient(circle, rgba(49, 196, 180, 0.28), transparent 70%);
-      pointer-events: none;
-    }
-
-    .visual-panel::after {
-      content: '';
-      position: absolute;
-      inset: -18% -10% auto auto;
-      width: 15rem;
-      height: 15rem;
-      border-radius: 999px;
-      background: radial-gradient(circle, rgba(212, 168, 79, 0.22), transparent 72%);
-      pointer-events: none;
-    }
-
-    .visual-panel > * {
-      position: relative;
-      z-index: 1;
-    }
-
-    .status-pill {
-      border: 1px solid rgba(255, 255, 255, 0.12);
-      background: rgba(255, 255, 255, 0.08);
-      backdrop-filter: blur(14px);
-      -webkit-backdrop-filter: blur(14px);
-    }
-
-    .signal-bar {
-      position: relative;
-      overflow: hidden;
-      height: 0.65rem;
-      border-radius: 999px;
-      background: rgba(255, 255, 255, 0.12);
-    }
-
-    .signal-bar span {
-      position: absolute;
-      inset: 0 auto 0 0;
-      border-radius: inherit;
-      background: linear-gradient(90deg, #31c4b4, #d4a84f);
-      box-shadow: 0 0 24px rgba(49, 196, 180, 0.3);
-    }
-
-    .tilt-panel {
-      transform: perspective(1200px) rotateX(var(--rx, 0deg)) rotateY(var(--ry, 0deg));
-      transition: transform 220ms ease, box-shadow 220ms ease;
-      will-change: transform;
-    }
-
-    .profile-spotlight {
-      position: relative;
-      overflow: hidden;
-    }
-
-    .profile-spotlight::after {
-      content: '';
-      position: absolute;
-      inset: auto -20% -30% auto;
-      width: 15rem;
-      height: 15rem;
-      border-radius: 999px;
-      background: rgba(255, 255, 255, 0.14);
-      filter: blur(12px);
-      pointer-events: none;
-    }
-
-    .stack-orbit {
-      animation: driftOrb 9s ease-in-out infinite;
-    }
-
-    .project-image-card {
-      position: relative;
-      overflow: hidden;
-      min-height: 25rem;
-      border-radius: 1.75rem;
-    }
-
-    .project-image-card img {
-      width: 100%;
+    .skill-bar-fill {
       height: 100%;
-      object-fit: cover;
-      transition: transform 0.65s cubic-bezier(0.22, 1, 0.36, 1), filter 0.65s ease;
-      filter: saturate(0.96) contrast(1.02);
+      background: linear-gradient(90deg, var(--accent), #2dd4bf);
+      border-radius: 9999px;
+      transition: width 1s ease;
     }
 
-    .project-image-card:hover img {
-      transform: scale(1.06);
-      filter: saturate(1.08) contrast(1.05);
-    }
-
-    .project-image-card::before {
-      content: '';
-      position: absolute;
-      inset: 0;
-      background:
-        linear-gradient(180deg, rgba(7, 17, 31, 0.05) 0%, rgba(7, 17, 31, 0.75) 72%, rgba(7, 17, 31, 0.92) 100%);
-      z-index: 1;
-    }
-
-    .project-image-card::after {
-      content: '';
-      position: absolute;
-      inset: 1rem;
-      border: 1px solid rgba(255, 255, 255, 0.16);
-      border-radius: 1.25rem;
-      z-index: 1;
-      pointer-events: none;
-    }
-
-    .project-image-content {
-      position: absolute;
-      inset: auto 0 0 0;
-      z-index: 2;
-    }
-
-    .device-safe-grid {
-      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
-    }
-
-    .toolbelt-grid {
-      grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
-    }
-
-    .tool-card {
+    .project-card {
       position: relative;
       overflow: hidden;
+      border-radius: 1rem;
+      background: var(--bg-card);
+      border: 1px solid var(--border-color);
     }
 
-    .tool-card img {
+    .project-card img {
       width: 100%;
-      height: 5.5rem;
+      height: 280px;
       object-fit: cover;
-      transition: transform 0.45s cubic-bezier(0.22, 1, 0.36, 1);
+      transition: transform 0.5s ease;
     }
 
-    .tool-card:hover img {
-      transform: scale(1.08);
+    .project-card:hover img {
+      transform: scale(1.05);
     }
 
-    @media (max-width: 1023px) {
-      .device-safe-grid {
-        grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-      }
-
-      .project-image-card {
-        min-height: 22rem;
-      }
-    }
-
-    @media (max-width: 767px) {
-      .mobile-header-shell {
-        border-radius: 1.5rem;
-        padding: 0.9rem;
-      }
-
-      .hero-stage {
-        min-height: auto;
-        gap: 1.75rem;
-        padding-top: 1rem;
-        padding-bottom: 0.5rem;
-      }
-
-      .hero-stage::before,
-      .hero-stage::after,
-      .hero-glow-ring {
-        display: none;
-      }
-
-      .hero-backdrop,
-      .hero-portrait {
-        transform: none;
-      }
-
-      .impact-row {
-        mask-image: none;
-      }
-
-      .impact-track {
-        animation-duration: 28s;
-      }
-
-      .section-card {
-        border-radius: 1.6rem;
-      }
-
-      .toolbelt-grid {
-        grid-template-columns: repeat(2, minmax(0, 1fr));
-      }
-
-      .device-safe-grid {
-        grid-template-columns: minmax(0, 1fr);
-      }
-
-      .tool-card img {
-        height: 4.75rem;
-      }
-
-      .motion-card:hover {
-        transform: none;
-        box-shadow: 0 18px 60px rgba(7, 17, 31, 0.08);
-      }
-    }
-
-    @media (max-width: 640px) {
-      .project-image-card {
-        min-height: 18rem;
-      }
-    }
-
-    @media (max-width: 480px) {
-      .mobile-header-shell {
-        padding: 0.75rem;
-      }
-
-      .hero-stage {
-        gap: 1.25rem;
-      }
-
-      .section-card {
-        border-radius: 1.35rem;
-      }
-
-      .impact-pill,
-      .chip {
-        padding-left: 0.85rem;
-        padding-right: 0.85rem;
-      }
-    }
-
-    .motion-card {
-      transition:
-        transform 0.45s cubic-bezier(0.22, 1, 0.36, 1),
-        box-shadow 0.45s cubic-bezier(0.22, 1, 0.36, 1),
-        border-color 0.45s ease;
-      transform-style: preserve-3d;
-    }
-
-    .motion-card:hover {
-      transform: translateY(-10px) scale(1.01);
-      box-shadow: 0 28px 90px rgba(7, 17, 31, 0.12);
-      border-color: rgba(15, 118, 110, 0.18);
-    }
-
-    .float-slow {
-      animation: floatSlow 7s ease-in-out infinite;
-    }
-
-    .float-delay {
-      animation: floatSlow 8.5s ease-in-out infinite 0.8s;
-    }
-
-    .shine {
-      position: relative;
-      overflow: hidden;
-    }
-
-    .shine::after {
-      content: '';
-      position: absolute;
-      inset: -120% auto auto -30%;
-      width: 40%;
-      height: 320%;
-      transform: rotate(18deg);
-      background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.55), transparent);
-      animation: shineSweep 8s ease-in-out infinite;
-      pointer-events: none;
-    }
-
-    .project-meter {
-      position: relative;
-      overflow: hidden;
-    }
-
-    .project-meter::after {
-      content: '';
+    .project-card-overlay {
       position: absolute;
       inset: 0;
-      transform-origin: left;
-      background: linear-gradient(90deg, #0f766e, #d4a84f);
-      animation: projectPulse 6s linear infinite;
+      background: linear-gradient(to top, rgba(15, 23, 42, 0.9) 0%, transparent 60%);
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-end;
+      padding: 1.5rem;
     }
 
-    .fade-up {
-      animation: fadeUp 0.9s ease forwards;
+    .tool-icon {
+      width: 56px;
+      height: 56px;
+      object-fit: cover;
+      border-radius: 0.75rem;
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
     }
 
-    .stagger-1 { animation-delay: 0.08s; opacity: 0; }
-    .stagger-2 { animation-delay: 0.16s; opacity: 0; }
-    .stagger-3 { animation-delay: 0.24s; opacity: 0; }
-    .stagger-4 { animation-delay: 0.32s; opacity: 0; }
+    .tool-icon:hover {
+      transform: scale(1.1) translateY(-4px);
+      box-shadow: 0 12px 24px rgba(0, 0, 0, 0.15);
+    }
 
-    @keyframes fadeUp {
+    .profile-image {
+      width: 100%;
+      max-width: 400px;
+      border-radius: 1.5rem;
+      object-fit: cover;
+      box-shadow: 0 25px 50px rgba(0, 0, 0, 0.1);
+    }
+
+    .floating {
+      animation: float 6s ease-in-out infinite;
+    }
+
+    .stagger-1 { animation-delay: 0.1s; }
+    .stagger-2 { animation-delay: 0.2s; }
+    .stagger-3 { animation-delay: 0.3s; }
+
+    @keyframes float {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-10px); }
+    }
+
+    @keyframes pulse {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0.5; }
+    }
+
+    @keyframes fadeInUp {
       from {
         opacity: 0;
-        transform: translateY(22px);
+        transform: translateY(20px);
       }
       to {
         opacity: 1;
@@ -697,824 +282,1151 @@
       }
     }
 
-    @keyframes floatSlow {
-      0%, 100% {
-        transform: translateY(0) rotate(0deg);
+    .animate-fade-in {
+      animation: fadeInUp 0.6s ease forwards;
+      opacity: 0;
+    }
+
+    .animate-delay-1 { animation-delay: 0.1s; }
+    .animate-delay-2 { animation-delay: 0.2s; }
+    .animate-delay-3 { animation-delay: 0.3s; }
+    .animate-delay-4 { animation-delay: 0.4s; }
+
+    /* Nav */
+    .nav-link {
+      color: var(--text-secondary);
+      font-size: 0.875rem;
+      font-weight: 500;
+      transition: color 0.2s ease;
+    }
+
+    .nav-link:hover {
+      color: var(--accent);
+    }
+
+    /* Contact links */
+    .contact-link {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      padding: 1.25rem 1.5rem;
+      background: var(--bg-card);
+      border: 1px solid var(--border-color);
+      border-radius: 1rem;
+      transition: all 0.3s ease;
+    }
+
+    .contact-link:hover {
+      border-color: var(--accent);
+      transform: translateX(4px);
+    }
+
+    .contact-icon {
+      width: 48px;
+      height: 48px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: var(--accent-light);
+      border-radius: 0.75rem;
+      color: var(--accent);
+    }
+
+    /* Scrollbar */
+    ::-webkit-scrollbar {
+      width: 8px;
+    }
+
+    ::-webkit-scrollbar-track {
+      background: var(--bg-primary);
+    }
+
+    ::-webkit-scrollbar-thumb {
+      background: var(--border-color);
+      border-radius: 4px;
+    }
+
+    ::-webkit-scrollbar-thumb:hover {
+      background: var(--text-secondary);
+    }
+
+    /* Responsive */
+    @media (max-width: 768px) {
+      .section-heading {
+        font-size: 1.5rem;
       }
-      50% {
-        transform: translateY(-10px) rotate(-1.2deg);
+
+      .profile-image {
+        max-width: 100%;
+      }
+
+      .project-card img {
+        height: 200px;
       }
     }
 
-    @keyframes shineSweep {
-      0%, 15% {
-        transform: translateX(-220%) rotate(18deg);
-      }
-      45%, 100% {
-        transform: translateX(520%) rotate(18deg);
-      }
+    /* Enhanced Motion Graphics */
+    .cursor-follower {
+      position: fixed;
+      width: 20px;
+      height: 20px;
+      background: var(--accent);
+      border-radius: 50%;
+      pointer-events: none;
+      z-index: 9999;
+      mix-blend-mode: difference;
+      transition: transform 0.15s ease-out;
+      opacity: 0;
     }
 
-    @keyframes projectPulse {
-      from {
-        transform: scaleX(0);
-      }
-      to {
-        transform: scaleX(1);
-      }
+    .cursor-follower.active {
+      opacity: 0.8;
+    }
+
+    .cursor-follower.hover {
+      transform: scale(3);
+      background: var(--accent);
+    }
+
+    /* Scroll Progress Bar */
+    .scroll-progress {
+      position: fixed;
+      top: 0;
+      left: 0;
+      height: 3px;
+      background: linear-gradient(90deg, var(--accent), #2dd4bf);
+      z-index: 9999;
+      transform-origin: left;
+      transform: scaleX(0);
+    }
+
+    /* Particle Background */
+    .particles-container {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      pointer-events: none;
+      z-index: 0;
+      overflow: hidden;
+    }
+
+    .particle {
+      position: absolute;
+      width: 4px;
+      height: 4px;
+      background: var(--accent);
+      border-radius: 50%;
+      opacity: 0.3;
+    }
+
+    /* Magnetic Button Effect */
+    .magnetic-btn {
+      position: relative;
+      display: inline-flex;
+      transition: transform 0.3s cubic-bezier(0.23, 1, 0.32, 1);
+    }
+
+    /* Enhanced Card Hover */
+    .card-3d {
+      transform-style: preserve-3d;
+      perspective: 1000px;
+    }
+
+    .card-3d:hover {
+      transform: translateY(-8px) rotateX(2deg) rotateY(2deg);
+    }
+
+    /* Glowing Effect */
+    .glow {
+      position: relative;
+    }
+
+    .glow::before {
+      content: '';
+      position: absolute;
+      top: -2px;
+      left: -2px;
+      right: -2px;
+      bottom: -2px;
+      background: linear-gradient(45deg, var(--accent), #2dd4bf, var(--accent));
+      border-radius: inherit;
+      z-index: -1;
+      opacity: 0;
+      transition: opacity 0.3s ease;
+      filter: blur(10px);
+    }
+
+    .glow:hover::before {
+      opacity: 0.7;
+    }
+
+    /* Text Reveal Animation */
+    .text-reveal {
+      overflow: hidden;
+    }
+
+    .text-reveal span {
+      display: inline-block;
+      transform: translateY(100%);
+      opacity: 0;
+    }
+
+    /* Stagger Animation Classes */
+    .stagger-item {
+      opacity: 0;
+      transform: translateY(30px);
+    }
+
+    /* Parallax Layer */
+    .parallax-layer {
+      will-change: transform;
+    }
+
+    /* Smooth Section Transitions */
+    section {
+      position: relative;
+      overflow: hidden;
+    }
+
+    section::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 100px;
+      background: linear-gradient(to bottom, var(--bg-primary), transparent);
+      pointer-events: none;
+      z-index: 1;
+    }
+
+    /* Animated Gradient Border */
+    .gradient-border {
+      position: relative;
+      background: var(--bg-card);
+      border-radius: 1rem;
+    }
+
+    .gradient-border::before {
+      content: '';
+      position: absolute;
+      top: -2px;
+      left: -2px;
+      right: -2px;
+      bottom: -2px;
+      background: linear-gradient(45deg, var(--accent), #2dd4bf, #d4a84f, var(--accent));
+      background-size: 300% 300%;
+      border-radius: inherit;
+      z-index: -1;
+      animation: gradient-rotate 4s ease infinite;
+      opacity: 0;
+      transition: opacity 0.3s ease;
+    }
+
+    .gradient-border:hover::before {
+      opacity: 1;
+    }
+
+    @keyframes gradient-rotate {
+      0%, 100% { background-position: 0% 50%; }
+      50% { background-position: 100% 50%; }
+    }
+
+    /* Typing Cursor */
+    .typing-cursor {
+      display: inline-block;
+      width: 3px;
+      height: 1.2em;
+      background: var(--accent);
+      margin-left: 4px;
+      animation: blink 1s infinite;
+      vertical-align: text-bottom;
     }
 
     @keyframes blink {
-      0%, 49% {
-        opacity: 1;
+      0%, 50% { opacity: 1; }
+      51%, 100% { opacity: 0; }
+    }
+
+    /* Counter Animation */
+    .counter {
+      font-variant-numeric: tabular-nums;
+    }
+
+    /* Smooth Image Reveal */
+    .image-reveal {
+      clip-path: inset(0 100% 0 0);
+      transition: clip-path 1s cubic-bezier(0.77, 0, 0.175, 1);
+    }
+
+    .image-reveal.revealed {
+      clip-path: inset(0 0 0 0);
+    }
+
+    /* Floating Elements */
+    .float-element {
+      animation: float-gentle 6s ease-in-out infinite;
+    }
+
+    @keyframes float-gentle {
+      0%, 100% { transform: translateY(0) rotate(0deg); }
+      50% { transform: translateY(-15px) rotate(2deg); }
+    }
+
+    /* Pulse Ring */
+    .pulse-ring {
+      position: relative;
+    }
+
+    .pulse-ring::after {
+      content: '';
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      width: 100%;
+      height: 100%;
+      border: 2px solid var(--accent);
+      border-radius: 50%;
+      transform: translate(-50%, -50%);
+      animation: pulse-expand 2s ease-out infinite;
+    }
+
+    @keyframes pulse-expand {
+      0% { transform: translate(-50%, -50%) scale(1); opacity: 1; }
+      100% { transform: translate(-50%, -50%) scale(1.5); opacity: 0; }
+    }
+
+    /* Skill Bar Animation */
+    .skill-bar-fill {
+      transform-origin: left;
+      transform: scaleX(0);
+    }
+
+    .skill-bar-fill.animated {
+      transform: scaleX(1);
+    }
+
+    /* Project Card Tilt */
+    .project-card {
+      transform-style: preserve-3d;
+      transition: transform 0.5s ease;
+    }
+
+    .project-card:hover {
+      transform: perspective(1000px) rotateY(5deg) rotateX(2deg) translateY(-10px);
+    }
+
+    /* Navigation Active State */
+    .nav-link {
+      position: relative;
+    }
+
+    .nav-link::after {
+      content: '';
+      position: absolute;
+      bottom: -4px;
+      left: 0;
+      width: 0;
+      height: 2px;
+      background: var(--accent);
+      transition: width 0.3s ease;
+    }
+
+    .nav-link:hover::after,
+    .nav-link.active::after {
+      width: 100%;
+    }
+
+    /* Enhanced Footer */
+    footer {
+      position: relative;
+      overflow: hidden;
+    }
+
+    footer::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 1px;
+      background: linear-gradient(90deg, transparent, var(--accent), transparent);
+    }
+
+    /* Badge Pulse */
+    .badge {
+      position: relative;
+      overflow: hidden;
+    }
+
+    .badge::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: -100%;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+      animation: shimmer 3s infinite;
+    }
+
+    @keyframes shimmer {
+      0% { left: -100%; }
+      100% { left: 100%; }
+    }
+
+    /* Enhanced Tool Icons */
+    .tool-icon {
+      position: relative;
+    }
+
+    .tool-icon::before {
+      content: '';
+      position: absolute;
+      inset: -4px;
+      background: linear-gradient(45deg, var(--accent), #2dd4bf);
+      border-radius: 1rem;
+      opacity: 0;
+      z-index: -1;
+      transition: opacity 0.3s ease;
+      filter: blur(8px);
+    }
+
+    .tool-icon:hover::before {
+      opacity: 0.5;
+    }
+
+    /* Contact Icon Animation */
+    .contact-icon {
+      transition: all 0.3s ease;
+    }
+
+    .contact-link:hover .contact-icon {
+      transform: scale(1.1) rotate(5deg);
+      background: var(--accent);
+      color: white;
+    }
+
+    /* Project Card Overlay Animation */
+    .project-card-overlay {
+      transform: translateY(20px);
+      opacity: 0;
+      transition: all 0.4s ease;
+    }
+
+    .project-card:hover .project-card-overlay {
+      transform: translateY(0);
+      opacity: 1;
+    }
+
+    /* Smooth Background Transitions */
+    section {
+      transition: background-color 0.5s ease;
+    }
+
+    /* Enhanced Buttons */
+    .btn-primary,
+    .btn-secondary {
+      position: relative;
+      overflow: hidden;
+    }
+
+    .btn-primary::before,
+    .btn-secondary::before {
+      content: '';
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      width: 0;
+      height: 0;
+      background: rgba(255,255,255,0.2);
+      border-radius: 50%;
+      transform: translate(-50%, -50%);
+      transition: width 0.6s ease, height 0.6s ease;
+    }
+
+    .btn-primary:hover::before,
+    .btn-secondary:hover::before {
+      width: 300px;
+      height: 300px;
+    }
+
+    /* Scroll Indicator */
+    .scroll-indicator {
+      position: absolute;
+      bottom: 2rem;
+      left: 50%;
+      transform: translateX(-50%);
+      animation: bounce 2s infinite;
+    }
+
+    @keyframes bounce {
+      0%, 20%, 50%, 80%, 100% { transform: translateX(-50%) translateY(0); }
+      40% { transform: translateX(-50%) translateY(-10px); }
+      60% { transform: translateX(-50%) translateY(-5px); }
+    }
+
+    /* Smooth Scroll */
+    html {
+      scroll-behavior: smooth;
+    }
+
+    /* Text Split Animation */
+    .split-text {
+      overflow: hidden;
+    }
+
+    .split-text .char {
+      display: inline-block;
+      transform: translateY(100%);
+      opacity: 0;
+    }
+
+    /* Mobile Optimizations */
+    @media (max-width: 768px) {
+      .cursor-follower {
+        display: none;
       }
-      50%, 100% {
-        opacity: 0;
+
+      .particles-container {
+        opacity: 0.5;
+      }
+
+      .magnetic-btn {
+        transform: none !important;
       }
     }
 
-    @keyframes driftOrb {
-      0%, 100% {
-        transform: translate3d(0, 0, 0) scale(1);
-      }
-      50% {
-        transform: translate3d(16px, -12px, 0) scale(1.05);
-      }
-    }
-
-    @keyframes pulseRing {
-      0%, 100% {
-        transform: scale(1);
-        opacity: 0.7;
-      }
-      50% {
-        transform: scale(1.06);
-        opacity: 1;
-      }
-    }
-
-    @keyframes marquee {
-      from {
-        transform: translateX(0);
-      }
-      to {
-        transform: translateX(-50%);
-      }
-    }
-
+    /* Reduced Motion */
     @media (prefers-reduced-motion: reduce) {
-      .fade-up,
-      .stagger-1,
-      .stagger-2,
-      .stagger-3,
-      .stagger-4,
-      .float-slow,
-      .float-delay {
-        animation: none;
-        opacity: 1;
+      *,
+      *::before,
+      *::after {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
       }
 
-      .reveal,
-      .reveal-left,
-      .reveal-right,
-      .reveal-scale,
-      .tilt-panel {
-        opacity: 1;
-        transform: none;
-        transition: none;
+      .cursor-follower,
+      .particles-container,
+      .scroll-progress {
+        display: none;
       }
+    }
 
+    /* Loading Animation */
+    .page-loader {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: var(--bg-primary);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 10000;
+      transition: opacity 0.5s ease, visibility 0.5s ease;
+    }
 
+    .page-loader.hidden {
+      opacity: 0;
+      visibility: hidden;
+    }
 
-      .shine::after,
-      .project-meter::after {
-        animation: none;
-      }
+    .loader-spinner {
+      width: 50px;
+      height: 50px;
+      border: 3px solid var(--border-color);
+      border-top-color: var(--accent);
+      border-radius: 50%;
+      animation: spin 1s linear infinite;
+    }
 
-      .hero-backdrop,
-      .hero-portrait {
-        transform: none;
-      }
-
-      .impact-track,
-      .hero-stage::before,
-      .hero-stage::after,
-      .hero-glow-ring {
-        animation: none;
-      }
-
-      html {
-        scroll-behavior: auto;
-      }
+    @keyframes spin {
+      to { transform: rotate(360deg); }
     }
   </style>
 </head>
 <body x-data="portfolioApp()" x-init="init()" :class="{ 'dark': theme === 'dark' }">
-  <div class="fixed left-0 right-0 top-0 z-[60] h-1 bg-black/5">
-    <div id="scroll-progress" class="h-full w-0 bg-gradient-to-r from-accent to-gold transition-[width] duration-150"></div>
+  <!-- Page Loader -->
+  <div class="page-loader" id="page-loader">
+    <div class="loader-spinner"></div>
   </div>
-  <div class="fixed inset-0 -z-20 hero-grid"></div>
-  <div class="pointer-events-none fixed inset-x-0 top-0 -z-10 h-[32rem] bg-gradient-to-b from-white/55 to-transparent"></div>
+  
+  <!-- Cursor Follower -->
+  <div class="cursor-follower" id="cursor-follower"></div>
+  
+  <!-- Scroll Progress Bar -->
+  <div class="scroll-progress" id="scroll-progress"></div>
+  
+  <!-- Particles Background -->
+  <div class="particles-container" id="particles"></div>
+  
+  <!-- Navigation -->
+  <header class="sticky top-0 z-50 bg-[var(--bg-primary)]/80 backdrop-blur-lg border-b border-[var(--border-color)]">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="flex items-center justify-between h-16">
+        <a href="#home" class="font-mono text-lg font-semibold text-[var(--text-primary)]">GBC</a>
+        
+        <nav class="hidden md:flex items-center gap-8">
+          <a href="#about" class="nav-link">About</a>
+          <a href="#skills" class="nav-link">Skills</a>
+          <a href="#projects" class="nav-link">Projects</a>
+          <a href="#contact" class="nav-link">Contact</a>
+        </nav>
 
-  <div x-show="commandOpen" x-transition.opacity @click.self="commandOpen = false" @keydown.escape.window="commandOpen = false" class="command-overlay fixed inset-0 z-[80] flex items-start justify-center px-4 py-20">
-    <div class="section-card w-full max-w-2xl rounded-[1.8rem] p-4">
-      <div class="rounded-2xl border border-black/10 bg-white/70 px-4 py-3 dark:border-white/10 dark:bg-slate-900/70">
-        <input x-model="commandQuery" @input="filterCommands()" @keydown.enter.prevent="runFirstCommand()" x-ref="commandInput" type="text" placeholder="Search sections or projects" class="w-full bg-transparent text-base outline-none placeholder:text-slate-400 dark:placeholder:text-slate-500">
-      </div>
-      <div class="mt-4 space-y-2">
-        <template x-for="item in filteredCommands" :key="item.label">
-          <button @click="runCommand(item)" class="command-item flex w-full items-center justify-between rounded-2xl px-4 py-3 text-left transition">
-            <span class="font-medium" x-text="item.label"></span>
-            <span class="mono text-xs uppercase tracking-[0.18em] text-slate-500" x-text="item.type"></span>
+        <div class="flex items-center gap-3">
+          <button type="button" @click="toggleTheme()" class="p-2 rounded-lg bg-[var(--bg-card)] border border-[var(--border-color)] hover:border-[var(--accent)] transition" aria-label="Toggle theme">
+            <svg x-show="theme === 'light'" xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z" />
+            </svg>
+            <svg x-show="theme === 'dark'" x-cloak xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z" />
+            </svg>
           </button>
-        </template>
-      </div>
-    </div>
-  </div>
+          <a href="/static/Godfred_Bio_Conquest_Resume.pdf" download class="btn-primary">
+            Download CV
+          </a>
+        </div>
 
-  <header class="sticky top-0 z-50 px-3 pt-3 sm:px-6 lg:px-10" x-data="{ mobileNavOpen: false }">
-    <div class="glass mobile-header-shell mx-auto flex max-w-7xl flex-wrap items-center justify-between gap-3 rounded-full px-5 py-3 sm:flex-nowrap sm:px-7">
-      <a href="#home" @click="mobileNavOpen = false" class="mono text-sm font-medium tracking-[0.25em] text-ink">GBC</a>
-      <nav class="hidden items-center gap-7 text-sm text-slate-700 md:flex">
-        <a href="#about" class="transition hover:text-accent">About</a>
-        <a href="#demo" class="transition hover:text-accent">AI Demo</a>
-        <a href="#skills" class="transition hover:text-accent">Skills</a>
-        <a href="#projects" class="transition hover:text-accent">Projects</a>
-        <a href="#contact" class="transition hover:text-accent">Contact</a>
-      </nav>
-      <div class="flex items-center gap-2 sm:gap-3">
-        <button type="button" @click="toggleTheme()" class="relative h-10 w-16 rounded-full border border-black/10 bg-white/80 px-1 dark:border-white/10 dark:bg-slate-900/80" aria-label="Toggle theme">
-          <span class="theme-thumb block h-8 w-8 rounded-full bg-accent shadow-md"></span>
-        </button>
-        <button type="button" @click="openCommandPalette()" class="hidden rounded-full border border-black/10 bg-white/80 px-4 py-2.5 text-sm font-medium text-ink transition hover:border-accent/30 dark:border-white/10 dark:bg-slate-900/80 md:inline-flex">
-          Press /
-        </button>
-        <a href="/static/Godfred_Bio_Conquest_Resume.pdf" download class="rounded-full bg-ink px-4 py-2.5 text-sm font-medium text-white transition hover:bg-slateblue sm:px-5">
-          <span class="sm:hidden">CV</span>
-          <span class="hidden sm:inline">Download CV</span>
-        </a>
-        <button
-          type="button"
-          @click="mobileNavOpen = !mobileNavOpen"
-          class="inline-flex h-10 w-10 items-center justify-center rounded-full border border-black/10 bg-white/80 text-ink transition hover:border-accent/30 dark:border-white/10 dark:bg-slate-900/80 md:hidden"
-          :aria-expanded="mobileNavOpen.toString()"
-          aria-label="Toggle navigation menu"
-        >
-          <svg x-show="!mobileNavOpen" xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="M4 7h16M4 12h16M4 17h16" />
-          </svg>
-          <svg x-show="mobileNavOpen" x-cloak xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="M6 6l12 12M18 6L6 18" />
+        <!-- Mobile menu button -->
+        <button type="button" @click="mobileNavOpen = !mobileNavOpen" class="md:hidden p-2 rounded-lg bg-[var(--bg-card)] border border-[var(--border-color)]" aria-label="Menu">
+          <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
           </svg>
         </button>
       </div>
-      <nav
-        x-show="mobileNavOpen"
-        x-transition.opacity.duration.200ms
-        x-cloak
-        class="w-full rounded-[1.5rem] border border-black/8 bg-white/80 p-3 text-sm text-slate-700 shadow-lg backdrop-blur-xl dark:border-white/10 dark:bg-slate-900/85 md:hidden"
-      >
-        <div class="grid gap-2">
-          <a href="#about" @click="mobileNavOpen = false" class="rounded-2xl px-4 py-3 transition hover:bg-accent/10 hover:text-accent">About</a>
-          <a href="#demo" @click="mobileNavOpen = false" class="rounded-2xl px-4 py-3 transition hover:bg-accent/10 hover:text-accent">AI Demo</a>
-          <a href="#skills" @click="mobileNavOpen = false" class="rounded-2xl px-4 py-3 transition hover:bg-accent/10 hover:text-accent">Skills</a>
-          <a href="#projects" @click="mobileNavOpen = false" class="rounded-2xl px-4 py-3 transition hover:bg-accent/10 hover:text-accent">Projects</a>
-          <a href="#contact" @click="mobileNavOpen = false" class="rounded-2xl px-4 py-3 transition hover:bg-accent/10 hover:text-accent">Contact</a>
+
+      <!-- Mobile nav -->
+      <nav x-show="mobileNavOpen" x-cloak class="md:hidden pb-4">
+        <div class="flex flex-col gap-2">
+          <a href="#about" @click="mobileNavOpen = false" class="nav-link px-4 py-2 rounded-lg hover:bg-[var(--accent-light)]">About</a>
+          <a href="#skills" @click="mobileNavOpen = false" class="nav-link px-4 py-2 rounded-lg hover:bg-[var(--accent-light)]">Skills</a>
+          <a href="#projects" @click="mobileNavOpen = false" class="nav-link px-4 py-2 rounded-lg hover:bg-[var(--accent-light)]">Projects</a>
+          <a href="#contact" @click="mobileNavOpen = false" class="nav-link px-4 py-2 rounded-lg hover:bg-[var(--accent-light)]">Contact</a>
         </div>
       </nav>
     </div>
   </header>
 
-  <main id="home" class="px-3 pb-16 sm:px-6 lg:px-10">
-    <section class="hero-stage mx-auto grid min-h-screen max-w-7xl items-center gap-10 py-10 sm:py-14 lg:grid-cols-[1.1fr_0.9fr] lg:py-20" id="hero-stage">
-      <div>
-        <div class="fade-up inline-flex max-w-full flex-wrap items-center gap-3 rounded-full border border-black/10 bg-white/70 px-4 py-2 text-sm text-slate-700 shadow-sm shine">
-          <span class="h-2.5 w-2.5 rounded-full bg-accent"></span>
-          <span class="eyebrow text-[10px] font-medium sm:text-[11px]">Available for internships, freelance, and product collaboration</span>
-        </div>
-
-        <p class="fade-up stagger-1 mono mt-8 text-sm uppercase tracking-[0.28em] text-slate-600">
-          AI Engineer / Full-Stack Developer / Product Designer
-        </p>
-
-        <h1 class="fade-up stagger-2 mt-5 max-w-4xl text-4xl font-bold leading-[0.95] text-ink sm:text-6xl lg:text-8xl">
-          Building digital products that feel sharp, useful, and ready for the real world.
-        </h1>
-
-        <div class="fade-up stagger-3 mt-5 min-h-[2rem] text-lg text-slate-600 sm:text-xl">
-          <span class="typing-cursor font-medium" x-text="typedLine"></span>
-        </div>
-
-        <p class="fade-up stagger-3 mt-6 max-w-2xl text-lg leading-8 text-slate-600 sm:text-xl">
-          I am Godfred Bio Conquest, a Computer Science student at the University of Cape Coast building AI-powered tools, production-ready web apps, and polished digital experiences for meaningful real-world problems.
-        </p>
-
-        <div class="fade-up stagger-4 mt-8 flex flex-wrap gap-3">
-          <span class="impact-pill rounded-full px-4 py-2 text-sm text-slate-700">Recruiter-ready presentation</span>
-          <span class="impact-pill rounded-full px-4 py-2 text-sm text-slate-700">Production-minded engineering</span>
-          <span class="impact-pill rounded-full px-4 py-2 text-sm text-slate-700">AI with practical outcomes</span>
-        </div>
-
-        <div class="fade-up stagger-4 mt-8 sm:hidden">
-          <img src="{{ profile_image_url }}" alt="Portrait of Godfred Bio Conquest" class="h-72 w-full rounded-[1.75rem] object-cover object-center shadow-2xl">
-        </div>
-
-        <div class="fade-up stagger-4 mt-10 flex flex-col gap-4 sm:flex-row">
-          <a href="#demo" class="w-full rounded-full border border-black/10 bg-white/80 px-7 py-4 text-center text-sm font-medium text-ink transition hover:border-accent/30 hover:bg-white sm:w-auto">
-            Try live AI
-          </a>
-          <a href="#projects" class="w-full rounded-full bg-ink px-7 py-4 text-center text-sm font-medium text-white transition hover:bg-slateblue sm:w-auto">
-            View selected work
-          </a>
-          <button type="button" @click="copyEmail($event.currentTarget)" class="w-full rounded-full border border-ink/10 bg-white/80 px-7 py-4 text-sm font-medium text-ink transition hover:border-accent/30 hover:bg-white sm:w-auto">
-            Copy email
-          </button>
-        </div>
-
-        <div class="mt-12 grid gap-4 sm:grid-cols-3">
-          <div class="section-card motion-card rounded-3xl p-5">
-            <p class="mono text-xs uppercase tracking-[0.2em] text-slate-500">Focus</p>
-            <p class="mt-3 text-base font-medium text-ink">Applied AI, analytics, and web systems</p>
-          </div>
-          <div class="section-card motion-card rounded-3xl p-5">
-            <p class="mono text-xs uppercase tracking-[0.2em] text-slate-500">Location</p>
-            <p class="mt-3 text-base font-medium text-ink">Cape Coast, Ghana</p>
-          </div>
-          <div class="section-card motion-card rounded-3xl p-5">
-            <p class="mono text-xs uppercase tracking-[0.2em] text-slate-500">Visitors</p>
-            <p class="mt-3 text-base font-medium text-ink"><span id="visitor-count">Loading...</span></p>
-          </div>
-        </div>
-
-        <div class="impact-row mt-10">
-          <div class="impact-track gap-3">
-            <span class="impact-pill rounded-full px-4 py-2 text-sm text-slate-700">Machine Learning</span>
-            <span class="impact-pill rounded-full px-4 py-2 text-sm text-slate-700">Full-Stack Products</span>
-            <span class="impact-pill rounded-full px-4 py-2 text-sm text-slate-700">Analytics Dashboards</span>
-            <span class="impact-pill rounded-full px-4 py-2 text-sm text-slate-700">Design-Led Interfaces</span>
-            <span class="impact-pill rounded-full px-4 py-2 text-sm text-slate-700">Real-World Deployments</span>
-            <span class="impact-pill rounded-full px-4 py-2 text-sm text-slate-700">Machine Learning</span>
-            <span class="impact-pill rounded-full px-4 py-2 text-sm text-slate-700">Full-Stack Products</span>
-            <span class="impact-pill rounded-full px-4 py-2 text-sm text-slate-700">Analytics Dashboards</span>
-            <span class="impact-pill rounded-full px-4 py-2 text-sm text-slate-700">Design-Led Interfaces</span>
-            <span class="impact-pill rounded-full px-4 py-2 text-sm text-slate-700">Real-World Deployments</span>
-          </div>
-        </div>
-      </div>
-
-      <div class="relative">
-        <div class="absolute -left-8 top-12 hidden h-24 w-24 rounded-full bg-gold/25 blur-3xl lg:block"></div>
-        <div class="absolute -right-8 bottom-10 hidden h-32 w-32 rounded-full bg-accent/15 blur-3xl lg:block"></div>
-
-        <div class="section-card motion-card relative overflow-hidden rounded-[2rem] p-4 sm:p-6">
-          <div class="grid gap-5">
-            <div class="relative overflow-hidden rounded-[1.75rem] bg-ink">
-              <div class="hero-backdrop"></div>
-              <div class="hero-glow-ring left-[8%] top-[9%] h-20 w-20"></div>
-              <div class="hero-glow-ring bottom-[10%] right-[10%] h-28 w-28" style="animation-delay: 1.4s;"></div>
-              <div class="relative z-10 flex min-h-[24rem] items-end p-5 sm:min-h-[30rem] sm:p-7">
-                <div class="glass max-w-sm rounded-[1.6rem] border border-white/10 bg-white/10 p-4 text-white shadow-2xl backdrop-blur-xl">
-                  <p class="mono text-xs uppercase tracking-[0.2em] text-white/65">Professional Profile</p>
-                  <h3 class="mt-3 text-2xl font-semibold">Built for real products, clear thinking, and strong execution.</h3>
-                  <p class="mt-3 text-sm leading-7 text-white/78">
-                    A portfolio designed to communicate technical depth, product maturity, and recruiter-ready presentation from the first scroll.
-                  </p>
-                </div>
-              </div>
+  <main>
+    <!-- Hero Section -->
+    <section id="home" class="min-h-[90vh] flex items-center py-16 lg:py-24">
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full">
+        <div class="grid lg:grid-cols-2 gap-12 lg:gap-16 items-center">
+          <!-- Left Content -->
+          <div class="order-2 lg:order-1">
+            <div class="animate-fade-in animate-delay-1">
+              <span class="badge">
+                <span class="badge-dot"></span>
+                Available for opportunities
+              </span>
             </div>
 
-            <div class="grid gap-4 sm:grid-cols-[0.88fr_1.12fr]">
-              <div class="profile-spotlight hero-portrait float-delay h-[20rem] overflow-hidden rounded-[1.5rem] bg-ink shadow-glow sm:h-auto sm:min-h-[16rem]">
-                <img src="{{ profile_image_url }}" alt="Portrait of Godfred Bio Conquest" class="block h-full w-full object-cover object-center">
-                <div class="project-image-content p-4 sm:p-5">
-                  <div class="stack-orbit inline-flex max-w-xs flex-col rounded-[1.25rem] border border-white/15 bg-black/35 px-4 py-3 text-white backdrop-blur-xl">
-                    <span class="mono text-[11px] uppercase tracking-[0.18em] text-white/60">Stack Highlight</span>
-                    <span class="mt-2 text-sm font-medium leading-6">I combine Python, Flask, React, SQL, and TensorFlow to turn ideas into deployable, user-facing products.</span>
-                  </div>
-                </div>
+            <h1 class="mt-6 text-4xl sm:text-5xl lg:text-6xl font-bold leading-tight animate-fade-in animate-delay-2">
+              <span class="text-[var(--text-primary)]">Godfred Bio</span><br>
+              <span class="text-gradient">Conquest</span>
+            </h1>
+
+            <p class="mt-6 text-lg sm:text-xl text-[var(--text-secondary)] font-medium animate-fade-in animate-delay-3">
+              AI Engineer & Full-Stack Developer
+            </p>
+
+            <p class="mt-6 text-base sm:text-lg text-[var(--text-secondary)] leading-relaxed animate-fade-in animate-delay-3">
+              Building practical AI-powered solutions and production-ready web applications from Cape Coast, Ghana. Computer Science student passionate about solving real-world problems through technology.
+            </p>
+
+            <div class="mt-8 flex flex-wrap gap-3 animate-fade-in animate-delay-3">
+              <span class="px-4 py-2 text-sm bg-[var(--bg-card)] border border-[var(--border-color)] rounded-full text-[var(--text-secondary)]">Machine Learning</span>
+              <span class="px-4 py-2 text-sm bg-[var(--bg-card)] border border-[var(--border-color)] rounded-full text-[var(--text-secondary)]">Full-Stack Apps</span>
+              <span class="px-4 py-2 text-sm bg-[var(--bg-card)] border border-[var(--border-color)] rounded-full text-[var(--text-secondary)]">Data Analytics</span>
+            </div>
+
+            <div class="mt-8 flex flex-wrap gap-4 animate-fade-in animate-delay-4">
+              <a href="#projects" class="btn-primary">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10" />
+                </svg>
+                View Projects
+              </a>
+              <a href="#contact" class="btn-secondary">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
+                </svg>
+                Get in Touch
+              </a>
+            </div>
+
+            <!-- Quick Info -->
+            <div class="mt-10 grid grid-cols-2 sm:grid-cols-3 gap-4 animate-fade-in animate-delay-4">
+              <div class="card p-4">
+                <p class="text-xs font-mono text-[var(--muted)] uppercase tracking-wider">Location</p>
+                <p class="mt-1 font-semibold text-[var(--text-primary)]">Cape Coast, Ghana</p>
               </div>
-              <div class="rounded-[1.5rem] bg-white p-5">
-                <div class="rounded-[1.25rem] bg-ink p-5 text-white">
-                <p class="mono text-xs uppercase tracking-[0.22em] text-steel/70">Mission</p>
-                <p class="mt-3 text-lg leading-7 text-white/90">
-                  Build software that is intelligent, useful, and polished enough to earn trust immediately.
+              <div class="card p-4">
+                <p class="text-xs font-mono text-[var(--muted)] uppercase tracking-wider">Education</p>
+                <p class="mt-1 font-semibold text-[var(--text-primary)]">BSc Computer Science</p>
+              </div>
+              <div class="card p-4">
+                <p class="text-xs font-mono text-[var(--muted)] uppercase tracking-wider">Visitors</p>
+                <p class="mt-1 font-semibold text-[var(--text-primary)]"><span id="visitor-count">—</span></p>
+              </div>
+            </div>
+          </div>
+
+          <!-- Right - Profile Image -->
+          <div class="order-1 lg:order-2 flex justify-center lg:justify-end animate-fade-in">
+            <div class="relative">
+              <div class="absolute -inset-4 bg-gradient-to-br from-[#0f766e]/20 to-[#d4a84f]/20 rounded-3xl blur-2xl"></div>
+              <img 
+                src="{{ profile_image_url }}" 
+                alt="Godfred Bio Conquest" 
+                class="profile-image floating relative z-10"
+              >
+              <div class="mt-6 text-center">
+                <p class="text-sm text-[var(--text-secondary)]">
+                  <span class="font-mono">godfredbio2004@gmail.com</span>
                 </p>
-                </div>
-                <div class="mt-4 grid gap-3 text-sm text-slate-700 sm:grid-cols-2">
-                  <div class="rounded-2xl bg-sand px-4 py-3">
-                    <p class="mono text-[11px] uppercase tracking-[0.18em] text-slate-500">Email</p>
-                    <p class="mt-2 break-all font-medium text-ink">godfredbio2004@gmail.com</p>
-                  </div>
-                  <div class="rounded-2xl bg-sand px-4 py-3">
-                    <p class="mono text-[11px] uppercase tracking-[0.18em] text-slate-500">Base</p>
-                    <p class="mt-2 font-medium text-ink">Cape Coast, Ghana</p>
-                  </div>
-                </div>
+                <p class="text-sm text-[var(--text-secondary)] mt-1">
+                  University of Cape Coast • Expected 2028
+                </p>
               </div>
             </div>
+          </div>
+        </div>
+        
+        <!-- Scroll Indicator -->
+        <div class="scroll-indicator hidden lg:block">
+          <div class="flex flex-col items-center gap-2 text-[var(--text-secondary)]">
+            <span class="text-xs font-mono uppercase tracking-wider">Scroll</span>
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 animate-bounce" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 14l-7 7m0 0l-7-7m7 7V3" />
+            </svg>
           </div>
         </div>
       </div>
     </section>
 
-    <section id="about" class="mx-auto max-w-7xl py-10 reveal reveal-up">
-      <div class="section-card section-frame rounded-[2rem] p-5 sm:p-8 lg:p-12">
-        <div class="grid gap-8 xl:grid-cols-[0.9fr_1.1fr] xl:items-start">
-          <div class="space-y-6 reveal reveal-left">
-            <div class="inline-flex w-fit items-center gap-2 rounded-full border border-black/10 bg-white/75 px-4 py-2 text-sm text-slate-700 shadow-sm">
-              <span class="h-2.5 w-2.5 rounded-full bg-accent"></span>
-              Product-thinking workflow
-            </div>
-
-            <div>
-              <p class="eyebrow text-xs font-medium text-slate-500">About</p>
-              <h2 class="mt-4 max-w-2xl text-3xl font-bold leading-tight text-ink sm:text-4xl">I build apps with the kind of motion, clarity, and polish people expect from modern React products.</h2>
-              <p class="mt-5 max-w-2xl text-lg leading-8 text-slate-600">
-                The old layout repeated the same profile story in multiple places. This version turns that repetition into a cleaner flow: understand the problem, shape the interface, connect the backend, and ship something that feels intentional.
-              </p>
-            </div>
-
-            <div class="grid gap-4 sm:grid-cols-3">
-              <div class="about-stat reveal reveal-up reveal-delay-1">
-                <p class="mono text-[11px] uppercase tracking-[0.18em] text-slate-500">Build Style</p>
-                <p class="mt-3 text-base font-semibold text-ink">Motion-first UI</p>
-                <p class="mt-2 text-sm leading-6 text-slate-600">Smooth transitions, layered cards, and a stronger sense of flow.</p>
-              </div>
-              <div class="about-stat reveal reveal-up reveal-delay-2">
-                <p class="mono text-[11px] uppercase tracking-[0.18em] text-slate-500">Systems</p>
-                <p class="mt-3 text-base font-semibold text-ink">Backend connected</p>
-                <p class="mt-2 text-sm leading-6 text-slate-600">Flask APIs, product logic, and deployable app structure.</p>
-              </div>
-              <div class="about-stat reveal reveal-up reveal-delay-3">
-                <p class="mono text-[11px] uppercase tracking-[0.18em] text-slate-500">Outcome</p>
-                <p class="mt-3 text-base font-semibold text-ink">Credible products</p>
-                <p class="mt-2 text-sm leading-6 text-slate-600">Interfaces that look sharper and communicate technical depth faster.</p>
-              </div>
-            </div>
-
-            <div class="visual-panel tilt-panel reveal reveal-scale reveal-delay-2 p-5 sm:p-6" data-tilt>
-              <div class="flex flex-wrap items-center justify-between gap-3">
-                <div>
-                  <p class="mono text-xs uppercase tracking-[0.18em] text-white/60">Frontend Flow</p>
-                  <h3 class="mt-3 text-2xl font-semibold text-white">A more cinematic product story.</h3>
-                </div>
-                <span class="status-pill rounded-full px-4 py-2 text-xs uppercase tracking-[0.18em] text-white/72">Framer-style energy</span>
-              </div>
-
-              <div class="mt-6 grid gap-4 sm:grid-cols-[1.12fr_0.88fr]">
-                <div class="grid gap-4">
-                  <div class="rounded-[1.25rem] border border-white/10 bg-white/5 p-4 backdrop-blur-sm">
-                    <div class="flex items-center justify-between text-sm text-white/72"><span>Motion system</span><span>92%</span></div>
-                    <div class="signal-bar mt-3"><span style="width: 92%;"></span></div>
-                  </div>
-                  <div class="rounded-[1.25rem] border border-white/10 bg-white/5 p-4 backdrop-blur-sm">
-                    <div class="flex items-center justify-between text-sm text-white/72"><span>Visual hierarchy</span><span>88%</span></div>
-                    <div class="signal-bar mt-3"><span style="width: 88%;"></span></div>
-                  </div>
-                  <div class="rounded-[1.25rem] border border-white/10 bg-white/5 p-4 backdrop-blur-sm">
-                    <div class="flex items-center justify-between text-sm text-white/72"><span>Interactive feel</span><span>90%</span></div>
-                    <div class="signal-bar mt-3"><span style="width: 90%;"></span></div>
-                  </div>
-                </div>
-                <div class="grid gap-3">
-                  <div class="rounded-[1.25rem] border border-white/10 bg-white/5 p-4 backdrop-blur-sm">
-                    <p class="mono text-[11px] uppercase tracking-[0.18em] text-white/50">What changed</p>
-                    <p class="mt-3 text-sm leading-7 text-white/82">The page now aims to behave more like an app experience: stronger entrance animations, cleaner grouping, and fewer repeated content blocks.</p>
-                  </div>
-                  <div class="flex flex-wrap gap-2">
-                    <span class="status-pill rounded-full px-3 py-2 text-xs text-white/80">React-like rhythm</span>
-                    <span class="status-pill rounded-full px-3 py-2 text-xs text-white/80">Layered visuals</span>
-                    <span class="status-pill rounded-full px-3 py-2 text-xs text-white/80">Cleaner hierarchy</span>
-                  </div>
-                </div>
-              </div>
+    <!-- About Section -->
+    <section id="about" class="py-20 bg-[var(--bg-card)]">
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="grid lg:grid-cols-2 gap-12 lg:gap-16 items-center">
+          <!-- Left - Image -->
+          <div class="flex justify-center">
+            <div class="relative">
+              <div class="absolute -inset-4 bg-gradient-to-br from-[#0f766e]/10 to-[#d4a84f]/10 rounded-3xl"></div>
+              <img 
+                src="{{ profile_image_url }}" 
+                alt="Godfred Bio Conquest" 
+                class="w-full max-w-md rounded-2xl object-cover shadow-xl relative z-10"
+              >
             </div>
           </div>
 
-          <div class="grid gap-4 sm:grid-cols-2">
-            <article class="flow-card motion-card reveal reveal-right reveal-delay-1" data-step="01">
-              <p class="mono text-[11px] uppercase tracking-[0.18em] text-slate-500">Discover</p>
-              <h3 class="mt-3 text-xl font-semibold text-ink">Start with the problem, not the effect.</h3>
-              <p class="mt-3 text-sm leading-7 text-slate-600">I first identify the friction in the user journey, then decide where visuals, automation, or backend logic can remove it.</p>
-            </article>
-
-            <article class="flow-card motion-card reveal reveal-right reveal-delay-2" data-step="02">
-              <p class="mono text-[11px] uppercase tracking-[0.18em] text-slate-500">Design</p>
-              <h3 class="mt-3 text-xl font-semibold text-ink">Shape the interface like a product, not a poster.</h3>
-              <p class="mt-3 text-sm leading-7 text-slate-600">Layout, motion, and hierarchy work together so the page feels guided and alive instead of static and repetitive.</p>
-            </article>
-
-            <article class="flow-card motion-card reveal reveal-right reveal-delay-3" data-step="03">
-              <p class="mono text-[11px] uppercase tracking-[0.18em] text-slate-500">Build</p>
-              <h3 class="mt-3 text-xl font-semibold text-ink">Connect the frontend to real logic.</h3>
-              <p class="mt-3 text-sm leading-7 text-slate-600">The strongest signal is still the backend-powered demo, because it proves the interface is backed by working application logic.</p>
-            </article>
-
-            <article class="flow-card motion-card reveal reveal-right reveal-delay-4" data-step="04">
-              <p class="mono text-[11px] uppercase tracking-[0.18em] text-slate-500">Ship</p>
-              <h3 class="mt-3 text-xl font-semibold text-ink">Polish for real devices and real viewers.</h3>
-              <p class="mt-3 text-sm leading-7 text-slate-600">Responsive layout, stronger pacing, and cleaner grouping make the portfolio feel more serious on phones and laptops alike.</p>
-            </article>
-
-            <article class="visual-panel motion-card reveal reveal-scale reveal-delay-4 sm:col-span-2 p-5 sm:p-6">
-              <div class="flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between">
-                <div>
-                  <p class="mono text-xs uppercase tracking-[0.18em] text-white/60">Build Snapshot</p>
-                  <h3 class="mt-3 text-2xl font-semibold text-white">What this portfolio now signals faster.</h3>
-                </div>
-                <span class="status-pill rounded-full px-4 py-2 text-xs uppercase tracking-[0.18em] text-white/72">More visual depth</span>
-              </div>
-              <div class="mt-6 grid gap-3 sm:grid-cols-3">
-                <div class="rounded-[1.2rem] border border-white/10 bg-white/5 p-4 backdrop-blur-sm">
-                  <p class="mono text-[11px] uppercase tracking-[0.18em] text-white/50">UI</p>
-                  <p class="mt-3 text-sm leading-7 text-white/82">Smoother section entrances and more confident composition.</p>
-                </div>
-                <div class="rounded-[1.2rem] border border-white/10 bg-white/5 p-4 backdrop-blur-sm">
-                  <p class="mono text-[11px] uppercase tracking-[0.18em] text-white/50">Logic</p>
-                  <p class="mt-3 text-sm leading-7 text-white/82">Interactive demo, dynamic project switching, and live states remain central.</p>
-                </div>
-                <div class="rounded-[1.2rem] border border-white/10 bg-white/5 p-4 backdrop-blur-sm">
-                  <p class="mono text-[11px] uppercase tracking-[0.18em] text-white/50">Brand</p>
-                  <p class="mt-3 text-sm leading-7 text-white/82">Less duplication, clearer pacing, and a more premium frontend tone.</p>
-                </div>
-              </div>
-            </article>
-          </div>
-        </div>
-      </div>
-    </section>
-
-
-    <section id="toolbelt" class="mx-auto max-w-7xl py-10 reveal reveal-up">
-      <div class="section-card rounded-[2rem] p-5 sm:p-8 lg:p-12">
-        <div class="flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between">
+          <!-- Right - Content -->
           <div>
-            <p class="eyebrow text-xs font-medium text-slate-500">Visual Toolbelt</p>
-            <h2 class="mt-4 text-3xl font-bold text-ink sm:text-4xl">Some of the technologies and creative tools behind the work.</h2>
+            <p class="section-title">About Me</p>
+            <h2 class="section-heading">Building AI-powered products that make a difference</h2>
+            
+            <p class="mt-6 section-description">
+              I'm a Computer Science student at the University of Cape Coast with a passion for creating practical AI solutions and full-stack applications. From training machine learning models on Ghanaian data to deploying production apps used by schools and organizations, I focus on building software that solves real problems.
+            </p>
+
+            <div class="mt-8 space-y-4">
+              <div class="flex items-start gap-4">
+                <div class="w-10 h-10 rounded-lg bg-[var(--accent-light)] flex items-center justify-center flex-shrink-0">
+                  <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-[var(--accent)]" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z" />
+                  </svg>
+                </div>
+                <div>
+                  <h3 class="font-semibold text-[var(--text-primary)]">AI & Machine Learning</h3>
+                  <p class="mt-1 text-sm text-[var(--text-secondary)]">Building intelligent systems with TensorFlow, OpenCV, and practical ML applications</p>
+                </div>
+              </div>
+
+              <div class="flex items-start gap-4">
+                <div class="w-10 h-10 rounded-lg bg-[var(--accent-light)] flex items-center justify-center flex-shrink-0">
+                  <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-[var(--accent)]" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4" />
+                  </svg>
+                </div>
+                <div>
+                  <h3 class="font-semibold text-[var(--text-primary)]">Full-Stack Development</h3>
+                  <p class="mt-1 text-sm text-[var(--text-secondary)]">Creating production-ready web applications with Flask, React, and modern frameworks</p>
+                </div>
+              </div>
+
+              <div class="flex items-start gap-4">
+                <div class="w-10 h-10 rounded-lg bg-[var(--accent-light)] flex items-center justify-center flex-shrink-0">
+                  <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-[var(--accent)]" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" />
+                  </svg>
+                </div>
+                <div>
+                  <h3 class="font-semibold text-[var(--text-primary)]">Data Analytics</h3>
+                  <p class="mt-1 text-sm text-[var(--text-secondary)]">Transforming data into actionable insights with pandas, Streamlit dashboards</p>
+                </div>
+              </div>
+            </div>
+
+            <div class="mt-8 flex flex-wrap gap-3">
+              <span class="px-4 py-2 text-sm bg-[var(--bg-primary)] border border-[var(--border-color)] rounded-full text-[var(--text-secondary)]">Problem Solving</span>
+              <span class="px-4 py-2 text-sm bg-[var(--bg-primary)] border border-[var(--border-color)] rounded-full text-[var(--text-secondary)]">Clean Code</span>
+              <span class="px-4 py-2 text-sm bg-[var(--bg-primary)] border border-[var(--border-color)] rounded-full text-[var(--text-secondary)]">User-Centric</span>
+            </div>
           </div>
-          <p class="max-w-2xl text-sm leading-7 text-slate-500">
-            These are some of the local image assets that were not being used before, now turned into a responsive visual strip.
+        </div>
+      </div>
+    </section>
+
+    <!-- Tools Section -->
+    <section id="tools" class="py-20">
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="text-center">
+          <p class="section-title">Tech Stack</p>
+          <h2 class="section-heading">Tools & Technologies</h2>
+          <p class="mt-4 section-description mx-auto text-center">
+            Technologies I work with to build robust, scalable solutions
           </p>
         </div>
 
-        <div class="toolbelt-grid mt-10 grid gap-4">
-          <div class="tool-card section-card rounded-[1.4rem] p-3">
-            <img src="/static/images/flask.jpeg" alt="Flask" class="rounded-[1rem]">
-            <p class="mt-3 text-sm font-medium text-ink">Flask</p>
-          </div>
-          <div class="tool-card section-card rounded-[1.4rem] p-3">
-            <img src="/static/images/django.jpeg" alt="Django" class="rounded-[1rem]">
-            <p class="mt-3 text-sm font-medium text-ink">Django</p>
-          </div>
-          <div class="tool-card section-card rounded-[1.4rem] p-3">
-            <img src="/static/images/react.jpeg" alt="React" class="rounded-[1rem]">
-            <p class="mt-3 text-sm font-medium text-ink">React</p>
-          </div>
-          <div class="tool-card section-card rounded-[1.4rem] p-3">
-            <img src="/static/images/streamlit.jpeg" alt="Streamlit" class="rounded-[1rem]">
-            <p class="mt-3 text-sm font-medium text-ink">Streamlit</p>
-          </div>
-          <div class="tool-card section-card rounded-[1.4rem] p-3">
-            <img src="/static/images/github.jpeg" alt="GitHub" class="rounded-[1rem]">
-            <p class="mt-3 text-sm font-medium text-ink">GitHub</p>
-          </div>
-          <div class="tool-card section-card rounded-[1.4rem] p-3">
-            <img src="/static/images/photoshop.jpeg" alt="Photoshop" class="rounded-[1rem]">
-            <p class="mt-3 text-sm font-medium text-ink">Photoshop</p>
-          </div>
-          <div class="tool-card section-card rounded-[1.4rem] p-3">
-            <img src="/static/images/web.jpeg" alt="Web Development" class="rounded-[1rem]">
-            <p class="mt-3 text-sm font-medium text-ink">Web</p>
-          </div>
+        <div class="mt-12 flex flex-wrap justify-center gap-6">
+          <img src="/static/images/python.jpeg" alt="Python" class="tool-icon" title="Python">
+          <img src="/static/images/tensorflow.jpeg" alt="TensorFlow" class="tool-icon" title="TensorFlow">
+          <img src="/static/images/flask.jpeg" alt="Flask" class="tool-icon" title="Flask">
+          <img src="/static/images/django.jpeg" alt="Django" class="tool-icon" title="Django">
+          <img src="/static/images/react.jpeg" alt="React" class="tool-icon" title="React">
+          <img src="/static/images/streamlit.jpeg" alt="Streamlit" class="tool-icon" title="Streamlit">
+          <img src="/static/images/opencv.jpeg" alt="OpenCV" class="tool-icon" title="OpenCV">
+          <img src="/static/images/pandas.jpeg" alt="Pandas" class="tool-icon" title="Pandas">
+          <img src="/static/images/kaggle.jpeg" alt="Kaggle" class="tool-icon" title="Kaggle">
+          <img src="/static/images/github.jpeg" alt="GitHub" class="tool-icon" title="GitHub">
+          <img src="/static/images/photoshop.jpeg" alt="Photoshop" class="tool-icon" title="Photoshop">
+          <img src="/static/images/web.jpeg" alt="Web Development" class="tool-icon" title="Web Development">
         </div>
       </div>
     </section>
 
-    <section id="skills" class="mx-auto max-w-7xl py-10 reveal reveal-up">
-      <div class="section-card rounded-[2rem] p-5 sm:p-8 lg:p-12">
-        <div class="flex flex-col gap-6 lg:flex-row lg:items-end lg:justify-between">
-          <div>
-            <p class="eyebrow text-xs font-medium text-slate-500">Capabilities</p>
-            <h2 class="mt-4 text-3xl font-bold text-ink sm:text-4xl">Tools, technologies, and working strengths.</h2>
+    <!-- Skills Section -->
+    <section id="skills" class="py-20 bg-[var(--bg-card)]">
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="text-center mb-12">
+          <p class="section-title">Capabilities</p>
+          <h2 class="section-heading">Skills & Expertise</h2>
+        </div>
+
+        <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+          <!-- Engineering -->
+          <div class="card p-6">
+            <div class="w-12 h-12 rounded-xl bg-[var(--accent-light)] flex items-center justify-center mb-4">
+              <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-[var(--accent)]" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4" />
+              </svg>
+            </div>
+            <h3 class="text-lg font-semibold text-[var(--text-primary)]">Software Engineering</h3>
+            <p class="mt-2 text-sm text-[var(--text-secondary)]">Python, JavaScript, Flask, Streamlit, SQL, REST APIs</p>
+            <div class="mt-4 space-y-3">
+              <div>
+                <div class="flex justify-between text-sm mb-1">
+                  <span class="text-[var(--text-secondary)]">Python</span>
+                  <span class="text-[var(--accent)] font-medium">Expert</span>
+                </div>
+                <div class="skill-bar">
+                  <div class="skill-bar-fill" style="width: 95%"></div>
+                </div>
+              </div>
+              <div>
+                <div class="flex justify-between text-sm mb-1">
+                  <span class="text-[var(--text-secondary)]">JavaScript/React</span>
+                  <span class="text-[var(--accent)] font-medium">Advanced</span>
+                </div>
+                <div class="skill-bar">
+                  <div class="skill-bar-fill" style="width: 85%"></div>
+                </div>
+              </div>
+              <div>
+                <div class="flex justify-between text-sm mb-1">
+                  <span class="text-[var(--text-secondary)]">SQL</span>
+                  <span class="text-[var(--accent)] font-medium">Advanced</span>
+                </div>
+                <div class="skill-bar">
+                  <div class="skill-bar-fill" style="width: 80%"></div>
+                </div>
+              </div>
+            </div>
           </div>
-          <div class="flex flex-wrap gap-3">
-            <span class="chip rounded-full px-4 py-2 text-sm text-slate-700">Python</span>
-            <span class="chip rounded-full px-4 py-2 text-sm text-slate-700">Flask</span>
-            <span class="chip rounded-full px-4 py-2 text-sm text-slate-700">React</span>
-            <span class="chip rounded-full px-4 py-2 text-sm text-slate-700">TensorFlow</span>
-            <span class="chip rounded-full px-4 py-2 text-sm text-slate-700">Streamlit</span>
+
+          <!-- AI & Data -->
+          <div class="card p-6">
+            <div class="w-12 h-12 rounded-xl bg-[var(--accent-light)] flex items-center justify-center mb-4">
+              <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-[var(--accent)]" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z" />
+              </svg>
+            </div>
+            <h3 class="text-lg font-semibold text-[var(--text-primary)]">AI & Machine Learning</h3>
+            <p class="mt-2 text-sm text-[var(--text-secondary)]">TensorFlow, OpenCV, Model Training, Data Processing</p>
+            <div class="mt-4 space-y-3">
+              <div>
+                <div class="flex justify-between text-sm mb-1">
+                  <span class="text-[var(--text-secondary)]">TensorFlow</span>
+                  <span class="text-[var(--accent)] font-medium">Advanced</span>
+                </div>
+                <div class="skill-bar">
+                  <div class="skill-bar-fill" style="width: 88%"></div>
+                </div>
+              </div>
+              <div>
+                <div class="flex justify-between text-sm mb-1">
+                  <span class="text-[var(--text-secondary)]">OpenCV</span>
+                  <span class="text-[var(--accent)] font-medium">Advanced</span>
+                </div>
+                <div class="skill-bar">
+                  <div class="skill-bar-fill" style="width: 82%"></div>
+                </div>
+              </div>
+              <div>
+                <div class="flex justify-between text-sm mb-1">
+                  <span class="text-[var(--text-secondary)]">Data Analysis</span>
+                  <span class="text-[var(--accent)] font-medium">Expert</span>
+                </div>
+                <div class="skill-bar">
+                  <div class="skill-bar-fill" style="width: 90%"></div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Languages -->
+          <div class="card p-6">
+            <div class="w-12 h-12 rounded-xl bg-[var(--accent-light)] flex items-center justify-center mb-4">
+              <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-[var(--accent)]" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 5h12M9 3v2m1.048 9.5A18.022 18.022 0 016.412 9m6.088 9h7M11 21l5-10 5 10M12.751 5C11.783 10.77 8.07 15.61 3 18.129" />
+              </svg>
+            </div>
+            <h3 class="text-lg font-semibold text-[var(--text-primary)]">Languages</h3>
+            <p class="mt-2 text-sm text-[var(--text-secondary)]">Communication and educational background</p>
+            <div class="mt-4 space-y-3">
+              <div class="flex items-center justify-between p-3 bg-[var(--bg-primary)] rounded-lg">
+                <span class="text-[var(--text-primary)] font-medium">English</span>
+                <span class="text-[var(--accent)] text-sm font-medium">Native</span>
+              </div>
+              <div class="flex items-center justify-between p-3 bg-[var(--bg-primary)] rounded-lg">
+                <span class="text-[var(--text-primary)] font-medium">Twi</span>
+                <span class="text-[var(--accent)] text-sm font-medium">Fluent</span>
+              </div>
+              <div class="flex items-center justify-between p-3 bg-[var(--bg-primary)] rounded-lg">
+                <span class="text-[var(--text-primary)] font-medium">Sefwi</span>
+                <span class="text-[var(--accent)] text-sm font-medium">Conversational</span>
+              </div>
+            </div>
           </div>
         </div>
 
-        <div class="mt-12 grid gap-6 lg:grid-cols-3">
-          <div class="rounded-[1.75rem] border border-black/8 bg-white/80 p-6">
-            <h3 class="text-lg font-semibold text-ink">Engineering</h3>
-            <p class="mt-3 text-sm leading-7 text-slate-600">
-              Python, JavaScript, Flask, Streamlit, SQL, API integration, and production-minded app development.
-            </p>
-            <div class="mt-6 space-y-4">
-              <div>
-                <div class="mb-2 flex justify-between text-sm text-slate-600"><span>Python</span><span>Expert</span></div>
-                <div class="h-2 rounded-full bg-slate-200"><div class="h-2 w-full rounded-full bg-ink"></div></div>
-              </div>
-              <div>
-                <div class="mb-2 flex justify-between text-sm text-slate-600"><span>JavaScript / React</span><span>Advanced</span></div>
-                <div class="h-2 rounded-full bg-slate-200"><div class="h-2 w-11/12 rounded-full bg-accent"></div></div>
-              </div>
-              <div>
-                <div class="mb-2 flex justify-between text-sm text-slate-600"><span>SQL</span><span>Advanced</span></div>
-                <div class="h-2 rounded-full bg-slate-200"><div class="h-2 w-10/12 rounded-full bg-gold"></div></div>
-              </div>
-            </div>
-          </div>
-
-          <div class="rounded-[1.75rem] border border-black/8 bg-white/80 p-6">
-            <h3 class="text-lg font-semibold text-ink">AI and Data</h3>
-            <p class="mt-3 text-sm leading-7 text-slate-600">
-              Model experimentation, analytics workflows, OpenCV, pandas, TensorFlow, and insight-driven dashboards.
-            </p>
-            <div class="mt-6 flex flex-wrap gap-3">
-              <img src="/static/images/python.jpeg" alt="Python" class="h-12 w-12 rounded-2xl object-cover">
-              <img src="/static/images/tensorflow.jpeg" alt="TensorFlow" class="h-12 w-12 rounded-2xl object-cover">
-              <img src="/static/images/opencv.jpeg" alt="OpenCV" class="h-12 w-12 rounded-2xl object-cover">
-              <img src="/static/images/pandas.jpeg" alt="Pandas" class="h-12 w-12 rounded-2xl object-cover">
-              <img src="/static/images/kaggle.jpeg" alt="Kaggle" class="h-12 w-12 rounded-2xl object-cover">
-            </div>
-          </div>
-
-          <div class="rounded-[1.75rem] border border-black/8 bg-white/80 p-6">
-            <h3 class="text-lg font-semibold text-ink">Communication</h3>
-            <p class="mt-3 text-sm leading-7 text-slate-600">
-              Product thinking, visual presentation, documentation, and interface design that makes software easier to adopt.
-            </p>
-            <div class="mt-6 space-y-4 text-sm text-slate-600">
-              <div class="flex items-center justify-between rounded-2xl bg-sand px-4 py-3">
-                <span>English</span>
-                <span class="font-medium text-ink">Native</span>
-              </div>
-              <div class="flex items-center justify-between rounded-2xl bg-sand px-4 py-3">
-                <span>Twi</span>
-                <span class="font-medium text-ink">Fluent</span>
-              </div>
-              <div class="flex items-center justify-between rounded-2xl bg-sand px-4 py-3">
-                <span>Sefwi</span>
-                <span class="font-medium text-ink">Conversational</span>
-              </div>
-              <div class="rounded-2xl border border-black/8 px-4 py-4">
-                <p class="mono text-xs uppercase tracking-[0.2em] text-slate-500">Education</p>
-                <p class="mt-2 font-medium text-ink">BSc Computer Science</p>
-                <p class="mt-1 text-slate-600">University of Cape Coast, expected 2028</p>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <section
-      id="projects"
-      class="mx-auto max-w-7xl py-10 reveal reveal-up"
-      x-data="{
-        project: 0,
-        timer: null,
-        init() {
-          this.timer = setInterval(() => {
-            this.project = (this.project + 1) % 3;
-          }, 6000);
-        },
-        choose(index) {
-          this.project = index;
-          clearInterval(this.timer);
-          this.init();
-        }
-      }"
-    >
-      <div class="section-card rounded-[2rem] p-5 sm:p-8 lg:p-12">
-        <div class="flex flex-col gap-6 lg:flex-row lg:items-end lg:justify-between">
-          <div>
-            <p class="eyebrow text-xs font-medium text-slate-500">Selected Projects</p>
-            <h2 class="mt-4 text-3xl font-bold text-ink sm:text-4xl">Products built for real users and active environments.</h2>
-          </div>
-          <div class="flex flex-wrap gap-3">
-            <button @click="choose(0)" :class="project === 0 ? 'bg-ink text-white' : 'bg-white text-slate-700'" class="rounded-full px-4 py-2 text-sm font-medium transition">Job Match Ghana</button>
-            <button @click="choose(1)" :class="project === 1 ? 'bg-ink text-white' : 'bg-white text-slate-700'" class="rounded-full px-4 py-2 text-sm font-medium transition">Daakye Analytics</button>
-            <button @click="choose(2)" :class="project === 2 ? 'bg-ink text-white' : 'bg-white text-slate-700'" class="rounded-full px-4 py-2 text-sm font-medium transition">DCLM Manager</button>
-          </div>
-        </div>
-
-        <div class="project-meter mt-8 h-1.5 rounded-full bg-black/5"></div>
-
-        <div class="mt-10 space-y-8">
-          <article x-show="project === 0" x-transition:enter="transition duration-500 ease-[cubic-bezier(0.22,1,0.36,1)]" x-transition:enter-start="opacity-0 translate-y-6 scale-[0.98]" x-transition:enter-end="opacity-100 translate-y-0 scale-100" x-transition:leave="transition duration-250 ease-in" x-transition:leave-start="opacity-100 translate-y-0 scale-100" x-transition:leave-end="opacity-0 -translate-y-3 scale-[0.98]" class="grid gap-8 lg:grid-cols-[1.05fr_0.95fr]">
-            <div class="motion-card overflow-hidden rounded-[1.75rem] bg-ink">
-              <img src="/static/images/projects/jobmatch.jpeg" alt="Job Match Ghana interface" class="project-shot">
-            </div>
-            <div class="motion-card flex flex-col justify-between rounded-[1.75rem] border border-black/8 bg-white/80 p-5 sm:p-7">
-              <div>
-                <p class="mono text-xs uppercase tracking-[0.2em] text-slate-500">Recruitment Platform</p>
-                <h3 class="mt-4 text-3xl font-semibold text-ink">Job Match Ghana</h3>
-                <p class="mt-5 text-base leading-8 text-slate-600">
-                  A job platform designed to reduce youth unemployment by matching candidates to local opportunities with a practical scoring and filtering flow.
-                </p>
-              </div>
-              <div class="mt-8 space-y-4">
-                <div class="flex flex-wrap gap-3 text-sm text-slate-700">
-                  <span class="chip rounded-full px-3 py-2">Streamlit</span>
-                  <span class="chip rounded-full px-3 py-2">Matching Logic</span>
-                  <span class="chip rounded-full px-3 py-2">User-Facing Product</span>
-                </div>
-                <a href="https://jobmatchgh.streamlit.app/" target="_blank" rel="noreferrer" class="inline-flex w-fit rounded-full bg-accent px-5 py-3 text-sm font-medium text-white transition hover:bg-ink">
-                  Open live demo
-                </a>
-              </div>
-            </div>
-          </article>
-
-          <article x-show="project === 1" x-transition:enter="transition duration-500 ease-[cubic-bezier(0.22,1,0.36,1)]" x-transition:enter-start="opacity-0 translate-y-6 scale-[0.98]" x-transition:enter-end="opacity-100 translate-y-0 scale-100" x-transition:leave="transition duration-250 ease-in" x-transition:leave-start="opacity-100 translate-y-0 scale-100" x-transition:leave-end="opacity-0 -translate-y-3 scale-[0.98]" class="grid gap-8 lg:grid-cols-[1.05fr_0.95fr]">
-            <div class="motion-card overflow-hidden rounded-[1.75rem] bg-ink">
-              <img src="/static/images/projects/student.jpeg" alt="Daakye Student Analytics interface" class="project-shot">
-            </div>
-            <div class="motion-card flex flex-col justify-between rounded-[1.75rem] border border-black/8 bg-white/80 p-5 sm:p-7">
-              <div>
-                <p class="mono text-xs uppercase tracking-[0.2em] text-slate-500">Education Analytics</p>
-                <h3 class="mt-4 text-3xl font-semibold text-ink">Daakye Student Analytics</h3>
-                <p class="mt-5 text-base leading-8 text-slate-600">
-                  A real-time dashboard for monitoring performance and academic trends, helping a school make data-backed decisions with clarity.
-                </p>
-              </div>
-              <div class="mt-8 space-y-4">
-                <div class="flex flex-wrap gap-3 text-sm text-slate-700">
-                  <span class="chip rounded-full px-3 py-2">Streamlit</span>
-                  <span class="chip rounded-full px-3 py-2">Dashboards</span>
-                  <span class="chip rounded-full px-3 py-2">School Deployment</span>
-                </div>
-                <a href="https://daakye-analytics-by-bio-godfred0ai-ml-engineer.streamlit.app/" target="_blank" rel="noreferrer" class="inline-flex w-fit rounded-full bg-accent px-5 py-3 text-sm font-medium text-white transition hover:bg-ink">
-                  Open live demo
-                </a>
-              </div>
-            </div>
-          </article>
-
-          <article x-show="project === 2" x-transition:enter="transition duration-500 ease-[cubic-bezier(0.22,1,0.36,1)]" x-transition:enter-start="opacity-0 translate-y-6 scale-[0.98]" x-transition:enter-end="opacity-100 translate-y-0 scale-100" x-transition:leave="transition duration-250 ease-in" x-transition:leave-start="opacity-100 translate-y-0 scale-100" x-transition:leave-end="opacity-0 -translate-y-3 scale-[0.98]" class="grid gap-8 lg:grid-cols-[1.05fr_0.95fr]">
-            <div class="motion-card overflow-hidden rounded-[1.75rem] bg-ink">
-              <img src="/static/images/projects/dclm.jpeg" alt="DCLM Church Manager interface" class="project-shot">
-            </div>
-            <div class="motion-card flex flex-col justify-between rounded-[1.75rem] border border-black/8 bg-white/80 p-5 sm:p-7">
-              <div>
-                <p class="mono text-xs uppercase tracking-[0.2em] text-slate-500">Operations System</p>
-                <h3 class="mt-4 text-3xl font-semibold text-ink">DCLM Church Manager</h3>
-                <p class="mt-5 text-base leading-8 text-slate-600">
-                  A church operations platform for attendance, finance tracking, and reporting, created for dependable day-to-day use in a real branch.
-                </p>
-              </div>
-              <div class="mt-8 space-y-4">
-                <div class="flex flex-wrap gap-3 text-sm text-slate-700">
-                  <span class="chip rounded-full px-3 py-2">Flask</span>
-                  <span class="chip rounded-full px-3 py-2">Reporting</span>
-                  <span class="chip rounded-full px-3 py-2">Production Use</span>
-                </div>
-                <a href="https://dclm-mka6.onrender.com/" target="_blank" rel="noreferrer" class="inline-flex w-fit rounded-full bg-accent px-5 py-3 text-sm font-medium text-white transition hover:bg-ink">
-                  Open live demo
-                </a>
-              </div>
-            </div>
-          </article>
-        </div>
-
-        <div class="mt-14">
-          <div class="flex flex-col gap-3 sm:flex-row sm:items-end sm:justify-between">
-            <div>
-              <p class="eyebrow text-xs font-medium text-slate-500">Recent Launches</p>
-              <h3 class="mt-3 text-2xl font-semibold text-ink">Additional live projects</h3>
-            </div>
-            <p class="max-w-2xl text-sm leading-7 text-slate-500">
-              The cards below were added from the live links you shared. Where page details were not readable from this environment, the summaries stay intentionally conservative.
-            </p>
-          </div>
-
-          <div class="mt-8 grid gap-6 lg:grid-cols-3">
-            <article class="motion-card rounded-[1.75rem] border border-black/8 bg-white/85 p-6">
-              <div class="shine flex h-40 items-end rounded-[1.4rem] bg-gradient-to-br from-ink via-slateblue to-accent p-5 text-white">
-                <div>
-                  <p class="mono text-xs uppercase tracking-[0.2em] text-white/65">AI Product</p>
-                  <h4 class="mt-3 text-2xl font-semibold">BisaMe AI</h4>
-                </div>
-              </div>
-              <p class="mt-5 text-sm leading-7 text-slate-600">
-                A live AI-focused product experience presented at <span class="mono text-[13px]">bisameai.casa</span>, added here as part of your current public work.
-              </p>
-              <div class="mt-5 flex flex-wrap gap-3 text-sm text-slate-700">
-                <span class="chip rounded-full px-3 py-2">AI</span>
-                <span class="chip rounded-full px-3 py-2">Live Product</span>
-                <span class="chip rounded-full px-3 py-2">Public Launch</span>
-              </div>
-              <a href="https://bisameai.casa" target="_blank" rel="noreferrer" class="mt-6 inline-flex rounded-full bg-ink px-5 py-3 text-sm font-medium text-white transition hover:bg-accent">
-                Visit project
-              </a>
-            </article>
-
-            <article class="motion-card rounded-[1.75rem] border border-black/8 bg-white/85 p-6">
-              <div class="shine flex h-40 items-end rounded-[1.4rem] bg-gradient-to-br from-accent via-emerald-700 to-ink p-5 text-white">
-                <div>
-                  <p class="mono text-xs uppercase tracking-[0.2em] text-white/65">Utility App</p>
-                  <h4 class="mt-3 text-2xl font-semibold">PowerCheck</h4>
-                </div>
-              </div>
-              <p class="mt-5 text-sm leading-7 text-slate-600">
-                A publicly accessible app at <span class="mono text-[13px]">powercheck.replit.app</span>, included as a recent launch in your growing product portfolio.
-              </p>
-              <div class="mt-5 flex flex-wrap gap-3 text-sm text-slate-700">
-                <span class="chip rounded-full px-3 py-2">Web App</span>
-                <span class="chip rounded-full px-3 py-2">Live Demo</span>
-                <span class="chip rounded-full px-3 py-2">Utility</span>
-              </div>
-              <a href="https://powercheck.replit.app" target="_blank" rel="noreferrer" class="mt-6 inline-flex rounded-full bg-ink px-5 py-3 text-sm font-medium text-white transition hover:bg-accent">
-                Visit project
-              </a>
-            </article>
-
-            <article class="motion-card rounded-[1.75rem] border border-black/8 bg-white/85 p-6">
-              <div class="shine flex h-40 items-end rounded-[1.4rem] bg-gradient-to-br from-gold via-amber-600 to-ink p-5 text-white">
-                <div>
-                  <p class="mono text-xs uppercase tracking-[0.2em] text-white/65">Recruitment Product</p>
-                  <h4 class="mt-3 text-2xl font-semibold">JobMatcher Live</h4>
-                </div>
-              </div>
-              <p class="mt-5 text-sm leading-7 text-slate-600">
-                A live product at <span class="mono text-[13px]">jobmatcher.live</span> that appears to extend your job-matching work into a dedicated standalone experience.
-              </p>
-              <div class="mt-5 flex flex-wrap gap-3 text-sm text-slate-700">
-                <span class="chip rounded-full px-3 py-2">Jobs</span>
-                <span class="chip rounded-full px-3 py-2">Matching</span>
-                <span class="chip rounded-full px-3 py-2">Live Product</span>
-              </div>
-              <a href="https://jobmatcher.live" target="_blank" rel="noreferrer" class="mt-6 inline-flex rounded-full bg-ink px-5 py-3 text-sm font-medium text-white transition hover:bg-accent">
-                Visit project
-              </a>
-            </article>
-          </div>
+        <!-- Education -->
+        <div class="mt-12 card p-8 text-center">
+          <p class="section-title">Education</p>
+          <h3 class="text-xl font-semibold text-[var(--text-primary)] mt-2">BSc Computer Science</h3>
+          <p class="mt-2 text-[var(--text-secondary)]">University of Cape Coast, Ghana</p>
+          <p class="mt-1 text-sm text-[var(--text-secondary)]">Expected Graduation: 2028</p>
         </div>
       </div>
     </section>
 
-    <section id="future-projects" class="mx-auto max-w-7xl py-10 reveal reveal-up">
-      <div class="section-card rounded-[2rem] p-5 sm:p-8 lg:p-12">
-        <div class="flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between">
-          <div>
-            <p class="eyebrow text-xs font-medium text-slate-500">Future Projects</p>
-            <h2 class="mt-4 text-3xl font-bold text-ink sm:text-4xl">Concepts I can build next with strong product and engineering depth.</h2>
-          </div>
-          <p class="max-w-2xl text-sm leading-7 text-slate-500">
-            This section shows the kind of systems I am prepared to build next, along with the likely stack behind each one.
+    <!-- Projects Section -->
+    <section id="projects" class="py-20">
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="text-center mb-12">
+          <p class="section-title">Portfolio</p>
+          <h2 class="section-heading">Featured Projects</h2>
+          <p class="mt-4 section-description mx-auto text-center">
+            Real-world applications built and deployed for actual users
           </p>
         </div>
 
-        <div class="device-safe-grid mt-10 grid gap-6">
-          <template x-for="project in futureProjects" :key="project.name">
-            <article class="project-image-card motion-card">
-              <img :src="project.image" :alt="project.name + ' concept preview'">
-              <div class="project-image-content p-5 sm:p-6">
-                <p class="mono text-xs uppercase tracking-[0.18em] text-white/65" x-text="project.category"></p>
-                <h3 class="mt-3 text-2xl font-semibold text-white" x-text="project.name"></h3>
-                <p class="mt-3 max-w-md text-sm leading-7 text-white/82" x-text="project.summary"></p>
-                <div class="mt-4 flex flex-wrap gap-2">
-                  <template x-for="tag in project.tags" :key="tag">
-                    <span class="rounded-full border border-white/15 bg-white/10 px-3 py-2 text-xs font-medium text-white backdrop-blur-xl" x-text="tag"></span>
-                  </template>
-                </div>
-                <div class="mt-4 rounded-[1.15rem] border border-white/10 bg-black/30 px-4 py-4 backdrop-blur-xl">
-                  <span class="mono block text-[11px] uppercase tracking-[0.16em] text-white/55">Possible Stack</span>
-                  <p class="mt-2 text-sm leading-7 text-white/84" x-text="project.stack"></p>
-                </div>
+        <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+          <!-- Project 1 - Job Match Ghana -->
+          <article class="project-card">
+            <img src="/static/images/projects/jobmatch.jpeg" alt="Job Match Ghana">
+            <div class="project-card-overlay">
+              <span class="text-xs font-mono text-[#2dd4bf] uppercase tracking-wider">Recruitment Platform</span>
+              <h3 class="mt-2 text-xl font-bold text-white">Job Match Ghana</h3>
+              <p class="mt-2 text-sm text-gray-300">Smart job matching platform connecting Ghanaian youth to local opportunities with intelligent scoring algorithms</p>
+              <div class="mt-4 flex flex-wrap gap-2">
+                <span class="px-3 py-1 text-xs bg-white/10 text-white rounded-full">Streamlit</span>
+                <span class="px-3 py-1 text-xs bg-white/10 text-white rounded-full">AI Matching</span>
               </div>
-            </article>
-          </template>
+              <a href="https://jobmatchgh.streamlit.app/" target="_blank" rel="noreferrer" class="mt-4 inline-flex items-center gap-2 text-sm font-medium text-[#2dd4bf] hover:text-white transition">
+                View Project
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3" />
+                </svg>
+              </a>
+            </div>
+          </article>
+
+          <!-- Project 2 - Daakye Analytics -->
+          <article class="project-card">
+            <img src="/static/images/projects/student.jpeg" alt="Daakye Student Analytics">
+            <div class="project-card-overlay">
+              <span class="text-xs font-mono text-[#2dd4bf] uppercase tracking-wider">Education Analytics</span>
+              <h3 class="mt-2 text-xl font-bold text-white">Daakye Student Analytics</h3>
+              <p class="mt-2 text-sm text-gray-300">Real-time academic performance tracker for schools with interactive dashboards and data insights</p>
+              <div class="mt-4 flex flex-wrap gap-2">
+                <span class="px-3 py-1 text-xs bg-white/10 text-white rounded-full">Streamlit</span>
+                <span class="px-3 py-1 text-xs bg-white/10 text-white rounded-full">Dashboards</span>
+              </div>
+              <a href="https://daakye-analytics-by-bio-godfred0ai-ml-engineer.streamlit.app/" target="_blank" rel="noreferrer" class="mt-4 inline-flex items-center gap-2 text-sm font-medium text-[#2dd4bf] hover:text-white transition">
+                View Project
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3" />
+                </svg>
+              </a>
+            </div>
+          </article>
+
+          <!-- Project 3 - DCLM Church Manager -->
+          <article class="project-card">
+            <img src="/static/images/projects/dclm.jpeg" alt="DCLM Church Manager">
+            <div class="project-card-overlay">
+              <span class="text-xs font-mono text-[#2dd4bf] uppercase tracking-wider">Operations System</span>
+              <h3 class="mt-2 text-xl font-bold text-white">DCLM Church Manager</h3>
+              <p class="mt-2 text-sm text-gray-300">Full church management system for attendance, finance tracking, and reporting</p>
+              <div class="mt-4 flex flex-wrap gap-2">
+                <span class="px-3 py-1 text-xs bg-white/10 text-white rounded-full">Flask</span>
+                <span class="px-3 py-1 text-xs bg-white/10 text-white rounded-full">Production</span>
+              </div>
+              <a href="https://dclm-mka6.onrender.com/" target="_blank" rel="noreferrer" class="mt-4 inline-flex items-center gap-2 text-sm font-medium text-[#2dd4bf] hover:text-white transition">
+                View Project
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3" />
+                </svg>
+              </a>
+            </div>
+          </article>
+        </div>
+
+        <!-- Additional Projects -->
+        <div class="mt-16 grid md:grid-cols-3 gap-6">
+          <a href="https://bisameai.casa" target="_blank" rel="noreferrer" class="card p-6 group">
+            <div class="flex items-center justify-between">
+              <div class="w-12 h-12 rounded-xl bg-gradient-to-br from-[#0f766e] to-[#2dd4bf] flex items-center justify-center">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z" />
+                </svg>
+              </div>
+              <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-[var(--text-secondary)] group-hover:text-[var(--accent)] transition" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3" />
+              </svg>
+            </div>
+            <h3 class="mt-4 text-lg font-semibold text-[var(--text-primary)]">BisaMe AI</h3>
+            <p class="mt-2 text-sm text-[var(--text-secondary)]">AI product experience with practical applications</p>
+            <span class="mt-4 inline-block text-xs font-medium text-[var(--accent)]">AI Product →</span>
+          </a>
+
+          <a href="https://powercheck.replit.app" target="_blank" rel="noreferrer" class="card p-6 group">
+            <div class="flex items-center justify-between">
+              <div class="w-12 h-12 rounded-xl bg-gradient-to-br from-[#d4a84f] to-[#f59e0b] flex items-center justify-center">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z" />
+                </svg>
+              </div>
+              <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-[var(--text-secondary)] group-hover:text-[var(--accent)] transition" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3" />
+              </svg>
+            </div>
+            <h3 class="mt-4 text-lg font-semibold text-[var(--text-primary)]">PowerCheck</h3>
+            <p class="mt-2 text-sm text-[var(--text-secondary)]">Utility web application for everyday use</p>
+            <span class="mt-4 inline-block text-xs font-medium text-[var(--accent)]">Web App →</span>
+          </a>
+
+          <a href="https://jobmatcher.live" target="_blank" rel="noreferrer" class="card p-6 group">
+            <div class="flex items-center justify-between">
+              <div class="w-12 h-12 rounded-xl bg-gradient-to-br from-[#6366f1] to-[#8b5cf6] flex items-center justify-center">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 13.255A23.931 23.931 0 0112 15c-3.183 0-6.22-.62-9-1.745M16 6V4a2 2 0 00-2-2h-4a2 2 0 00-2 2v2m4 6h.01M5 20h14a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
+                </svg>
+              </div>
+              <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-[var(--text-secondary)] group-hover:text-[var(--accent)] transition" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3" />
+              </svg>
+            </div>
+            <h3 class="mt-4 text-lg font-semibold text-[var(--text-primary)]">JobMatcher Live</h3>
+            <p class="mt-2 text-sm text-[var(--text-secondary)]">Extended job matching platform experience</p>
+            <span class="mt-4 inline-block text-xs font-medium text-[var(--accent)]">Recruitment →</span>
+          </a>
         </div>
       </div>
     </section>
 
-    <section id="contact" class="mx-auto max-w-7xl py-10 reveal reveal-up">
-      <div class="section-card overflow-hidden rounded-[2rem] p-5 sm:p-8 lg:p-12">
-        <div class="grid gap-8 lg:grid-cols-[1.05fr_0.95fr] lg:items-center">
+    <!-- Contact Section -->
+    <section id="contact" class="py-20 bg-[var(--bg-card)]">
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="grid lg:grid-cols-2 gap-12 lg:gap-16 items-center">
           <div>
-            <p class="eyebrow text-xs font-medium text-slate-500">Contact</p>
-            <h2 class="mt-4 text-3xl font-bold text-ink sm:text-4xl">Open to internships, collaborations, and serious product work.</h2>
-            <p class="mt-6 max-w-2xl text-lg leading-8 text-slate-600">
-              If you are building something meaningful and want strong execution across engineering and presentation, let us talk.
+            <p class="section-title">Get in Touch</p>
+            <h2 class="section-heading">Let's Build Something Together</h2>
+            <p class="mt-4 section-description">
+              I'm open to internships, freelance projects, collaborations, and full-time opportunities. If you're building something meaningful and need strong technical execution, let's talk.
             </p>
+
+            <div class="mt-8 space-y-4">
+              <a href="mailto:godfredbio2004@gmail.com" class="contact-link">
+                <div class="contact-icon">
+                  <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
+                  </svg>
+                </div>
+                <div>
+                  <p class="text-xs font-mono text-[var(--muted)] uppercase tracking-wider">Email</p>
+                  <p class="font-medium text-[var(--text-primary)]">godfredbio2004@gmail.com</p>
+                </div>
+              </a>
+
+              <a href="https://github.com/GodfredsPrim" target="_blank" rel="noreferrer" class="contact-link">
+                <div class="contact-icon">
+                  <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="currentColor" viewBox="0 0 24 24">
+                    <path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/>
+                  </svg>
+                </div>
+                <div>
+                  <p class="text-xs font-mono text-[var(--muted)] uppercase tracking-wider">GitHub</p>
+                  <p class="font-medium text-[var(--text-primary)]">github.com/GodfredsPrim</p>
+                </div>
+              </a>
+
+              <a href="https://www.linkedin.com/in/godfred-bio-0707052bb/" target="_blank" rel="noreferrer" class="contact-link">
+                <div class="contact-icon">
+                  <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="currentColor" viewBox="0 0 24 24">
+                    <path d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z"/>
+                  </svg>
+                </div>
+                <div>
+                  <p class="text-xs font-mono text-[var(--muted)] uppercase tracking-wider">LinkedIn</p>
+                  <p class="font-medium text-[var(--text-primary)]">Connect professionally</p>
+                </div>
+              </a>
+            </div>
           </div>
-          <div class="grid gap-4">
-            <a href="mailto:godfredbio2004@gmail.com" class="rounded-[1.5rem] bg-ink px-6 py-5 text-white transition hover:bg-slateblue">
-              <span class="mono text-xs uppercase tracking-[0.2em] text-white/60">Email</span>
-              <p class="mt-2 break-all text-lg font-medium">godfredbio2004@gmail.com</p>
-            </a>
-            <a href="https://github.com/GodfredsPrim" target="_blank" rel="noreferrer" class="rounded-[1.5rem] border border-black/8 bg-white/80 px-6 py-5 transition hover:border-accent/30 hover:bg-white">
-              <span class="mono text-xs uppercase tracking-[0.2em] text-slate-500">GitHub</span>
-              <p class="mt-2 break-all text-lg font-medium text-ink">github.com/GodfredsPrim</p>
-            </a>
-            <a href="https://www.linkedin.com/in/godfred-bio-0707052bb/" target="_blank" rel="noreferrer" class="rounded-[1.5rem] border border-black/8 bg-white/80 px-6 py-5 transition hover:border-accent/30 hover:bg-white">
-              <span class="mono text-xs uppercase tracking-[0.2em] text-slate-500">LinkedIn</span>
-              <p class="mt-2 text-lg font-medium text-ink">Connect professionally</p>
+
+          <div class="card p-8 text-center">
+            <div class="w-20 h-20 rounded-2xl bg-gradient-to-br from-[#0f766e] to-[#2dd4bf] flex items-center justify-center mx-auto">
+              <svg xmlns="http://www.w3.org/2000/svg" class="h-10 w-10 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
+              </svg>
+            </div>
+            <h3 class="mt-6 text-xl font-semibold text-[var(--text-primary)]">Ready to collaborate?</h3>
+            <p class="mt-3 text-[var(--text-secondary)]">
+              Send me an email and let's discuss how we can work together to build something impactful.
+            </p>
+            <a href="mailto:godfredbio2004@gmail.com" class="btn-primary mt-6 w-full justify-center">
+              Send Email
+              <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3" />
+              </svg>
             </a>
           </div>
         </div>
@@ -1522,291 +1434,55 @@
     </section>
   </main>
 
+  <!-- Footer -->
+  <footer class="py-8 border-t border-[var(--border-color)]">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="flex flex-col sm:flex-row items-center justify-between gap-4">
+        <p class="text-sm text-[var(--text-secondary)]">
+          © 2026 Godfred Bio Conquest. Built with passion and code.
+        </p>
+        <div class="flex items-center gap-6">
+          <a href="https://github.com/GodfredsPrim" target="_blank" rel="noreferrer" class="text-[var(--text-secondary)] hover:text-[var(--accent)] transition">
+            <svg class="h-5 w-5" fill="currentColor" viewBox="0 0 24 24">
+              <path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/>
+            </svg>
+          </a>
+          <a href="https://www.linkedin.com/in/godfred-bio-0707052bb/" target="_blank" rel="noreferrer" class="text-[var(--text-secondary)] hover:text-[var(--accent)] transition">
+            <svg class="h-5 w-5" fill="currentColor" viewBox="0 0 24 24">
+              <path d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z"/>
+            </svg>
+          </a>
+        </div>
+      </div>
+    </div>
+  </footer>
+
   <script>
     function portfolioApp() {
       return {
         theme: 'light',
-        commandOpen: false,
-        commandQuery: '',
-        filteredCommands: [],
-        aiTopic: '',
-        aiAnswer: '',
-        aiSource: '',
-        aiError: '',
-        aiLoading: false,
-        typedLine: '',
-        typingIndex: 0,
-        phraseIndex: 0,
-        deleting: false,
-        typingTimer: null,
-        phrases: [
-          'I build AI tools that people can actually use.',
-          'I solve real-world problems with software.',
-          'I design smart systems with polished interfaces.'
-        ],
-        quickTopics: [
-          'How AI helps in education',
-          'Why good UX matters in hiring tools',
-          'What makes analytics dashboards useful'
-        ],
-        commands: [
-          { label: 'Go to About', type: 'section', target: '#about' },
-          { label: 'Open AI Demo', type: 'section', target: '#demo' },
-          { label: 'Go to Projects', type: 'section', target: '#projects' },
-          { label: 'Go to Contact', type: 'section', target: '#contact' },
-          { label: 'Visit Job Match Ghana', type: 'project', target: 'https://jobmatchgh.streamlit.app/' },
-          { label: 'Visit BisaMe AI', type: 'project', target: 'https://bisameai.casa' },
-          { label: 'Visit PowerCheck', type: 'project', target: 'https://powercheck.replit.app' },
-          { label: 'Visit JobMatcher Live', type: 'project', target: 'https://jobmatcher.live' }
-        ],
-        futureProjects: [
-          {
-            name: 'AgriSense Ghana',
-            category: 'AI + Agriculture',
-            summary: 'A crop intelligence platform for farmers, extension officers, and agricultural decision-makers.',
-            description: 'It could analyze crop conditions, disease risk, and field trends while presenting recommendations through a simple mobile-first dashboard.',
-            stack: 'Python, Flask or FastAPI, TensorFlow, OpenCV, PostgreSQL, Tailwind CSS, SMS or WhatsApp integration',
-            tags: ['AI-powered', 'Mobile-first', 'Analytics'],
-            image: '/static/images/projects/student.jpeg'
-          },
-          {
-            name: 'RecruitIQ',
-            category: 'Hiring Intelligence',
-            summary: 'A smarter hiring platform for screening applicants, ranking fit, and helping recruiters move faster.',
-            description: 'It could combine CV parsing, skills scoring, interview notes, and recruiter dashboards into one workflow that feels premium and efficient.',
-            stack: 'React, Flask, OpenAI API, PostgreSQL, Redis, Tailwind CSS, vector search',
-            tags: ['Full-stack', 'AI-powered', 'Recruitment'],
-            image: '/static/images/projects/jobmatch.jpeg'
-          },
-          {
-            name: 'EduFlow OS',
-            category: 'Education Platform',
-            summary: 'A modern operating system for schools with analytics, communication tools, and student performance tracking.',
-            description: 'It could centralize attendance, results, performance insights, and parent communication in one polished school product.',
-            stack: 'Python, Django or Flask, PostgreSQL, Chart.js, Tailwind CSS, background jobs, email notifications',
-            tags: ['EdTech', 'Analytics', 'Real-time'],
-            image: '/static/images/projects/student1.jpeg'
-          },
-          {
-            name: 'CivicLens',
-            category: 'Public Data Product',
-            summary: 'A platform for turning public and local data into usable dashboards for communities and organizations.',
-            description: 'It could make complex data easier to understand through cleaner storytelling, strong visuals, and issue-specific insights.',
-            stack: 'React, FastAPI, pandas, Supabase or PostgreSQL, Mapbox, Tailwind CSS',
-            tags: ['Data', 'Dashboard', 'Public Impact'],
-            image: '/static/images/projects/student2.jpeg'
-          },
-          {
-            name: 'MediAssist Lite',
-            category: 'Health Support Tool',
-            summary: 'A lightweight assistant for symptom triage, appointment prep, and health information guidance.',
-            description: 'It could help users describe symptoms clearly, get educational summaries, and reach the right care path faster.',
-            stack: 'Flask, OpenAI API, SQLite or PostgreSQL, Tailwind CSS, secure auth, audit logging',
-            tags: ['HealthTech', 'AI-assisted', 'UX'],
-            image: '/static/images/projects/dclm.jpeg'
-          },
-          {
-            name: 'CreatorBoard',
-            category: 'Personal Brand SaaS',
-            summary: 'A product that helps freelancers or creators manage portfolio updates, leads, and content from one clean workspace.',
-            description: 'It could combine personal branding, lead capture, analytics, and project showcasing into a single polished system.',
-            stack: 'Next.js or React, Flask API, PostgreSQL, analytics tracking, Tailwind CSS, cloud storage',
-            tags: ['SaaS', 'Branding', 'Full-stack'],
-            image: '/static/images/projects/jobmatch2.jpeg'
-          }
-        ],
+        mobileNavOpen: false,
+        
         init() {
           this.loadTheme();
-          this.filteredCommands = this.commands;
-          this.startTyping();
-          this.observeSections();
-          this.setupMotion();
-          this.bindKeyboard();
-          this.updateScrollProgress();
-          window.addEventListener('scroll', this.updateScrollProgress.bind(this), { passive: true });
           this.loadVisitors();
+          this.initMotionGraphics();
         },
+        
         loadTheme() {
           const saved = localStorage.getItem('portfolio-theme');
-          this.theme = saved || (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
+          if (saved) {
+            this.theme = saved;
+          } else if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
+            this.theme = 'dark';
+          }
         },
+        
         toggleTheme() {
           this.theme = this.theme === 'dark' ? 'light' : 'dark';
           localStorage.setItem('portfolio-theme', this.theme);
         },
-        startTyping() {
-          clearTimeout(this.typingTimer);
-          const current = this.phrases[this.phraseIndex];
-          if (!this.deleting) {
-            this.typedLine = current.slice(0, this.typingIndex + 1);
-            this.typingIndex += 1;
-            if (this.typingIndex === current.length) {
-              this.deleting = true;
-              this.typingTimer = setTimeout(() => this.startTyping(), 1300);
-              return;
-            }
-            this.typingTimer = setTimeout(() => this.startTyping(), 55);
-            return;
-          }
-          this.typedLine = current.slice(0, this.typingIndex - 1);
-          this.typingIndex -= 1;
-          if (this.typingIndex <= 0) {
-            this.deleting = false;
-            this.phraseIndex = (this.phraseIndex + 1) % this.phrases.length;
-            this.typingTimer = setTimeout(() => this.startTyping(), 180);
-            return;
-          }
-          this.typingTimer = setTimeout(() => this.startTyping(), 28);
-        },
-        observeSections() {
-          const elements = document.querySelectorAll('.reveal');
-          if (!elements.length) {
-            return;
-          }
-
-          const observer = new IntersectionObserver((entries, currentObserver) => {
-            entries.forEach((entry) => {
-              if (entry.isIntersecting) {
-                entry.target.classList.add('is-visible');
-                currentObserver.unobserve(entry.target);
-              }
-            });
-          }, {
-            threshold: 0.16,
-            rootMargin: '0px 0px -10% 0px'
-          });
-
-          elements.forEach((element) => observer.observe(element));
-        },
-        setupMotion() {
-          if (!window.matchMedia('(prefers-reduced-motion: no-preference)').matches) {
-            return;
-          }
-
-          const heroStage = document.getElementById('hero-stage');
-          if (heroStage) {
-            heroStage.addEventListener('mousemove', (event) => {
-              const rect = heroStage.getBoundingClientRect();
-              const x = ((event.clientX - rect.left) / rect.width - 0.5) * 26;
-              const y = ((event.clientY - rect.top) / rect.height - 0.5) * 26;
-              heroStage.style.setProperty('--mx', `${x}px`);
-              heroStage.style.setProperty('--my', `${y}px`);
-            });
-            heroStage.addEventListener('mouseleave', () => {
-              heroStage.style.setProperty('--mx', '0px');
-              heroStage.style.setProperty('--my', '0px');
-            });
-          }
-
-          if (!window.matchMedia('(pointer: fine)').matches) {
-            return;
-          }
-
-          document.querySelectorAll('[data-tilt]').forEach((panel) => {
-            panel.addEventListener('mousemove', (event) => {
-              const rect = panel.getBoundingClientRect();
-              const rotateY = ((event.clientX - rect.left) / rect.width - 0.5) * 8;
-              const rotateX = ((event.clientY - rect.top) / rect.height - 0.5) * -8;
-              panel.style.setProperty('--rx', `${rotateX}deg`);
-              panel.style.setProperty('--ry', `${rotateY}deg`);
-            });
-
-            panel.addEventListener('mouseleave', () => {
-              panel.style.setProperty('--rx', '0deg');
-              panel.style.setProperty('--ry', '0deg');
-            });
-          });
-        },
-        bindKeyboard() {
-          window.addEventListener('keydown', (event) => {
-            if (event.key === '/' && !this.isTypingTarget(event.target)) {
-              event.preventDefault();
-              this.openCommandPalette();
-            }
-          });
-        },
-        isTypingTarget(target) {
-          const tag = target.tagName;
-          return tag === 'INPUT' || tag === 'TEXTAREA' || target.isContentEditable;
-        },
-        openCommandPalette() {
-          this.commandOpen = true;
-          this.commandQuery = '';
-          this.filteredCommands = this.commands;
-          this.$nextTick(() => this.$refs.commandInput.focus());
-        },
-        filterCommands() {
-          const query = this.commandQuery.trim().toLowerCase();
-          this.filteredCommands = !query ? this.commands : this.commands.filter((item) => item.label.toLowerCase().includes(query));
-        },
-        runFirstCommand() {
-          if (this.filteredCommands.length) {
-            this.runCommand(this.filteredCommands[0]);
-          }
-        },
-        runCommand(item) {
-          this.commandOpen = false;
-          if (item.target.startsWith('#')) {
-            document.querySelector(item.target)?.scrollIntoView({ behavior: 'smooth', block: 'start' });
-            return;
-          }
-          window.open(item.target, '_blank', 'noopener,noreferrer');
-        },
-        useTopic(topic) {
-          this.aiTopic = topic;
-        },
-        jumpToDemo() {
-          document.querySelector('#demo')?.scrollIntoView({ behavior: 'smooth', block: 'start' });
-        },
-        async runAiDemo() {
-          this.aiError = '';
-          this.aiAnswer = '';
-          this.aiSource = '';
-          if (!this.aiTopic.trim()) {
-            this.aiError = 'Please enter a topic first.';
-            return;
-          }
-          this.aiLoading = true;
-          try {
-            const response = await fetch('/api/explain', {
-              method: 'POST',
-              headers: { 'Content-Type': 'application/json' },
-              body: JSON.stringify({ topic: this.aiTopic })
-            });
-            const payload = await response.json();
-            if (!response.ok || !payload.ok) {
-              throw new Error(payload.error || 'Something went wrong. Try again.');
-            }
-            this.aiAnswer = payload.answer;
-            this.aiSource = payload.source === 'openai' ? 'OpenAI backend' : 'Backend fallback';
-          } catch (error) {
-            this.aiError = error.message || 'Something went wrong. Try again.';
-          } finally {
-            this.aiLoading = false;
-          }
-        },
-        copyEmail(button) {
-          const email = 'godfredbio2004@gmail.com';
-          const original = button.textContent;
-          navigator.clipboard.writeText(email).then(() => {
-            button.textContent = 'Email copied';
-            setTimeout(() => {
-              button.textContent = original;
-            }, 1800);
-          }).catch(() => {
-            button.textContent = email;
-            setTimeout(() => {
-              button.textContent = original;
-            }, 2200);
-          });
-        },
-        updateScrollProgress() {
-          const root = document.documentElement;
-          const scrollTop = root.scrollTop || document.body.scrollTop;
-          const scrollHeight = root.scrollHeight - root.clientHeight;
-          const progress = scrollHeight > 0 ? (scrollTop / scrollHeight) * 100 : 0;
-          document.getElementById('scroll-progress').style.width = `${progress}%`;
-        },
+        
         loadVisitors() {
           fetch('https://api.countapi.xyz/hit/godfred-portfolio/visits')
             .then((response) => response.json())
@@ -1814,16 +1490,581 @@
               document.getElementById('visitor-count').textContent = data.value;
             })
             .catch(() => {
-              document.getElementById('visitor-count').textContent = 'Unavailable';
+              document.getElementById('visitor-count').textContent = '—';
             });
+        },
+        
+        initMotionGraphics() {
+          // Wait for GSAP to load
+          if (typeof gsap === 'undefined') {
+            setTimeout(() => this.initMotionGraphics(), 100);
+            return;
+          }
+          
+          // Register plugins
+          gsap.registerPlugin(ScrollTrigger, ScrollToPlugin);
+          
+          // Hide page loader
+          const loader = document.getElementById('page-loader');
+          if (loader) {
+            gsap.to(loader, {
+              opacity: 0,
+              duration: 0.5,
+              delay: 0.5,
+              onComplete: () => {
+                loader.style.display = 'none';
+              }
+            });
+          }
+          
+          // Initialize all motion graphics
+          this.initCursorFollower();
+          this.initScrollProgress();
+          this.initParticles();
+          this.initScrollAnimations();
+          this.initTypingEffect();
+          this.initMagneticButtons();
+          this.initParallax();
+          this.initSkillBars();
+          this.initCounters();
+          this.initCardTilt();
+          this.initSmoothReveal();
+          this.initTextSplit();
+          this.optimizePerformance();
+        },
+        
+        // Cursor Follower
+        initCursorFollower() {
+          const cursor = document.getElementById('cursor-follower');
+          if (!cursor) return;
+          
+          let mouseX = 0, mouseY = 0;
+          let cursorX = 0, cursorY = 0;
+          
+          document.addEventListener('mousemove', (e) => {
+            mouseX = e.clientX;
+            mouseY = e.clientY;
+            cursor.classList.add('active');
+          });
+          
+          document.addEventListener('mouseleave', () => {
+            cursor.classList.remove('active');
+          });
+          
+          // Smooth cursor animation
+          function animateCursor() {
+            cursorX += (mouseX - cursorX) * 0.1;
+            cursorY += (mouseY - cursorY) * 0.1;
+            cursor.style.left = cursorX + 'px';
+            cursor.style.top = cursorY + 'px';
+            requestAnimationFrame(animateCursor);
+          }
+          animateCursor();
+          
+          // Hover effect on interactive elements
+          const interactiveElements = document.querySelectorAll('a, button, .card, .project-card, .tool-icon');
+          interactiveElements.forEach(el => {
+            el.addEventListener('mouseenter', () => cursor.classList.add('hover'));
+            el.addEventListener('mouseleave', () => cursor.classList.remove('hover'));
+          });
+        },
+        
+        // Scroll Progress Bar
+        initScrollProgress() {
+          const progressBar = document.getElementById('scroll-progress');
+          if (!progressBar) return;
+          
+          gsap.to(progressBar, {
+            scaleX: 1,
+            ease: 'none',
+            scrollTrigger: {
+              trigger: 'body',
+              start: 'top top',
+              end: 'bottom bottom',
+              scrub: 0.3
+            }
+          });
+        },
+        
+        // Particle Background
+        initParticles() {
+          const container = document.getElementById('particles');
+          if (!container) return;
+          
+          const particleCount = 30;
+          
+          for (let i = 0; i < particleCount; i++) {
+            const particle = document.createElement('div');
+            particle.className = 'particle';
+            particle.style.left = Math.random() * 100 + '%';
+            particle.style.top = Math.random() * 100 + '%';
+            particle.style.width = (Math.random() * 4 + 2) + 'px';
+            particle.style.height = particle.style.width;
+            particle.style.opacity = Math.random() * 0.3 + 0.1;
+            container.appendChild(particle);
+            
+            // Animate each particle
+            gsap.to(particle, {
+              y: 'random(-100, 100)',
+              x: 'random(-50, 50)',
+              duration: 'random(10, 20)',
+              repeat: -1,
+              yoyo: true,
+              ease: 'sine.inOut'
+            });
+          }
+        },
+        
+        // Scroll-triggered Animations
+        initScrollAnimations() {
+          // Hero section animations
+          gsap.from('.animate-fade-in', {
+            y: 40,
+            opacity: 0,
+            duration: 0.8,
+            stagger: 0.15,
+            ease: 'power3.out'
+          });
+          
+          // Section titles
+          gsap.utils.toArray('.section-title').forEach(title => {
+            gsap.from(title, {
+              scrollTrigger: {
+                trigger: title,
+                start: 'top 85%',
+                toggleActions: 'play none none reverse'
+              },
+              y: 30,
+              opacity: 0,
+              duration: 0.6,
+              ease: 'power2.out'
+            });
+          });
+          
+          // Section headings
+          gsap.utils.toArray('.section-heading').forEach(heading => {
+            gsap.from(heading, {
+              scrollTrigger: {
+                trigger: heading,
+                start: 'top 85%',
+                toggleActions: 'play none none reverse'
+              },
+              y: 40,
+              opacity: 0,
+              duration: 0.7,
+              ease: 'power3.out'
+            });
+          });
+          
+          // Cards
+          gsap.utils.toArray('.card').forEach((card, i) => {
+            gsap.from(card, {
+              scrollTrigger: {
+                trigger: card,
+                start: 'top 90%',
+                toggleActions: 'play none none reverse'
+              },
+              y: 50,
+              opacity: 0,
+              duration: 0.6,
+              delay: i * 0.1,
+              ease: 'power2.out'
+            });
+          });
+          
+          // Project cards
+          gsap.utils.toArray('.project-card').forEach((card, i) => {
+            gsap.from(card, {
+              scrollTrigger: {
+                trigger: card,
+                start: 'top 85%',
+                toggleActions: 'play none none reverse'
+              },
+              y: 60,
+              opacity: 0,
+              scale: 0.95,
+              duration: 0.7,
+              delay: i * 0.15,
+              ease: 'power3.out'
+            });
+          });
+          
+          // Tool icons
+          gsap.utils.toArray('.tool-icon').forEach((icon, i) => {
+            gsap.from(icon, {
+              scrollTrigger: {
+                trigger: icon,
+                start: 'top 90%',
+                toggleActions: 'play none none reverse'
+              },
+              scale: 0,
+              rotation: -180,
+              opacity: 0,
+              duration: 0.5,
+              delay: i * 0.05,
+              ease: 'back.out(1.7)'
+            });
+          });
+          
+          // Contact links
+          gsap.utils.toArray('.contact-link').forEach((link, i) => {
+            gsap.from(link, {
+              scrollTrigger: {
+                trigger: link,
+                start: 'top 90%',
+                toggleActions: 'play none none reverse'
+              },
+              x: -50,
+              opacity: 0,
+              duration: 0.6,
+              delay: i * 0.1,
+              ease: 'power2.out'
+            });
+          });
+          
+          // About section image
+          gsap.from('#about img', {
+            scrollTrigger: {
+              trigger: '#about',
+              start: 'top 70%',
+              toggleActions: 'play none none reverse'
+            },
+            scale: 0.8,
+            opacity: 0,
+            duration: 0.8,
+            ease: 'power3.out'
+          });
+          
+          // About features
+          gsap.utils.toArray('#about .flex.items-start').forEach((item, i) => {
+            gsap.from(item, {
+              scrollTrigger: {
+                trigger: item,
+                start: 'top 85%',
+                toggleActions: 'play none none reverse'
+              },
+              x: 50,
+              opacity: 0,
+              duration: 0.6,
+              delay: i * 0.15,
+              ease: 'power2.out'
+            });
+          });
+        },
+        
+        // Typing Effect
+        initTypingEffect() {
+          const titleElement = document.querySelector('h1');
+          if (!titleElement) return;
+          
+          const text = titleElement.textContent;
+          titleElement.innerHTML = '';
+          
+          const typingWrapper = document.createElement('span');
+          typingWrapper.className = 'typing-text';
+          titleElement.appendChild(typingWrapper);
+          
+          const cursor = document.createElement('span');
+          cursor.className = 'typing-cursor';
+          titleElement.appendChild(cursor);
+          
+          let charIndex = 0;
+          
+          function typeChar() {
+            if (charIndex < text.length) {
+              typingWrapper.textContent += text.charAt(charIndex);
+              charIndex++;
+              setTimeout(typeChar, 80);
+            } else {
+              // Remove cursor after typing
+              setTimeout(() => {
+                cursor.style.display = 'none';
+              }, 2000);
+            }
+          }
+          
+          // Start typing after a delay
+          setTimeout(typeChar, 500);
+        },
+        
+        // Magnetic Button Effects
+        initMagneticButtons() {
+          const buttons = document.querySelectorAll('.btn-primary, .btn-secondary');
+          
+          buttons.forEach(button => {
+            button.addEventListener('mousemove', (e) => {
+              const rect = button.getBoundingClientRect();
+              const x = e.clientX - rect.left - rect.width / 2;
+              const y = e.clientY - rect.top - rect.height / 2;
+              
+              gsap.to(button, {
+                x: x * 0.3,
+                y: y * 0.3,
+                duration: 0.3,
+                ease: 'power2.out'
+              });
+            });
+            
+            button.addEventListener('mouseleave', () => {
+              gsap.to(button, {
+                x: 0,
+                y: 0,
+                duration: 0.5,
+                ease: 'elastic.out(1, 0.3)'
+              });
+            });
+          });
+        },
+        
+        // Parallax Effects
+        initParallax() {
+          // Hero section parallax
+          gsap.to('.profile-image', {
+            yPercent: 20,
+            ease: 'none',
+            scrollTrigger: {
+              trigger: '#home',
+              start: 'top top',
+              end: 'bottom top',
+              scrub: true
+            }
+          });
+          
+          // Background gradient parallax
+          gsap.to('.absolute.-inset-4', {
+            yPercent: 10,
+            ease: 'none',
+            scrollTrigger: {
+              trigger: '#home',
+              start: 'top top',
+              end: 'bottom top',
+              scrub: true
+            }
+          });
+        },
+        
+        // Skill Bar Animations
+        initSkillBars() {
+          const skillBars = document.querySelectorAll('.skill-bar-fill');
+          
+          skillBars.forEach(bar => {
+            const width = bar.style.width;
+            bar.style.width = '0%';
+            
+            ScrollTrigger.create({
+              trigger: bar,
+              start: 'top 90%',
+              onEnter: () => {
+                gsap.to(bar, {
+                  width: width,
+                  duration: 1.2,
+                  ease: 'power2.out'
+                });
+              }
+            });
+          });
+        },
+        
+        // Animated Counters
+        initCounters() {
+          const counters = document.querySelectorAll('.counter');
+          
+          counters.forEach(counter => {
+            const target = parseInt(counter.getAttribute('data-target'));
+            const duration = 2;
+            
+            ScrollTrigger.create({
+              trigger: counter,
+              start: 'top 90%',
+              onEnter: () => {
+                gsap.to(counter, {
+                  innerText: target,
+                  duration: duration,
+                  snap: { innerText: 1 },
+                  ease: 'power2.out'
+                });
+              }
+            });
+          });
+        },
+        
+        // Card Tilt Effect
+        initCardTilt() {
+          const cards = document.querySelectorAll('.card-3d, .project-card');
+          
+          cards.forEach(card => {
+            card.addEventListener('mousemove', (e) => {
+              const rect = card.getBoundingClientRect();
+              const x = e.clientX - rect.left;
+              const y = e.clientY - rect.top;
+              const centerX = rect.width / 2;
+              const centerY = rect.height / 2;
+              const rotateX = (y - centerY) / 10;
+              const rotateY = (centerX - x) / 10;
+              
+              gsap.to(card, {
+                rotateX: rotateX,
+                rotateY: rotateY,
+                duration: 0.5,
+                ease: 'power2.out'
+              });
+            });
+            
+            card.addEventListener('mouseleave', () => {
+              gsap.to(card, {
+                rotateX: 0,
+                rotateY: 0,
+                duration: 0.5,
+                ease: 'power2.out'
+              });
+            });
+          });
+        },
+        
+        // Smooth Reveal
+        initSmoothReveal() {
+          gsap.utils.toArray('section').forEach(section => {
+            gsap.from(section, {
+              scrollTrigger: {
+                trigger: section,
+                start: 'top 80%',
+                toggleActions: 'play none none reverse'
+              },
+              opacity: 0,
+              duration: 0.8,
+              ease: 'power2.out'
+            });
+          });
+        },
+        
+        // Text Split Animation
+        initTextSplit() {
+          const headings = document.querySelectorAll('.section-heading');
+          
+          headings.forEach(heading => {
+            const text = heading.textContent;
+            heading.innerHTML = '';
+            
+            text.split('').forEach((char, i) => {
+              const span = document.createElement('span');
+              span.className = 'char';
+              span.textContent = char === ' ' ? '\u00A0' : char;
+              span.style.animationDelay = (i * 0.03) + 's';
+              heading.appendChild(span);
+            });
+            
+            ScrollTrigger.create({
+              trigger: heading,
+              start: 'top 85%',
+              onEnter: () => {
+                gsap.to(heading.querySelectorAll('.char'), {
+                  y: 0,
+                  opacity: 1,
+                  duration: 0.5,
+                  stagger: 0.02,
+                  ease: 'power2.out'
+                });
+              }
+            });
+          });
+        },
+        
+        // Performance Optimization
+        optimizePerformance() {
+          // Use will-change for animated elements
+          const animatedElements = document.querySelectorAll('.card, .project-card, .tool-icon, .profile-image');
+          animatedElements.forEach(el => {
+            el.style.willChange = 'transform, opacity';
+          });
+          
+          // Debounce scroll events
+          let scrollTimeout;
+          window.addEventListener('scroll', () => {
+            if (scrollTimeout) {
+              window.cancelAnimationFrame(scrollTimeout);
+            }
+            scrollTimeout = window.requestAnimationFrame(() => {
+              // Scroll-based updates
+            });
+          }, { passive: true });
         }
       };
     }
+    
+    // Initialize on DOM ready
+    document.addEventListener('DOMContentLoaded', () => {
+      // Add smooth scroll behavior
+      document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener('click', function(e) {
+          e.preventDefault();
+          const target = document.querySelector(this.getAttribute('href'));
+          if (target) {
+            gsap.to(window, {
+              duration: 1,
+              scrollTo: {
+                y: target,
+                offsetY: 80
+              },
+              ease: 'power3.inOut'
+            });
+          }
+        });
+      });
+      
+      // Active nav link highlighting
+      const sections = document.querySelectorAll('section[id]');
+      const navLinks = document.querySelectorAll('.nav-link');
+      
+      window.addEventListener('scroll', () => {
+        let current = '';
+        sections.forEach(section => {
+          const sectionTop = section.offsetTop;
+          const sectionHeight = section.clientHeight;
+          if (scrollY >= sectionTop - 200) {
+            current = section.getAttribute('id');
+          }
+        });
+        
+        navLinks.forEach(link => {
+          link.classList.remove('active');
+          if (link.getAttribute('href') === '#' + current) {
+            link.classList.add('active');
+          }
+        });
+      });
+      
+      // Hide scroll indicator on scroll
+      const scrollIndicator = document.querySelector('.scroll-indicator');
+      if (scrollIndicator) {
+        window.addEventListener('scroll', () => {
+          if (window.scrollY > 100) {
+            gsap.to(scrollIndicator, {
+              opacity: 0,
+              duration: 0.3
+            });
+          } else {
+            gsap.to(scrollIndicator, {
+              opacity: 1,
+              duration: 0.3
+            });
+          }
+        }, { passive: true });
+      }
+      
+      // Add hover sound effect (optional visual feedback)
+      const interactiveElements = document.querySelectorAll('a, button');
+      interactiveElements.forEach(el => {
+        el.addEventListener('mouseenter', () => {
+          gsap.fromTo(el, 
+            { scale: 1 },
+            { scale: 1.02, duration: 0.2, ease: 'power2.out' }
+          );
+        });
+        el.addEventListener('mouseleave', () => {
+          gsap.to(el, { scale: 1, duration: 0.2, ease: 'power2.out' });
+        });
+      });
+    });
   </script>
 </body>
 </html>
-
-
-
-
-
