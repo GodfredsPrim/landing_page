@@ -5,7 +5,10 @@ from urllib import error, request as urlrequest
 from flask import Flask, jsonify, render_template, request, send_file, url_for
 
 
-app = Flask(__name__)
+_root = os.path.dirname(os.path.abspath(__file__))
+app = Flask(__name__,
+            template_folder=os.path.join(_root, 'templates'),
+            static_folder=os.path.join(_root, 'static'))
 
 
 SYSTEM_PROMPT = (
