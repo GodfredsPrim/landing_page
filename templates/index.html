@@ -9,7 +9,7 @@
     <div class="hero-actions"><a class="button" href="#projects">Explore my work {{ arrow('down') }}</a><a class="text-link" href="#contact">Let's talk {{ arrow() }}</a></div>
   </div>
   <figure class="portrait">
-    <picture><source type="image/webp" srcset="{{ url_for('static', filename='images/portrait-480.webp') }} 480w, {{ url_for('static', filename='images/portrait-860.webp') }} 860w" sizes="(max-width: 680px) 88vw, 33vw"><img src="{{ url_for('static', filename='images/hero.jpeg') }}" width="859" height="1080" alt="Godfred Bio Conquest, standing with his arms folded" fetchpriority="high"></picture>
+    <img src="{{ url_for('static', filename='images/portrait-tools-860.webp') }}" width="1119" height="1406" srcset="{{ url_for('static', filename='images/portrait-tools-480.webp') }} 480w, {{ url_for('static', filename='images/portrait-tools-860.webp') }} 860w" sizes="(max-width: 680px) 88vw, 370px" alt="Godfred Bio Conquest with his arms folded, against a designed background of small programming language and developer tool icons" fetchpriority="high">
     <figcaption><span>Cape Coast, Ghana</span><span>Learning. Building. Growing.</span></figcaption>
   </figure>
   <div class="hero-foot"><p>Computer Science · University of Cape Coast</p><a href="#about">The story so far {{ arrow('down') }}</a></div>

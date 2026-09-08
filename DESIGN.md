@@ -81,7 +81,7 @@ components:
 
 An open, typographic catalogue makes the person and his actual software the visual material. White space, charcoal text, deep blue emphasis and fine rules organize substantial information without disguising it as a dashboard.
 
-The system is assured, personal and restrained. A single grotesk family provides the hierarchy; an original colour portrait and genuine product captures provide specificity. Direction was delegated by the user and recorded from the implemented, reviewed site. No generated or user-approved image comp is claimed.
+The system is assured, personal and restrained. A single grotesk family provides the hierarchy; a colour portrait with a user-requested technology-icon background and genuine product captures provide specificity. Direction was delegated by the user and recorded from the implemented, reviewed site. No generated or user-approved image comp is claimed.
 
 **Key Characteristics:**
 - Open asymmetric grids and fine dividing rules.
@@ -172,3 +172,5 @@ The only entrance motion moves hero text upward by 10px over 550ms using `cubic-
 - Don't replace evidence with decorative counters or arbitrary skill percentages.
 - Don't add shadows or rounded card wrappers to every content section.
 - Don't hide essential content behind entrance animations.
+
+The hero portrait uses an AI-edited backdrop of small language, framework and developer-tool icons, requested by the owner. The original photograph remains in the repository. This background is decorative and is not evidence of a real setting.
