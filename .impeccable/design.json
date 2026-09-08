@@ -1,0 +1,234 @@
+{
+  "schemaVersion": 2,
+  "generatedAt": "2026-09-08T15:45:04.091Z",
+  "title": "Design System: Godfred Bio Conquest Portfolio",
+  "extensions": {
+    "colorMeta": {
+      "blue": {
+        "displayName": "Exhibition blue",
+        "role": "primary",
+        "tonalRamp": [
+          "oklch(15% 0.19 264)",
+          "oklch(26% 0.19 264)",
+          "oklch(38% 0.19 264)",
+          "oklch(49% 0.19 264)",
+          "oklch(61% 0.19 264)",
+          "oklch(72% 0.19 264)",
+          "oklch(84% 0.19 264)",
+          "oklch(95% 0.19 264)"
+        ]
+      },
+      "paper": {
+        "displayName": "Paper",
+        "role": "neutral",
+        "tonalRamp": [
+          "oklch(15% 0 0)",
+          "oklch(26% 0 0)",
+          "oklch(38% 0 0)",
+          "oklch(49% 0 0)",
+          "oklch(61% 0 0)",
+          "oklch(72% 0 0)",
+          "oklch(84% 0 0)",
+          "oklch(95% 0 0)"
+        ]
+      },
+      "ink": {
+        "displayName": "Charcoal",
+        "role": "neutral",
+        "tonalRamp": [
+          "oklch(15% 0.006 270)",
+          "oklch(26% 0.006 270)",
+          "oklch(38% 0.006 270)",
+          "oklch(49% 0.006 270)",
+          "oklch(61% 0.006 270)",
+          "oklch(72% 0.006 270)",
+          "oklch(84% 0.006 270)",
+          "oklch(95% 0.006 270)"
+        ]
+      },
+      "muted": {
+        "displayName": "Quiet grey",
+        "role": "neutral",
+        "tonalRamp": [
+          "oklch(15% 0.01 265)",
+          "oklch(26% 0.01 265)",
+          "oklch(38% 0.01 265)",
+          "oklch(49% 0.01 265)",
+          "oklch(61% 0.01 265)",
+          "oklch(72% 0.01 265)",
+          "oklch(84% 0.01 265)",
+          "oklch(95% 0.01 265)"
+        ]
+      },
+      "line": {
+        "displayName": "Rule grey",
+        "role": "neutral",
+        "tonalRamp": [
+          "oklch(15% 0.008 265)",
+          "oklch(26% 0.008 265)",
+          "oklch(38% 0.008 265)",
+          "oklch(49% 0.008 265)",
+          "oklch(61% 0.008 265)",
+          "oklch(72% 0.008 265)",
+          "oklch(84% 0.008 265)",
+          "oklch(95% 0.008 265)"
+        ]
+      },
+      "well": {
+        "displayName": "Display well",
+        "role": "neutral",
+        "tonalRamp": [
+          "oklch(15% 0.002 265)",
+          "oklch(26% 0.002 265)",
+          "oklch(38% 0.002 265)",
+          "oklch(49% 0.002 265)",
+          "oklch(61% 0.002 265)",
+          "oklch(72% 0.002 265)",
+          "oklch(84% 0.002 265)",
+          "oklch(95% 0.002 265)"
+        ]
+      }
+    },
+    "typographyMeta": {
+      "display": {
+        "displayName": "Display",
+        "purpose": "Personal name in the hero."
+      },
+      "headline": {
+        "displayName": "Headline",
+        "purpose": "Major section headings."
+      },
+      "title": {
+        "displayName": "Title",
+        "purpose": "Selected project names."
+      },
+      "body": {
+        "displayName": "Body",
+        "purpose": "Main prose."
+      },
+      "label": {
+        "displayName": "Label",
+        "purpose": "Static status labels."
+      }
+    },
+    "shadows": [],
+    "motion": [
+      {
+        "name": "control-color",
+        "value": "180ms ease-out",
+        "purpose": "Button and screenshot-caption color transitions only with no reduced-motion preference."
+      },
+      {
+        "name": "hero-arrival",
+        "value": "550ms cubic-bezier(.16,1,.3,1)",
+        "purpose": "10px vertical hero-copy arrival; no initial opacity hiding; disabled for reduced motion."
+      }
+    ],
+    "breakpoints": [
+      {
+        "name": "mobile-max",
+        "value": "680px"
+      },
+      {
+        "name": "tablet-max",
+        "value": "1000px"
+      },
+      {
+        "name": "wide-min",
+        "value": "1500px"
+      }
+    ]
+  },
+  "components": [
+    {
+      "name": "Primary button",
+      "kind": "button",
+      "refersTo": "button-primary",
+      "description": "Primary button extracted from the implemented portfolio.",
+      "html": "<a class=\"ds-button\" href=\"#work\">View selected work</a>",
+      "css": ".ds-button{font-family:var(--font,Archivo,Arial,sans-serif);display:inline-flex;background:var(--blue,#002fa7);color:var(--paper,#fff);border:1px solid var(--blue,#002fa7);padding:14px 22px;font-size:15px;font-weight:500;text-decoration:none;min-height:50px;align-items:center}.ds-button:hover{background:var(--ink,#202124);border-color:var(--ink,#202124);color:var(--paper,#fff)}.ds-button:focus-visible{outline:3px solid var(--blue,#002fa7);outline-offset:5px}@media(prefers-reduced-motion:no-preference){.ds-button{transition:background-color 180ms ease-out,color 180ms ease-out}}"
+    },
+    {
+      "name": "Text link",
+      "kind": "button",
+      "refersTo": "text-link",
+      "description": "Text link extracted from the implemented portfolio.",
+      "html": "<a class=\"ds-link\" href=\"#contact\">Get in touch</a>",
+      "css": ".ds-link{font-family:var(--font,Archivo,Arial,sans-serif);display:inline-flex;color:var(--ink,#202124);font-size:15px;font-weight:500;padding:10px 0;text-underline-offset:5px;text-decoration-thickness:1px}.ds-link:hover{color:var(--blue,#002fa7)}.ds-link:focus-visible{outline:3px solid var(--blue,#002fa7);outline-offset:5px}"
+    },
+    {
+      "name": "Search field",
+      "kind": "input",
+      "refersTo": "field",
+      "description": "Search field extracted from the implemented portfolio.",
+      "html": "<label class=\"ds-label\" for=\"ds-search\">Search projects</label><input class=\"ds-field\" id=\"ds-search\" type=\"search\" placeholder=\"Search by name or technology\">",
+      "css": ".ds-label{font-family:var(--font,Archivo,Arial,sans-serif);display:block;font-size:12px;font-weight:500;margin-bottom:8px;color:var(--ink,#202124)}.ds-field{font-family:var(--font,Archivo,Arial,sans-serif);width:100%;height:52px;border:1px solid #9499a3;background:var(--paper,#fff);border-radius:0;color:var(--ink,#202124);padding:10px 13px;font-size:15px}.ds-field::placeholder{color:var(--muted,#5b5e64)}.ds-field:focus-visible{outline:3px solid var(--blue,#002fa7);outline-offset:5px}"
+    },
+    {
+      "name": "Status label",
+      "kind": "chip",
+      "refersTo": "status",
+      "description": "Status label extracted from the implemented portfolio.",
+      "html": "<span class=\"ds-status\">Prototype</span>",
+      "css": ".ds-status{font-family:var(--font,Archivo,Arial,sans-serif);display:inline-block;font-size:11px;line-height:1.4;color:var(--muted,#5b5e64);border:1px solid var(--line,#d9dce2);padding:6px 9px}"
+    },
+    {
+      "name": "Navigation",
+      "kind": "nav",
+      "refersTo": "navigation",
+      "description": "Navigation extracted from the implemented portfolio.",
+      "html": "<nav class=\"ds-nav\" aria-label=\"Example navigation\"><a href=\"#work\" aria-current=\"location\">Work</a><a href=\"#experience\">Experience</a><a href=\"#about\">About</a><a href=\"#contact\">Contact</a></nav>",
+      "css": ".ds-nav{font-family:var(--font,Archivo,Arial,sans-serif);display:flex;gap:36px;flex-wrap:wrap;align-items:center}.ds-nav a{display:inline-flex;align-items:center;font-size:15px;color:var(--ink,#202124);text-decoration:none;padding:12px 0}.ds-nav a:hover{color:var(--blue,#002fa7)}.ds-nav a[aria-current]{color:var(--blue,#002fa7);text-decoration:underline;text-underline-offset:5px}.ds-nav a:focus-visible{outline:3px solid var(--blue,#002fa7);outline-offset:5px}@media(max-width:680px){.ds-nav{gap:4px 16px;justify-content:flex-end}.ds-nav a{font-size:12px;min-height:40px;padding:5px 0}}"
+    },
+    {
+      "name": "Work article",
+      "kind": "card",
+      "refersTo": "work",
+      "description": "Work article extracted from the implemented portfolio.",
+      "html": "<article class=\"ds-work\"><h3>BroxStudies</h3><p class=\"ds-summary\">Learning tools built around course materials.</p><p class=\"ds-description\">Explore the project contribution and technical approach.</p><a href=\"#source\">Source code</a></article>",
+      "css": ".ds-work{font-family:var(--font,Archivo,Arial,sans-serif);color:var(--ink,#202124);min-width:0}.ds-work h3{font-size:clamp(27px,3vw,39px);font-weight:500;line-height:1.1;letter-spacing:-.035em;margin:0}.ds-summary{font-size:23px;line-height:1.35;letter-spacing:-.02em;margin:16px 0 0;max-width:38ch}.ds-description{font-size:15px;color:var(--muted,#5b5e64);margin:17px 0 0;max-width:68ch}.ds-work a{display:inline-flex;font-size:13px;color:inherit;padding:6px 0;margin-top:18px;text-underline-offset:5px}.ds-work a:hover{color:var(--blue,#002fa7)}.ds-work a:focus-visible{outline:3px solid var(--blue,#002fa7);outline-offset:5px}"
+    },
+    {
+      "name": "Project disclosure",
+      "kind": "custom",
+      "refersTo": "project-details",
+      "description": "Project disclosure extracted from the implemented portfolio.",
+      "html": "<details class=\"ds-details\"><summary>Inside the project<span class=\"ds-plus\" aria-hidden=\"true\"></span></summary><div class=\"ds-body\"><h4>My contribution</h4><p>Project-specific contribution and implementation details.</p></div></details>",
+      "css": ".ds-details{font-family:var(--font,Archivo,Arial,sans-serif);margin-top:26px;border-block:1px solid var(--line,#d9dce2);color:var(--ink,#202124)}.ds-details summary{list-style:none;display:flex;justify-content:space-between;gap:20px;align-items:center;cursor:pointer;padding:16px 0;font-size:14px}.ds-details summary::-webkit-details-marker{display:none}.ds-details summary:focus-visible{outline:3px solid var(--blue,#002fa7);outline-offset:5px}.ds-plus{position:relative;width:16px;height:16px;flex-shrink:0}.ds-plus:before,.ds-plus:after{content:'';position:absolute;background:currentColor;top:7px;left:1px;width:14px;height:1px}.ds-plus:after{transform:rotate(90deg)}.ds-details[open] .ds-plus:after{transform:none}.ds-body{padding:6px 0 24px;font-size:15px;color:var(--muted,#5b5e64)}.ds-body h4{margin:20px 0 9px;color:var(--ink,#202124);font-size:15px;font-weight:500}.ds-body p{margin:0;line-height:1.65}"
+    }
+  ],
+  "narrative": {
+    "northStar": "The Software Exhibition Catalogue",
+    "overview": "An open, typographic catalogue makes the person and his actual software the visual material. White space, charcoal text, deep blue emphasis and fine rules organize substantial information without disguising it as a dashboard.\n\nThe system is assured, personal and restrained. A single grotesk family provides the hierarchy; an original colour portrait and genuine product captures provide specificity. Direction was delegated by the user and recorded from the implemented, reviewed site. No generated or user-approved image comp is claimed.",
+    "keyCharacteristics": [
+      "Open asymmetric grids and fine dividing rules.",
+      "One self-hosted type family with a strong scale contrast.",
+      "Real photography and readable software screenshots.",
+      "Square controls, visible focus and optional subtle motion."
+    ],
+    "rules": [
+      {
+        "name": "The Clear Emphasis Rule",
+        "body": "Use the accent to identify emphasis or action; keep supporting text and separators neutral.",
+        "section": "colors"
+      },
+      {
+        "name": "The Flat Surface Rule",
+        "body": "Establish hierarchy with spacing, type and tonal contrast before adding another container.",
+        "section": "elevation"
+      }
+    ],
+    "dos": [
+      "Do use the original portrait and genuine project captures with accurate captions.",
+      "Do preserve generous whitespace, square controls and fine rules.",
+      "Do retain visible keyboard focus and readable content without optional scripts.",
+      "Do apply the established one-column mobile layouts and check narrow screens."
+    ],
+    "donts": [
+      "Don't introduce gradients, portrait glows or custom cursors.",
+      "Don't replace evidence with decorative counters or arbitrary skill percentages.",
+      "Don't add shadows or rounded card wrappers to every content section.",
+      "Don't hide essential content behind entrance animations."
+    ]
+  }
+}
