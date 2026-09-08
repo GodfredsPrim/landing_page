@@ -801,8 +801,8 @@ body {
   width:100%;
   max-width:420px}
 .portrait img {
-  aspect-ratio:5/4;
-  object-position:50% 35%}
+  aspect-ratio:4/5;
+  object-position:center}
 .portrait figcaption {
   display:flex;
   font-size:10px}
