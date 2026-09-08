@@ -23,3 +23,7 @@ Public repositories, selected implementation files, the repository CV and releva
 BroxStudies, BM Archives and Kooqs public interfaces were observed working. The linked public source repositories were accessible through GitHub. Other old live links returned errors, loading screens or empty Streamlit shells, so they were not presented as verified live releases. External availability can change. No third-party transaction, email, application or project submission was performed.
 
 Private research and unresolved factual questions are kept outside the repository. No private correspondence or private repository URLs are included in public content. Research appointments, unconfirmed offers, application approvals and unverified competition wins are not claimed. The original job-matching dataset is generated example data; the screenshot caption and project notes make that explicit.
+
+## Preview build
+
+The first branch build exposed an existing exact Python 3.12.0 pin that Vercel could not resolve. Changing `.python-version` to `3.12` allowed the preview to build successfully with the available patch release. The Flask runtime and requirements remain unchanged. See [Vercel Python runtime documentation](https://vercel.com/docs/functions/runtimes/python).
