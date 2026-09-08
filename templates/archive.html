@@ -1,0 +1,18 @@
+{% from 'macros.html' import arrow %}
+{% extends 'base.html' %}
+{% block title %}Project archive — Godfred Bio Conquest{% endblock %}
+{% block main %}
+<section class="wrap archive section" aria-labelledby="archive-title">
+  <a class="back-link" href="{{ url_for('home') }}#projects">{{ arrow('back') }} Selected work</a>
+  <div class="archive-heading"><h1 id="archive-title">The work<br><span class="blue">continues.</span></h1><p>A broader archive of applications, websites and experiments. Status labels describe the evidence available, not a count of finished products.</p></div>
+  <form class="archive-filters" method="get" action="{{ url_for('projects') }}" role="search" aria-label="Search projects">
+    <div><label for="query">Find a project or technology</label><input id="query" name="q" type="search" value="{{ query }}" maxlength="120" placeholder="Try Python, learning, or a project name"></div>
+    <div><label for="category">Area of work</label><select id="category" name="category"><option value="">All areas</option>{% for option in categories %}<option {% if option == category %}selected{% endif %}>{{ option }}</option>{% endfor %}</select></div>
+    <button class="button" type="submit">Filter projects {{ arrow() }}</button>
+    {% if query or category %}<a href="{{ url_for('projects') }}" class="text-link">Clear filters</a>{% endif %}
+  </form>
+  <p class="results-count" role="status">{{ projects | length }} {% if projects|length == 1 %}entry{% else %}entries{% endif %}{% if query %} matching “{{ query }}”{% endif %}{% if category %} in {{ category }}{% endif %}</p>
+  <div class="archive-list">{% for project in projects %}<article class="archive-row" id="{{ project.slug }}"><div><span class="status">{{ project.status }}</span><h2>{{ project.name }}</h2><p class="archive-category">{{ project.category }}</p></div><div><p>{{ project.summary }}</p>{% if project.stack %}<ul class="tools" aria-label="Technologies">{% for tool in project.stack %}<li>{{ tool }}</li>{% endfor %}</ul>{% endif %}<div class="project-links">{% if project.source %}<a href="{{ project.source }}">Source code<span class="sr-only"> for {{ project.name }}</span> {{ arrow() }}</a>{% endif %}{% if project.live %}<a href="{{ project.live }}">Visit {{ project.name }} {{ arrow() }}</a>{% endif %}{% if project.featured %}<a href="{{ url_for('home') }}#{{ project.slug }}">Project notes {{ arrow() }}</a>{% endif %}{% for related in project.related|default([]) %}<a href="{{ related.url }}">{{ related.label }} {{ arrow() }}</a>{% endfor %}</div></div></article>{% else %}<div class="empty-state"><h2>No matching projects.</h2><p>Try another name or technology, or return to the full archive.</p><a class="button" href="{{ url_for('projects') }}">Show all projects {{ arrow() }}</a></div>{% endfor %}</div>
+  <a class="archive-invitation" href="{{ url_for('home') }}#contact"><strong>Want to talk about a project?</strong>{{ arrow() }}</a>
+</section>
+{% endblock %}

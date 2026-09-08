@@ -1,0 +1,47 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>{% block title %}Godfred Bio Conquest — AI & full-stack development{% endblock %}</title>
+  <meta name="description" content="Godfred Bio Conquest, AI engineer and full-stack developer in Cape Coast, Ghana. Explore software projects, machine-learning work, experience and the journey behind them.">
+  <link rel="canonical" href="https://godfreds.vercel.app{{ request.path }}">
+  <meta property="og:title" content="Godfred Bio Conquest — Work & journey">
+  <meta property="og:description" content="AI, full-stack development and a journey of learning. Built from Cape Coast, Ghana.">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://godfreds.vercel.app{{ request.path }}">
+  <meta property="og:image" content="https://godfreds.vercel.app/static/images/social-preview.jpg">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta property="og:image:alt" content="Godfred Bio Conquest — AI and full-stack development, Cape Coast, Ghana">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="theme-color" content="#ffffff">
+  <link rel="icon" href="{{ url_for('static', filename='favicon.svg') }}" type="image/svg+xml">
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/portfolio.css') }}">
+  <script src="{{ url_for('static', filename='js/portfolio.js') }}" defer></script>
+</head>
+<body>
+<!-- THESIS: A personal software exhibition, with real work and a dated journey.
+OWN-WORLD: White, charcoal, deep blue; one grotesk family; open asymmetric grids and fine rules.
+STORY: Meet Godfred, inspect his work, understand his contribution, get in touch.
+FIRST VIEWPORT: Oversized name left, original portrait right, direct work and email links; selected work follows.
+FORM: Exhibition catalogue, grounded candidate 3; seed 1b78d234. Direction delegated by user.
+FINISH: unreviewed and undocumented is unfinished; this build ends with the finish review, the verdict, and DESIGN.md -->
+  <a class="skip-link" href="#main">Skip to content</a>
+  <header class="site-header wrap">
+    <a class="wordmark" href="{{ url_for('home') }}" aria-label="Godfred Bio Conquest — home">GBC<span aria-hidden="true">.</span></a>
+    <nav aria-label="Main navigation">
+      <a href="{{ url_for('home') }}#projects">Work</a>
+      <a href="{{ url_for('home') }}#experience">Experience</a>
+      <a href="{{ url_for('home') }}#about">About</a>
+      <a href="{{ url_for('home') }}#contact">Contact {{ arrow() }}</a>
+    </nav>
+  </header>
+  <main id="main" tabindex="-1">{% block main %}{% endblock %}</main>
+  <footer class="site-footer wrap">
+    <a class="wordmark" href="{{ url_for('home') }}" aria-label="Back to Godfred Bio Conquest home">GBC<span aria-hidden="true">.</span></a>
+    <p>© {{ year }} Godfred Bio Conquest</p><p>From Cape Coast, with gratitude.</p>
+    <a href="#main">Back to top {{ arrow('up') }}</a>
+  </footer>
+</body>
+</html>

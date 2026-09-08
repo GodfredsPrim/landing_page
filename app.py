@@ -11,6 +11,17 @@ app = Flask(__name__,
             static_folder=os.path.join(_root, 'static'))
 
 
+def portfolio_content():
+    with open(os.path.join(_root, 'content', 'portfolio.json'), encoding='utf-8') as source:
+        return json.load(source)
+
+
+@app.context_processor
+def shared_content():
+    from datetime import datetime, timezone
+    return {'content': portfolio_content(), 'year': datetime.now(timezone.utc).year}
+
+
 SYSTEM_PROMPT = (
     "You are the portfolio AI demo for Godfred Bio Conquest. "
     "Explain topics clearly, professionally, and in a recruiter-friendly way. "
@@ -97,6 +108,23 @@ def home():
     )
 
 
+@app.get('/projects')
+def projects():
+    all_projects = portfolio_content()['projects']
+    categories = sorted({project['category'] for project in all_projects})
+    category = request.args.get('category', '')
+    if category not in categories:
+        category = ''
+    query = request.args.get('q', '').strip()[:120]
+    results = [project for project in all_projects
+               if (not category or project['category'] == category)
+               and (not query or query.casefold() in ' '.join([
+                   project['name'], project['summary'], *project.get('stack', [])
+               ]).casefold())]
+    return render_template('archive.html', projects=results, categories=categories,
+                           category=category, query=query)
+
+
 @app.route("/profile-image")
 def profile_image():
     return send_file(os.path.join(app.static_folder, "images", "profile.jpeg"), mimetype="image/jpeg")
@@ -105,10 +133,14 @@ def profile_image():
 @app.post("/api/explain")
 def api_explain():
     payload = request.get_json(silent=True) or {}
+    if not isinstance(payload, dict):
+        return jsonify({'ok': False, 'error': 'Send a JSON object with a topic.'}), 400
     topic = str(payload.get("topic", "")).strip()
 
     if not topic:
         return jsonify({"ok": False, "error": "Please enter a topic first."}), 400
+    if len(topic) > 500:
+        return jsonify({'ok': False, 'error': 'Keep your topic under 500 characters.'}), 400
 
     answer, source = explain_topic(topic)
     return jsonify({"ok": True, "answer": answer, "source": source})

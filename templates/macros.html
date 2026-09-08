@@ -1,0 +1,21 @@
+{% macro arrow(direction='diagonal') -%}
+<svg class="arrow arrow-{{ direction }}" aria-hidden="true" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M5 19 19 5M5 5h14v14"/></svg>
+{%- endmacro %}
+
+{% macro work(project, lead=false) %}
+<article class="work {% if lead %}work-lead{% endif %}" id="{{ project.slug }}">
+  <a class="work-image {% if not lead %}work-image-portrait{% endif %}" href="{{ project.source }}" aria-label="Explore {{ project.name }} source code">
+    <img src="{{ url_for('static', filename=project.image) }}" alt="{{ project.image_alt }}" width="{% if lead %}1440{% else %}776{% endif %}" height="{% if lead %}1000{% else %}1080{% endif %}" loading="lazy" decoding="async">
+    <span class="image-link" aria-hidden="true">Explore source {{ arrow() }}</span>
+  </a>
+  <p class="image-caption">{{ project.caption }}</p>
+  <div class="work-heading"><h3>{{ project.name }}</h3><span class="status">{{ project.status }}</span></div>
+  <p class="work-summary">{{ project.summary }}</p><p class="work-description">{{ project.problem }}</p>
+  <p class="work-role">{{ project.role }}</p>
+  <ul class="tools" aria-label="Technologies">{% for tool in project.stack %}<li>{{ tool }}</li>{% endfor %}</ul>
+  <details class="project-details"><summary>Inside the project <span aria-hidden="true" class="plus"></span></summary>
+    <div class="details-body"><h4>My contribution</h4><p>{{ project.contribution }}</p><h4>What I built</h4><p>{{ project.built }}</p><h4>Technical approach</h4><p>{{ project.decision }}</p><h4>Where it stands</h4><p>{{ project.outcome }}</p></div>
+  </details>
+  <div class="project-links">{% if project.live %}<a href="{{ project.live }}">Visit {{ project.name }} {{ arrow() }}</a>{% endif %}<a href="{{ project.source }}">Source code<span class="sr-only"> for {{ project.name }}</span> {{ arrow() }}</a></div>
+</article>
+{% endmacro %}

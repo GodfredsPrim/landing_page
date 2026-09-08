@@ -1,0 +1,463 @@
+{
+  "profile": {
+    "name": "Godfred Bio Conquest",
+    "role": "AI engineer & full-stack developer",
+    "location": "Cape Coast, Ghana",
+    "intro": "I build learning tools, machine-learning experiments, and software for everyday work in Ghana. From a model in Python to the interface people use, I enjoy bringing the pieces together.",
+    "email": "godfredbio2004@gmail.com",
+    "github": "https://github.com/GodfredsPrim",
+    "linkedin": "https://www.linkedin.com/in/godfred-bio-0707052bb/",
+    "education": "BSc Computer Science, University of Cape Coast",
+    "graduation": "Expected graduation · 2028",
+    "about": "I'm a Computer Science student at the University of Cape Coast, building across AI and full-stack development. My work has taken me from student analytics and local job matching to learning platforms and church administration. I care about understanding the task, making the interface clear, and learning what it takes to make the whole system work.",
+    "faith": "My faith is part of this journey. I'm grateful to God for the opportunity to learn, for the people who help me grow, and for each step forward.",
+    "focus": "I'm working toward deeper experience in applied AI, African-language technology, and the engineering behind dependable web applications.",
+    "cv_label": "Download earlier CV",
+    "cv_note": "This earlier CV predates some experience on this website."
+  },
+  "projects": [
+    {
+      "slug": "broxstudies",
+      "name": "BroxStudies",
+      "category": "AI & data",
+      "status": "Public web app",
+      "featured": true,
+      "summary": "Turning study materials into focused practice.",
+      "problem": "Students preparing for exams need ways to practise with the syllabi, textbooks and past questions they already have.",
+      "contribution": "My work brings together a React study interface and a Python API for document processing and question generation.",
+      "built": "PDF uploads, subject-based practice, different question formats and difficulty levels, with asynchronous document processing.",
+      "decision": "The documented retrieval pipeline uses LangChain and FAISS to find relevant material before generating questions. FastAPI separates that processing from the React and TypeScript interface.",
+      "outcome": "A publicly accessible learning platform with source code available. Learning gains and adoption figures are not measured here.",
+      "role": "Full-stack & AI development",
+      "stack": [
+        "React",
+        "TypeScript",
+        "FastAPI",
+        "RAG"
+      ],
+      "image": "images/work/brox.webp",
+      "image_alt": "BroxStudies public learning-platform homepage",
+      "caption": "Public homepage, captured September 2026.",
+      "source": "https://github.com/GodfredsPrim/broxstudies",
+      "live": "https://broxstudies.com/"
+    },
+    {
+      "slug": "dclm",
+      "name": "DCLM Church Manager",
+      "category": "Web applications",
+      "status": "Built application",
+      "featured": true,
+      "summary": "A shared place for the work behind a church community.",
+      "problem": "Church administration brings together attendance, membership records, offerings, budgets and recurring reports.",
+      "contribution": "I built a Flask application that puts these administrative tasks into one dashboard and a set of focused workflows.",
+      "built": "Member and attendance screens, contribution and offering records, budgets, and monthly reporting.",
+      "decision": "Server-rendered templates keep the interface close to the Python application. Separate models and routes organise the records and the workflows around them.",
+      "outcome": "The repository contains the application and reporting screens. The existing screenshot shows its dashboard; current organisational usage has not been independently confirmed.",
+      "role": "Full-stack development",
+      "stack": [
+        "Python",
+        "Flask",
+        "Jinja",
+        "SQL"
+      ],
+      "image": "images/work/dclm.webp",
+      "image_alt": "DCLM church dashboard showing attendance, offerings and monthly summaries with zero values",
+      "caption": "Existing project screenshot · dashboard with empty records.",
+      "source": "https://github.com/GodfredsPrim/church_app",
+      "live": null
+    },
+    {
+      "slug": "job-match-ghana",
+      "name": "Job Match Ghana",
+      "category": "AI & data",
+      "status": "Prototype",
+      "featured": true,
+      "summary": "Exploring how local opportunities can be easier to find.",
+      "problem": "A useful job search needs to consider where someone lives, what they can do, and the salary they need.",
+      "contribution": "I built the Streamlit interface, preference filters, location-based ranking and downloadable matching report.",
+      "built": "Skill and region filtering, salary preferences, town and distance scoring, and PDF report generation.",
+      "decision": "The matching logic uses explicit filters and distance scores rather than an opaque prediction model. Pandas handles the tabular data; ReportLab creates the take-away report.",
+      "outcome": "A working-code prototype using generated example vacancies. It demonstrates the matching workflow, not a verified recruitment service or job-placement outcome.",
+      "role": "Python application development",
+      "stack": [
+        "Python",
+        "Streamlit",
+        "Pandas",
+        "ReportLab"
+      ],
+      "image": "images/work/jobmatch.webp",
+      "image_alt": "Job Match Ghana matching interface from the original portfolio",
+      "caption": "Existing prototype screenshot · generated example job data.",
+      "source": "https://github.com/GodfredsPrim/Job-Match-Ghana",
+      "live": null
+    },
+    {
+      "slug": "bm-archives",
+      "name": "BM Archives",
+      "category": "Websites",
+      "status": "Interface study",
+      "summary": "A discovery interface for the Basel Mission Archives, with catalogue search, historical imagery and a world explorer.",
+      "source": "https://github.com/GodfredsPrim/bmarchives",
+      "stack": [
+        "React",
+        "TypeScript"
+      ],
+      "live": "https://godfredsprim.github.io/bmarchives/"
+    },
+    {
+      "slug": "daakye",
+      "name": "Daakye Student Analytics",
+      "category": "AI & data",
+      "status": "Prototype",
+      "summary": "A Streamlit student companion with performance estimation, study recommendations and PDF reports. No school-adoption claim is made.",
+      "source": "https://github.com/GodfredsPrim/Daakye-Analytics-Student-Companion",
+      "stack": [
+        "Streamlit",
+        "scikit-learn",
+        "Pandas"
+      ],
+      "live": null
+    },
+    {
+      "slug": "bisarx",
+      "name": "BisaRx / RX AI",
+      "category": "AI & data",
+      "status": "Prototype",
+      "summary": "A Ghana-focused healthcare assistant concept that gathers symptoms and prepares a summary for pharmacist review. Not presented as clinically validated.",
+      "source": "https://github.com/GodfredsPrim/rx-ai",
+      "stack": [
+        "FastAPI",
+        "RAG",
+        "SQLAlchemy"
+      ],
+      "live": null
+    },
+    {
+      "slug": "salon-pro",
+      "name": "Salon Pro",
+      "category": "Web applications",
+      "status": "Prototype",
+      "summary": "Salon discovery, bookings, queues and role-based dashboards, with API routes for inventory and customer management.",
+      "source": "https://github.com/GodfredsPrim/salon-pro",
+      "stack": [
+        "Next.js",
+        "TypeScript",
+        "Prisma"
+      ],
+      "live": null
+    },
+    {
+      "slug": "solid-hands",
+      "name": "Solid Hands",
+      "category": "Web applications",
+      "status": "Built application",
+      "summary": "Recruitment and contractor-application workflows, CV matching and an administrative dashboard. Commercial deployment outcomes remain unconfirmed.",
+      "source": "https://github.com/GodfredsPrim/solidhands",
+      "stack": [
+        "JavaScript",
+        "Node.js"
+      ],
+      "live": null
+    },
+    {
+      "slug": "eva-closet",
+      "name": "Eva Closet",
+      "category": "Web applications",
+      "status": "Prototype",
+      "summary": "A clothing storefront with product listings, cart, order management and a documented Stripe test-mode checkout.",
+      "source": "https://github.com/GodfredsPrim/eva-closet",
+      "stack": [
+        "Next.js",
+        "Prisma",
+        "Stripe"
+      ],
+      "live": null
+    },
+    {
+      "slug": "solvxit-site",
+      "name": "SOLVXIT-GH website",
+      "category": "Websites",
+      "status": "Built website",
+      "summary": "A company presentation bringing together products, capabilities, the team and partnership enquiries.",
+      "source": "https://github.com/GodfredsPrim/company-landing-page",
+      "stack": [
+        "React",
+        "Vite"
+      ],
+      "live": null
+    },
+    {
+      "slug": "jensam",
+      "name": "Jensam Couture & Events",
+      "category": "Websites",
+      "status": "Built website",
+      "summary": "A fashion and events website with service sections, a gallery and consultation paths. Client commissioning is not asserted.",
+      "source": "https://github.com/GodfredsPrim/jensam-couture-events",
+      "stack": [
+        "HTML",
+        "CSS",
+        "JavaScript"
+      ],
+      "live": null
+    },
+    {
+      "slug": "prime-awards",
+      "name": "Prime Bartenders Awards",
+      "category": "Web applications",
+      "status": "In development",
+      "summary": "An awards-platform foundation with nominations, voting and judging previews. Its source identifies authentication and persistence as development integrations.",
+      "source": "https://github.com/GodfredsPrim/prime-bartenders-awards",
+      "stack": [
+        "Next.js",
+        "TypeScript"
+      ],
+      "live": null
+    },
+    {
+      "slug": "campus-events",
+      "name": "Campus Event Hub",
+      "category": "Web applications",
+      "status": "Prototype",
+      "summary": "A mobile event experience with discovery, tickets, checkout screens and organiser tools.",
+      "source": "https://github.com/GodfredsPrim/Campus-Event-Hub",
+      "stack": [
+        "Expo",
+        "TypeScript"
+      ],
+      "live": null
+    },
+    {
+      "slug": "codement",
+      "name": "Codement",
+      "category": "AI & data",
+      "status": "Early exploration",
+      "summary": "An AI coding-mentor concept for beginners in Africa; the public description establishes its intended focus.",
+      "source": "https://github.com/GodfredsPrim/codement",
+      "stack": [],
+      "live": null
+    },
+    {
+      "slug": "propboost",
+      "name": "Ghana commodity forecasting",
+      "category": "AI & data",
+      "status": "Experiment",
+      "summary": "A Prophet and XGBoost forecasting experiment. Some external input features are explicitly synthetic fallbacks, so its forecasts are not presented as validated advice.",
+      "source": "https://github.com/GodfredsPrim/propboost-model",
+      "stack": [
+        "Python",
+        "Prophet",
+        "XGBoost"
+      ],
+      "live": null
+    },
+    {
+      "slug": "codveda",
+      "name": "Codveda ML exercises",
+      "category": "Learning",
+      "status": "Completed internship work",
+      "summary": "Preprocessing, regression, classification, clustering and a neural network across three levels of internship tasks.",
+      "source": "https://github.com/GodfredsPrim/codveda-ml-intern-task",
+      "stack": [
+        "scikit-learn",
+        "TensorFlow",
+        "Pandas"
+      ],
+      "live": null
+    },
+    {
+      "slug": "focuscam",
+      "name": "FocusCam",
+      "category": "AI & data",
+      "status": "Experiment",
+      "summary": "A family of camera and focus experiments described in my earlier CV. The public versions are retained as development history.",
+      "source": "https://github.com/GodfredsPrim/FocusCam",
+      "related": [
+        {
+          "label": "FocusCam Pro source",
+          "url": "https://github.com/GodfredsPrim/focuscampro1.0"
+        }
+      ],
+      "stack": [
+        "Python"
+      ],
+      "live": null
+    },
+    {
+      "slug": "vision-study",
+      "name": "Age & expression detection",
+      "category": "Learning",
+      "status": "Experiment",
+      "summary": "A computer-vision learning project exploring face-based age and expression estimation. No accuracy or suitability claims are made.",
+      "source": "https://github.com/GodfredsPrim/Gender_Age-Detector",
+      "stack": [
+        "Python",
+        "OpenCV"
+      ],
+      "live": null
+    },
+    {
+      "slug": "icp",
+      "name": "ICP workshop & calculator",
+      "category": "Learning",
+      "status": "Workshop exercises",
+      "summary": "Early Internet Computer and Motoko exercises, including a simple backend calculator.",
+      "source": "https://github.com/GodfredsPrim/ICP-Simple-Calculator",
+      "related": [
+        {
+          "label": "UCC workshop source",
+          "url": "https://github.com/GodfredsPrim/icp.ucc.workshop"
+        }
+      ],
+      "stack": [
+        "Motoko",
+        "ICP"
+      ],
+      "live": null
+    },
+    {
+      "slug": "auth-ucc",
+      "name": "UCC authentication project",
+      "category": "Learning",
+      "status": "Coursework repository",
+      "summary": "An authentication-system repository in my university learning archive.",
+      "source": "https://github.com/GodfredsPrim/auth-system-ucc-final",
+      "stack": [],
+      "live": null
+    },
+    {
+      "slug": "bisame",
+      "name": "BisaMe AI",
+      "category": "AI & data",
+      "status": "Development archive",
+      "summary": "Earlier BisaMe AI repositories. Version history is retained without counting each repository as a separate finished product.",
+      "source": "https://github.com/GodfredsPrim/BisaMEai_V2-0",
+      "stack": [],
+      "live": null
+    },
+    {
+      "slug": "osuani",
+      "name": "fun2learn / BisaMe Osuani",
+      "category": "AI & data",
+      "status": "Prototype",
+      "summary": "Document-based question generation for Ghanaian secondary-school subjects. The repository currently describes the product as fun2learn Online.",
+      "source": "https://github.com/GodfredsPrim/bisame-osuani",
+      "stack": [
+        "React",
+        "FastAPI",
+        "FAISS"
+      ],
+      "live": null
+    },
+    {
+      "slug": "jobmatcher",
+      "name": "JobMatcher Live",
+      "category": "Web applications",
+      "status": "Development archive",
+      "summary": "Further job-matching work following the original portfolio entry; canonical version and current release status are being clarified.",
+      "source": "https://github.com/GodfredsPrim/jobmatchfinal",
+      "related": [
+        {
+          "label": "Version 2 source",
+          "url": "https://github.com/GodfredsPrim/job-matcher.v2.0"
+        }
+      ],
+      "stack": [],
+      "live": null
+    },
+    {
+      "slug": "powercheck",
+      "name": "PowerCheck",
+      "category": "Web applications",
+      "status": "Earlier portfolio project",
+      "summary": "A power-outage utility concept listed in my earlier portfolio. A working public release is not currently linked.",
+      "source": null,
+      "stack": [],
+      "live": null
+    },
+    {
+      "slug": "vergi",
+      "name": "Vergi Bulk",
+      "category": "Web applications",
+      "status": "Development archive",
+      "summary": "A Flask application from my earlier portfolio, retained here with its public source.",
+      "source": "https://github.com/GodfredsPrim/VergiBulk",
+      "stack": [
+        "Python",
+        "Flask"
+      ],
+      "live": null
+    },
+    {
+      "slug": "kooqs",
+      "name": "Kooqs",
+      "category": "Web applications",
+      "status": "Public storefront",
+      "summary": "A food-ordering interface with menu categories, cart and order tracking. The public storefront is accessible; fulfilment and sales outcomes are not asserted.",
+      "source": "https://github.com/GodfredsPrim/kooqs",
+      "stack": [
+        "Next.js",
+        "Prisma"
+      ],
+      "live": "https://kooqs.vercel.app/"
+    },
+    {
+      "slug": "zanchop",
+      "name": "Zanchop",
+      "category": "Learning",
+      "status": "Early exploration",
+      "summary": "An early repository in my development archive; detailed product documentation is still to come.",
+      "source": "https://github.com/GodfredsPrim/zanchop",
+      "stack": [],
+      "live": null
+    }
+  ],
+  "experience": [
+    {
+      "date": "August 2026",
+      "title": "Team Lead",
+      "organisation": "SOLVXIT-GH · MTN Tɛkyerɛma Pa Hackathon",
+      "description": "Represented the team in correspondence with the organisers and coordinated the request to revise our project abstract.",
+      "status": "Leadership"
+    },
+    {
+      "date": "November – December 2025",
+      "title": "Machine Learning Intern",
+      "organisation": "Codveda Technologies · Remote",
+      "description": "Implemented preprocessing, regression, classification and clustering exercises, progressing to random forests, SVMs and a TensorFlow neural network. Completion was acknowledged in January 2026.",
+      "status": "Completed",
+      "url": "https://github.com/GodfredsPrim/codveda-ml-intern-task"
+    }
+  ],
+  "achievements": [
+    {
+      "date": "August 2026",
+      "title": "AWS Student Builder Group UCC",
+      "description": "Participated in the launch, with a certificate of participation acknowledged by the organisers.",
+      "status": "Community participation"
+    },
+    {
+      "date": "August 2026",
+      "title": "Moolre Startup Cup",
+      "description": "SOLVXIT-GH was named in the finalist pitch schedule. This records team selection; it does not claim a win.",
+      "status": "Team finalist selection"
+    },
+    {
+      "date": "June 2026",
+      "title": "GDSS-Maverick Hackathon",
+      "description": "Worked on a product-image extraction concept combining AI, validation and structured output. Final submission and competition outcome are not recorded here.",
+      "status": "Hackathon project"
+    }
+  ],
+  "capabilities": [
+    {
+      "name": "Applied AI & data",
+      "description": "Model training, data preparation, retrieval-based applications and computer-vision experiments.",
+      "tools": "Python · scikit-learn · TensorFlow · Pandas · OpenCV"
+    },
+    {
+      "name": "Full-stack development",
+      "description": "Interfaces, APIs and the workflows that connect them, from document uploads to administrative reporting.",
+      "tools": "Flask · FastAPI · React · TypeScript · SQL"
+    }
+  ]
+}
