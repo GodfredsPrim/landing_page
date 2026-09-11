@@ -7,22 +7,22 @@
 </section>
 <div class="signal-band" aria-label="Current focus"><span>Current focus</span><strong>Applied AI / African-language technology / dependable web applications</strong><span class="signal-dot"></span></div>
 <section class="section wrap" id="projects" aria-labelledby="work-title">
-  <div class="section-heading"><p class="section-kicker">Selected work</p><h2 id="work-title">Real software,<br><span class="lime">open notes.</span></h2><p>Three projects that show how I move from a messy human need to a working system.</p></div>
-  {% set featured = content.projects | selectattr('featured') | list %}
-  <div class="project-rail" data-project-rail aria-label="Selected projects">
-    <div class="project-rail-viewport" data-project-viewport role="region" tabindex="0" aria-label="Selected project slides">
+  <div class="section-heading"><p class="section-kicker">The full project field</p><h2 id="work-title">Real software,<br><span class="lime">open notes.</span></h2><p>Recent work leads the sequence, followed by the experiments, studies and applications that shaped how I build.</p></div>
+  {% set projects = content.projects %}
+  <div class="project-rail" data-project-rail aria-label="All projects, most recent first">
+    <div class="project-rail-viewport" data-project-viewport role="region" tabindex="0" aria-label="All project slides, most recent first">
       <div class="project-rail-track">
-        {% for project in featured %}{{ work(project, loop.first) }}{% endfor %}
+        {% for project in projects %}{{ work(project, loop.index) }}{% endfor %}
       </div>
     </div>
     <div class="project-rail-controls">
       <div class="rail-buttons"><button type="button" class="rail-button" data-project-previous aria-label="Previous project">{{ arrow('back') }}</button><button type="button" class="rail-button" data-project-next aria-label="Next project">{{ arrow() }}</button></div>
-      <p class="rail-position" aria-live="polite"><span data-project-current>01</span> <span aria-hidden="true">/</span> <span data-project-total>{{ '%02d' | format(featured | length) }}</span></p>
+      <p class="rail-position" aria-live="polite"><span data-project-current>01</span> <span aria-hidden="true">/</span> <span data-project-total>{{ '%02d' | format(projects | length) }}</span></p>
       <div class="rail-progress" aria-hidden="true"><span data-project-progress></span></div>
       <p class="rail-hint">Drag / swipe / use arrows <span aria-hidden="true">&#8594;</span></p>
     </div>
   </div>
-  <a class="archive-invitation" href="{{ url_for('projects') }}"><span><strong>There’s more in the archive.</strong><span>Websites, applications, experiments and the work I learned from.</span></span>{{ arrow() }}</a>
+  <a class="archive-invitation" href="{{ url_for('projects') }}"><span><strong>Search the project archive.</strong><span>Filter the full field by area, technology or project name.</span></span>{{ arrow() }}</a>
 </section>
 <section class="experience-section" id="experience" aria-labelledby="experience-title">
   <div class="wrap section"><div class="section-heading"><p class="section-kicker">The path so far</p><h2 id="experience-title">The work is<br><span class="lime">more than code.</span></h2><p>Building skills. Taking responsibility. Learning with others.</p></div>

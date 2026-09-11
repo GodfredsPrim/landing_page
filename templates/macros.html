@@ -2,16 +2,16 @@
 <svg class="arrow arrow-{{ direction }}" aria-hidden="true" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M17 7l-10 10M8 7l9 0l0 9"/></svg>
 {%- endmacro %}
 
-{% macro work(project, lead=false) %}
-<article class="work {% if lead %}work-lead{% endif %}" id="{{ project.slug }}" data-project-slide>
-  <div class="work-index" aria-hidden="true">{% if lead %}01{% else %}02{% endif %}</div>
+{% macro work(project, index=1) %}
+<article class="work {% if project.image %}work-with-media{% else %}work-record{% endif %}" id="{{ project.slug }}" data-project-slide>
+  <div class="work-index" aria-hidden="true">{{ '%02d' | format(index) }}</div>
   <div class="work-copy"><div class="work-heading"><span class="status">{{ project.category }} / {{ project.status }}</span><h3>{{ project.name }}</h3></div>
     <p class="work-summary">{{ project.summary }}</p>
-    <p class="work-description">{{ project.problem }}</p>
-    <div class="work-meta"><span>{{ project.role }}</span><ul class="tools" aria-label="Technologies">{% for tool in project.stack %}<li>{{ tool }}</li>{% endfor %}</ul></div>
-    <details class="project-details"><summary>Read the build notes <span aria-hidden="true" class="plus"></span></summary><div class="details-body"><h4>My contribution</h4><p>{{ project.contribution }}</p><h4>What I built</h4><p>{{ project.built }}</p><h4>Technical approach</h4><p>{{ project.decision }}</p><h4>Where it stands</h4><p>{{ project.outcome }}</p></div></details>
+    {% if project.problem %}<p class="work-description">{{ project.problem }}</p>{% endif %}
+    <div class="work-meta"><span>{{ project.role | default('Project record', true) }}</span><ul class="tools" aria-label="Technologies">{% for tool in project.stack %}<li>{{ tool }}</li>{% endfor %}</ul></div>
+    {% if project.contribution %}<details class="project-details"><summary>Read the build notes <span aria-hidden="true" class="plus"></span></summary><div class="details-body"><h4>My contribution</h4><p>{{ project.contribution }}</p><h4>What I built</h4><p>{{ project.built }}</p><h4>Technical approach</h4><p>{{ project.decision }}</p><h4>Where it stands</h4><p>{{ project.outcome }}</p></div></details>{% endif %}
     <div class="project-links">{% if project.live %}<a href="{{ project.live }}">Open live project {{ arrow() }}</a>{% endif %}<a href="{{ project.source }}">View source<span class="sr-only"> for {{ project.name }}</span> {{ arrow() }}</a></div>
   </div>
-  <figure class="work-media"><a class="work-image" href="{{ url_for('static', filename=project.image) }}" data-image-viewer data-title="{{ project.name }}" data-caption="{{ project.caption }}" aria-label="Enlarge {{ project.name }} screenshot"><img src="{{ url_for('static', filename=project.image) }}" alt="{{ project.image_alt }}" width="1440" height="1000" loading="lazy" decoding="async"></a><figcaption class="image-caption"><span>{{ project.caption }}</span><span>Open image {{ arrow() }}</span></figcaption></figure>
+  {% if project.image %}<figure class="work-media"><a class="work-image" href="{{ url_for('static', filename=project.image) }}" data-image-viewer data-title="{{ project.name }}" data-caption="{{ project.caption }}" aria-label="Enlarge {{ project.name }} screenshot"><img src="{{ url_for('static', filename=project.image) }}" alt="{{ project.image_alt }}" width="1440" height="1000" loading="lazy" decoding="async"></a><figcaption class="image-caption"><span>{{ project.caption }}</span><span>Open image {{ arrow() }}</span></figcaption></figure>{% else %}<div class="work-media work-media-empty" aria-label="No project screenshot available"><span class="record-mark" aria-hidden="true">+</span><p>Build record<br><span>Source available to inspect</span></p></div>{% endif %}
 </article>
 {% endmacro %}
