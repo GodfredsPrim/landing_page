@@ -117,7 +117,7 @@ Mobile body text is 16px. At widths up to 680px, the hero uses `clamp(54px,12.8v
 
 The shared container is `min(1280px, calc(100% - var(--space)*2))`, centred with fluid side gutters. Section rhythm comes from the frontmatter spacing values. Grids use meaningful unequal columns: the desktop hero uses 1.5fr/1fr with a 9% gap; selected lead work uses 1.05fr/1fr; the archive uses 1fr/1.5fr. Paired work and about content use two columns.
 
-At 1000px and below, gaps contract and dated experience shifts to two columns. At 680px and below, the main content grids become one column and side gutters become 22px. Navigation remains visible and wraps; archive fields stack with a full-width submit button. At 1500px and above, the portrait grows to a 400px maximum. Use the actual responsive CSS as the source for component-specific exceptions.
+At 1000px and below, gaps contract and dated experience shifts to two columns. Featured work becomes a horizontal snap rail with a deliberate next-slide peek; touch, mouse-wheel trackpads, buttons and arrow keys share the same sequence. At 680px and below, the rail uses near-full-width slides and side gutters become 22px. Navigation remains visible and wraps; archive fields stack with a full-width submit button. At 1500px and above, the portrait grows to a 400px maximum. Use the actual responsive CSS as the source for component-specific exceptions.
 
 ## Elevation & Depth
 
@@ -157,7 +157,7 @@ Each project is an open article with a genuine capture, caption, title, status, 
 
 Native `details` and `summary` create a ruled disclosure row with a plus/minus indicator. The expanded content describes contribution, implementation, technical approach and current status. It works with keyboard interaction and without JavaScript.
 
-The only entrance motion moves hero text upward by 10px over 550ms using `cubic-bezier(.16,1,.3,1)`. Content is never initially hidden. Reduced-motion preference disables animation, transitions and smooth scrolling.
+The authored project motion is the swipe rail: the active project settles into full opacity and scale while neighboring work recedes, with a progress line and numbered position preserving orientation. The hero still arrives upward by 10px over 550ms using `cubic-bezier(.16,1,.3,1)`. Content is never initially hidden. Reduced-motion preference disables animation, transitions and smooth scrolling.
 
 ## Do's and Don'ts
 

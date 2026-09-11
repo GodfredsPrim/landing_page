@@ -3,7 +3,7 @@
 {%- endmacro %}
 
 {% macro work(project, lead=false) %}
-<article class="work {% if lead %}work-lead{% endif %}" id="{{ project.slug }}">
+<article class="work {% if lead %}work-lead{% endif %}" id="{{ project.slug }}" data-project-slide>
   <div class="work-heading"><h3>{{ project.name }}</h3><span class="status">{{ project.status }}</span></div>
   <p class="work-summary">{{ project.summary }}</p>
   <figure class="work-media">

@@ -56,6 +56,48 @@ if (viewer && typeof viewer.showModal === 'function') {
   viewer.addEventListener('click', event => { if (event.target === viewer) { const r = viewer.getBoundingClientRect(); if (event.clientX < r.left || event.clientX > r.right || event.clientY < r.top || event.clientY > r.bottom) viewer.close(); } });
   viewer.addEventListener('close', () => { document.body.style.overflow = ''; trigger?.focus({preventScroll: true}); });
 }
+const projectRail = document.querySelector('[data-project-rail]');
+if (projectRail) {
+  const viewport = projectRail.querySelector('[data-project-viewport]');
+  const slides = [...projectRail.querySelectorAll('[data-project-slide]')];
+  const previous = projectRail.querySelector('[data-project-previous]');
+  const next = projectRail.querySelector('[data-project-next]');
+  const current = projectRail.querySelector('[data-project-current]');
+  const progress = projectRail.querySelector('[data-project-progress]');
+  const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
+  let activeIndex = 0;
+  projectRail.classList.add('is-enhanced');
+
+  function updateRail(index) {
+    activeIndex = Math.max(0, Math.min(index, slides.length - 1));
+    slides.forEach((slide, slideIndex) => slide.classList.toggle('is-active', slideIndex === activeIndex));
+    current.textContent = String(activeIndex + 1).padStart(2, '0');
+    progress.style.width = `${((activeIndex + 1) / slides.length) * 100}%`;
+    previous.disabled = activeIndex === 0;
+    next.disabled = activeIndex === slides.length - 1;
+  }
+
+  function goTo(index) {
+    const target = Math.max(0, Math.min(index, slides.length - 1));
+    viewport.scrollTo({left: slides[target].offsetLeft - viewport.offsetLeft, behavior: reducedMotion.matches ? 'auto' : 'smooth'});
+    updateRail(target);
+  }
+
+  previous.addEventListener('click', () => goTo(activeIndex - 1));
+  next.addEventListener('click', () => goTo(activeIndex + 1));
+  viewport.addEventListener('keydown', event => {
+    if (event.key === 'ArrowLeft') { event.preventDefault(); goTo(activeIndex - 1); }
+    if (event.key === 'ArrowRight') { event.preventDefault(); goTo(activeIndex + 1); }
+  });
+  if ('IntersectionObserver' in window) {
+    const slideObserver = new IntersectionObserver(entries => {
+      const visible = entries.filter(entry => entry.isIntersecting).sort((a, b) => b.intersectionRatio - a.intersectionRatio)[0];
+      if (visible) updateRail(slides.indexOf(visible.target));
+    }, {root: viewport, threshold: [.55, .75, .95]});
+    slides.forEach(slide => slideObserver.observe(slide));
+  }
+  updateRail(0);
+}
 if ('IntersectionObserver' in window) {
   const links = [...document.querySelectorAll('.site-header nav a')];
   const navObserver = new IntersectionObserver(entries => {

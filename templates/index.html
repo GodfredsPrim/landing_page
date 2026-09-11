@@ -16,8 +16,19 @@
 <section class="section wrap" id="projects" aria-labelledby="work-title">
   <div class="section-heading"><h2 id="work-title">Selected work<span class="blue">.</span></h2><p>Learning, livelihoods, community. A closer look at what I've built.</p></div>
   {% set featured = content.projects | selectattr('featured') | list %}
-  {{ work(featured[0], true) }}
-  <div class="work-pair">{% for project in featured[1:] %}{{ work(project) }}{% endfor %}</div>
+  <div class="project-rail" data-project-rail aria-label="Selected projects">
+    <div class="project-rail-viewport" data-project-viewport role="region" tabindex="0" aria-label="Selected project slides">
+      <div class="project-rail-track">
+        {% for project in featured %}{{ work(project, loop.first) }}{% endfor %}
+      </div>
+    </div>
+    <div class="project-rail-controls">
+      <div class="rail-buttons"><button type="button" class="rail-button" data-project-previous aria-label="Previous project">{{ arrow('back') }}</button><button type="button" class="rail-button" data-project-next aria-label="Next project">{{ arrow() }}</button></div>
+      <p class="rail-position" aria-live="polite"><span data-project-current>01</span> <span aria-hidden="true">/</span> <span data-project-total>{{ '%02d' | format(featured | length) }}</span></p>
+      <div class="rail-progress" aria-hidden="true"><span data-project-progress></span></div>
+      <p class="rail-hint">Swipe to explore <span aria-hidden="true">&#8594;</span></p>
+    </div>
+  </div>
   <a class="archive-invitation" href="{{ url_for('projects') }}"><span><strong>There’s more in the archive.</strong><span>Websites, applications, experiments and the work I learned from.</span></span>{{ arrow() }}</a>
 </section>
 <section class="experience-section" id="experience" aria-labelledby="experience-title">

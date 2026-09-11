@@ -100,6 +100,29 @@ svg { flex-shrink: 0; }
 #projects > .section-heading { margin-bottom: 52px; }
 #projects > .section-heading h2 { font-size: 24px; font-weight: 500; letter-spacing: -.02em; }
 #projects > .section-heading p { display: none; }
+.project-rail-viewport { overflow: visible; }
+.project-rail-track { display: block; }
+.project-rail-controls { display: none; }
+.project-rail.is-enhanced .project-rail-viewport { overflow-x: auto; overflow-y: hidden; margin-inline: calc(var(--space) * -1); padding-inline: var(--space); scroll-snap-type: x mandatory; scrollbar-width: none; overscroll-behavior-x: contain; }
+.project-rail.is-enhanced .project-rail-viewport::-webkit-scrollbar { display: none; }
+.project-rail.is-enhanced .project-rail-track { display: flex; align-items: flex-start; gap: 28px; width: max-content; padding-bottom: 6px; }
+.project-rail.is-enhanced .work { flex: 0 0 min(88vw, 1040px); scroll-snap-align: start; opacity: .52; transform: scale(.97); transform-origin: left top; transition: opacity .55s var(--ease), transform .7s var(--ease); }
+.project-rail.is-enhanced .work.is-active { opacity: 1; transform: scale(1); }
+.project-rail.is-enhanced .work-image img { transition: transform .9s var(--ease), box-shadow .6s var(--ease); }
+.project-rail.is-enhanced .work.is-active .work-image img { box-shadow: var(--shadow), 0 0 0 1px rgb(37 78 219 / 12%); }
+.project-rail-controls { align-items: center; grid-template-columns: auto auto minmax(80px, 1fr) auto; gap: 16px; margin-top: 34px; }
+.project-rail.is-enhanced .project-rail-controls { display: grid; }
+.rail-buttons { display: flex; gap: 8px; }
+.rail-button { display: grid; place-items: center; width: 46px; height: 46px; border: 1px solid var(--line); border-radius: 50%; color: var(--ink); background: transparent; transition: background-color .2s, color .2s, border-color .2s, transform .35s var(--ease); }
+.rail-button:hover:not(:disabled) { color: var(--button-ink); background: var(--blue); border-color: var(--blue); transform: translateY(-3px); }
+.rail-button:disabled { opacity: .35; cursor: not-allowed; }
+.rail-button .arrow { width: 18px; height: 18px; }
+.rail-position { color: var(--muted); font-size: 12px; white-space: nowrap; }
+.rail-position [data-project-current] { color: var(--ink); font-weight: 650; }
+.rail-progress { height: 2px; background: var(--line); overflow: hidden; }
+.rail-progress span { display: block; width: 0; height: 100%; background: var(--blue); transition: width .45s var(--ease); }
+.rail-hint { color: var(--muted); font-size: 12px; white-space: nowrap; }
+.rail-hint span { color: var(--blue); font-size: 17px; margin-left: 4px; }
 .work { min-width: 0; scroll-margin-top: 32px; }
 .work-heading { display: flex; justify-content: space-between; align-items: center; gap: 18px; margin-bottom: 13px; }
 .work-heading h3 { font-size: clamp(30px, 3.5vw, 50px); }
@@ -265,6 +288,12 @@ details[open] > summary .plus::after { transform: rotate(0); }
   #projects { padding-top: 20px; }
   .section-heading { margin-bottom: 42px; }
   .section-heading p { font-size: 16px; }
+  .project-rail.is-enhanced .project-rail-viewport { margin-inline: -22px; padding-inline: 22px; }
+  .project-rail.is-enhanced .project-rail-track { gap: 16px; }
+  .project-rail.is-enhanced .work { flex-basis: calc(100vw - 54px); }
+  .project-rail-controls { grid-template-columns: auto auto 1fr; gap: 12px; margin-top: 26px; }
+  .rail-hint { display: none; }
+  .rail-button { width: 42px; height: 42px; }
   .work-heading { align-items: start; flex-direction: column; gap: 10px; }
   .work-heading h3 { font-size: 35px; }
   .work-summary { font-size: 21px; margin-bottom: 24px; }
