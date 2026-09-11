@@ -1,8 +1,9 @@
 {
   "profile": {
     "name": "Godfred Bio Conquest",
-    "role": "AI engineer & full-stack developer",
+    "role": "Software engineer · AI/ML builder · founder",
     "location": "Cape Coast, Ghana",
+    "phone": "+233 59 996 6902",
     "intro": "I build learning tools, machine-learning experiments, and software for everyday work in Ghana. From a model in Python to the interface people use, I enjoy bringing the pieces together.",
     "email": "godfredbio2004@gmail.com",
     "github": "https://github.com/GodfredsPrim",
@@ -11,9 +12,12 @@
     "graduation": "Expected graduation · 2028",
     "about": "I'm a Computer Science student at the University of Cape Coast, building across AI and full-stack development. My work has taken me from student analytics and local job matching to learning platforms and church administration. I care about understanding the task, making the interface clear, and learning what it takes to make the whole system work.",
     "faith": "My faith is part of this journey. I'm grateful to God for the opportunity to learn, for the people who help me grow, and for each step forward.",
-    "focus": "I'm working toward deeper experience in applied AI, African-language technology, and the engineering behind dependable web applications.",
-    "cv_label": "Download earlier CV",
-    "cv_note": "This earlier CV predates some experience on this website."
+    "focus": "I'm working toward deeper experience in AI/ML engineering, full-stack product development, data analytics and mission-driven startups.",
+    "languages": "English (professional), Twi (fluent), Sefwi (conversational)",
+    "availability": "Open to internships, graduate-track opportunities, freelance projects, remote collaborations and hackathon teams.",
+    "certifications": "Cisco Networking Academy: Python Essentials I, JavaScript Essentials I, Introduction to Cybersecurity, Internet of Things, Introduction to Networking · Sololearn: Vibe Coding",
+    "cv_label": "Download current CV",
+    "cv_note": "Updated September 2026."
   },
   "projects": [
     {
@@ -33,7 +37,8 @@
         "React",
         "TypeScript",
         "FastAPI",
-        "RAG"
+        "RAG",
+        "Moolre"
       ],
       "image": "images/work/brox.webp",
       "image_alt": "BroxStudies public learning-platform homepage",
@@ -128,7 +133,22 @@
       "stack": [
         "FastAPI",
         "RAG",
-        "SQLAlchemy"
+        "SQLAlchemy",
+        "Multilingual voice UX"
+      ],
+      "live": null
+    },
+    {
+      "slug": "broxvote",
+      "name": "BroxVote",
+      "category": "Web applications",
+      "status": "Product concept",
+      "summary": "A voting platform concept for transparent campaigns, verification and organiser operations.",
+      "source": null,
+      "stack": [
+        "Web platform",
+        "Moolre",
+        "SMS"
       ],
       "live": null
     },
@@ -413,6 +433,27 @@
   ],
   "experience": [
     {
+      "date": "2026 - Present",
+      "title": "Founder and Technical Lead",
+      "organisation": "SOLVXIT-GH",
+      "description": "Lead product planning, frontend and backend implementation, quality assurance, deployment and team collaboration across university-led products for students, schools, small businesses and community organisations.",
+      "status": "Founder / leadership"
+    },
+    {
+      "date": "2026",
+      "title": "Machine/AI Engineer Intern",
+      "organisation": "Thrive Africa · Remote",
+      "description": "Contributed to data preprocessing, model experimentation and evaluation for AI-driven product features while collaborating with a distributed engineering team.",
+      "status": "Internship"
+    },
+    {
+      "date": "2026",
+      "title": "IT Support Engineer Intern",
+      "organisation": "SDA Hospital",
+      "description": "Provided first-line support for hardware, software and network issues, and assisted with computers, printers, networked devices and basic user-account administration.",
+      "status": "Internship"
+    },
+    {
       "date": "August 2026",
       "title": "Team Lead",
       "organisation": "SOLVXIT-GH · MTN Tɛkyerɛma Pa Hackathon",
@@ -457,7 +498,12 @@
     {
       "name": "Full-stack development",
       "description": "Interfaces, APIs and the workflows that connect them, from document uploads to administrative reporting.",
-      "tools": "Flask, FastAPI, React, TypeScript, SQL"
+      "tools": "Flask, FastAPI, Django, React, Next.js, React Native/Expo, SQL"
+    },
+    {
+      "name": "Engineering delivery",
+      "description": "Testing, authentication, responsive UI, deployment and team coordination from a working idea to a usable release.",
+      "tools": "REST APIs, PostgreSQL, SQLite, Prisma, Git/GitHub, Render, Vercel, Railway, Docker fundamentals"
     }
   ]
 }
