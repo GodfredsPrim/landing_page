@@ -3,41 +3,51 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>{% block title %}Godfred Bio Conquest — AI & full-stack development{% endblock %}</title>
+  <title>{% block title %}Godfred Bio Conquest - AI & full-stack development{% endblock %}</title>
   <meta name="description" content="Godfred Bio Conquest, AI engineer and full-stack developer in Cape Coast, Ghana. Explore software projects, machine-learning work, experience and the journey behind them.">
   <link rel="canonical" href="https://godfreds.vercel.app{{ request.path }}">
-  <meta property="og:title" content="Godfred Bio Conquest — Work & journey">
+  <meta property="og:title" content="Godfred Bio Conquest - Work & journey">
   <meta property="og:description" content="AI, full-stack development and a journey of learning. Built from Cape Coast, Ghana.">
   <meta property="og:type" content="website">
   <meta property="og:url" content="https://godfreds.vercel.app{{ request.path }}">
   <meta property="og:image" content="https://godfreds.vercel.app/static/images/social-preview.jpg">
   <meta property="og:image:width" content="1200">
   <meta property="og:image:height" content="630">
-  <meta property="og:image:alt" content="Godfred Bio Conquest — AI and full-stack development, Cape Coast, Ghana">
+  <meta property="og:image:alt" content="Godfred Bio Conquest - AI and full-stack development, Cape Coast, Ghana">
   <meta name="twitter:card" content="summary_large_image">
-  <meta name="theme-color" content="#ffffff">
+  <meta name="theme-color" content="#f6f7fa">
   <link rel="icon" href="{{ url_for('static', filename='favicon.svg') }}" type="image/svg+xml">
+  <script src="{{ url_for('static', filename='js/theme.js') }}"></script>
+  <link rel="preload" href="{{ url_for('static', filename='fonts/archivo-latin.woff2') }}" as="font" type="font/woff2" crossorigin>
   <link rel="stylesheet" href="{{ url_for('static', filename='css/portfolio.css') }}">
   <script src="{{ url_for('static', filename='js/portfolio.js') }}" defer></script>
 </head>
 <body>
-<!-- THESIS: A personal software exhibition, with real work and a dated journey.
-OWN-WORLD: White, charcoal, deep blue; one grotesk family; open asymmetric grids and fine rules.
-STORY: Meet Godfred, inspect his work, understand his contribution, get in touch.
-FIRST VIEWPORT: Oversized name left, original portrait right, direct work and email links; selected work follows.
-FORM: Exhibition catalogue, grounded candidate 3; seed 1b78d234. Direction delegated by user.
+<!-- THESIS: A digital studio gallery where the person leads into substantial, inspectable software.
+OWN-WORLD: Cool pale or charcoal surfaces, cobalt, strong Archivo, rounded media canvases, pill controls, open staggered grids.
+STORY: Meet Godfred, inspect authentic work, understand his contribution, contact him.
+FIRST VIEWPORT: Two-line name left, full icon portrait right, concise role and work CTA; broad project canvas follows.
+FORM: Digital sculpture gallery, candidate 5, seed 4a776a21; study C chosen under user delegation. Previous seed 1b78d234 replaced.
 FINISH: unreviewed and undocumented is unfinished; this build ends with the finish review, the verdict, and DESIGN.md -->
   <a class="skip-link" href="#main">Skip to content</a>
   <header class="site-header wrap">
-    <a class="wordmark" href="{{ url_for('home') }}" aria-label="Godfred Bio Conquest — home">GBC<span aria-hidden="true">.</span></a>
+    <a class="wordmark" href="{{ url_for('home') }}" aria-label="Godfred Bio Conquest - home">GBC<span aria-hidden="true">.</span></a>
     <nav aria-label="Main navigation">
       <a href="{{ url_for('home') }}#projects">Work</a>
       <a href="{{ url_for('home') }}#experience">Experience</a>
       <a href="{{ url_for('home') }}#about">About</a>
       <a href="{{ url_for('home') }}#contact">Contact {{ arrow() }}</a>
     </nav>
+    <button id="theme-toggle" class="theme-toggle" type="button" aria-label="Switch to dark theme" hidden>
+      <svg class="theme-moon" aria-hidden="true" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3c.132 0 .263 0 .393 0a7.5 7.5 0 0 0 7.92 12.446a9 9 0 1 1 -8.313 -12.454l0 .008"/></svg>
+      <svg class="theme-sun" aria-hidden="true" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M8 12a4 4 0 1 0 8 0a4 4 0 1 0 -8 0M3 12h1m8 -9v1m8 8h1m-9 8v1m-6.4 -15.4l.7 .7m12.1 -.7l-.7 .7m0 11.4l.7 .7m-12.1 -.7l-.7 .7"/></svg>
+    </button>
   </header>
   <main id="main" tabindex="-1">{% block main %}{% endblock %}</main>
+  <dialog id="image-viewer" class="image-viewer" aria-labelledby="viewer-title">
+    <div class="viewer-bar"><h2 id="viewer-title">Project screenshot</h2><button type="button" class="viewer-close">Close</button></div>
+    <img id="viewer-image" alt=""><p id="viewer-caption"></p>
+  </dialog>
   <footer class="site-footer wrap">
     <a class="wordmark" href="{{ url_for('home') }}" aria-label="Back to Godfred Bio Conquest home">GBC<span aria-hidden="true">.</span></a>
     <p>© {{ year }} Godfred Bio Conquest</p><p>From Cape Coast, with gratitude.</p>

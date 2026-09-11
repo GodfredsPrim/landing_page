@@ -420,7 +420,7 @@
       "status": "Leadership"
     },
     {
-      "date": "November – December 2025",
+      "date": "November - December 2025",
       "title": "Machine Learning Intern",
       "organisation": "Codveda Technologies · Remote",
       "description": "Implemented preprocessing, regression, classification and clustering exercises, progressing to random forests, SVMs and a TensorFlow neural network. Completion was acknowledged in January 2026.",
@@ -452,12 +452,12 @@
     {
       "name": "Applied AI & data",
       "description": "Model training, data preparation, retrieval-based applications and computer-vision experiments.",
-      "tools": "Python · scikit-learn · TensorFlow · Pandas · OpenCV"
+      "tools": "Python, scikit-learn, TensorFlow, Pandas, OpenCV"
     },
     {
       "name": "Full-stack development",
       "description": "Interfaces, APIs and the workflows that connect them, from document uploads to administrative reporting.",
-      "tools": "Flask · FastAPI · React · TypeScript · SQL"
+      "tools": "Flask, FastAPI, React, TypeScript, SQL"
     }
   ]
 }
