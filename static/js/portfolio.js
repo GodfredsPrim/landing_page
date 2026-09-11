@@ -10,7 +10,7 @@ function syncThemeControl() {
     themeToggle.dataset.mode = mode;
     themeToggle.setAttribute('aria-label', `Switch to ${mode === 'dark' ? 'light' : 'dark'} theme`);
   }
-  document.querySelector('meta[name="theme-color"]')?.setAttribute('content', mode === 'dark' ? '#15181f' : '#f6f7fa');
+  document.querySelector('meta[name="theme-color"]')?.setAttribute('content', mode === 'dark' ? '#111311' : '#f2f1e9');
 }
 if (themeToggle) {
   themeToggle.hidden = false;

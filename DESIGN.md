@@ -77,31 +77,31 @@ components:
 
 ## Overview
 
-**Creative North Star: "The Software Exhibition Catalogue"**
+**Creative North Star: "The Working Studio Field"**
 
-An open, typographic catalogue makes the person and his actual software the visual material. White space, charcoal text, deep blue emphasis and fine rules organize substantial information without disguising it as a dashboard.
+The page behaves like field notes from a working software studio: the person establishes the signal, real interfaces become evidence, and the visitor moves from first impression to build notes to contact without decorative claims.
 
-The system is assured, personal and restrained. A single grotesk family provides the hierarchy; a colour portrait with a user-requested technology-icon background and genuine product captures provide specificity. Direction was delegated by the user and recorded from the implemented, reviewed site. No generated or user-approved image comp is claimed.
+The system is cinematic, technical and direct. Archivo carries the hierarchy; near-black surfaces, warm paper text, acid-lime signal color, hard rules and genuine project captures create the world. No generated or user-approved image comp is claimed.
 
 **Key Characteristics:**
-- Open asymmetric grids and fine dividing rules.
-- One self-hosted type family with a strong scale contrast.
-- Real photography and readable software screenshots.
-- Square controls, visible focus and optional subtle motion.
+- Split-screen hero with the portrait treated as an anchored artifact.
+- One self-hosted type family with very large, compact display scale.
+- Full-width signal band and project evidence as the page's visual material.
+- Hard rules, restrained controls, visible focus and authored motion.
 
 ## Colors
 
-Deep blue gives a clear emphasis to a mostly neutral page.
+Acid lime is the studio signal against a near-black field.
 
 ### Primary
-- **Exhibition blue** (`blue`): name emphasis, primary actions, links on hover, focus outlines and the contact section.
+- **Signal lime** (`lime`): name emphasis, primary actions, links on hover, focus outlines and the contact section.
 
 ### Neutral
-- **Paper** (`paper`): main canvas, controls and reversed text.
-- **Charcoal** (`ink`): headings, body text and primary-button hover.
+- **Near-black** (`black`): primary canvas and navigation field.
+- **Warm paper** (`paper`): headings, body text and reversed signal text.
 - **Quiet grey** (`muted`): supporting descriptions, captions and dates.
-- **Rule grey** (`line`): section dividers and status outlines.
-- **Display well** (`well`): screenshot mounting surface and experience background.
+- **Studio line** (`line`): section dividers and disclosure rules.
+- **Panel** (`panel`): screenshot mounting surface and experience band.
 
 **The Clear Emphasis Rule.** Use the accent to identify emphasis or action; keep supporting text and separators neutral.
 
@@ -117,23 +117,23 @@ Mobile body text is 16px. At widths up to 680px, the hero uses `clamp(54px,12.8v
 
 The shared container is `min(1280px, calc(100% - var(--space)*2))`, centred with fluid side gutters. Section rhythm comes from the frontmatter spacing values. Grids use meaningful unequal columns: the desktop hero uses 1.5fr/1fr with a 9% gap; selected lead work uses 1.05fr/1fr; the archive uses 1fr/1.5fr. Paired work and about content use two columns.
 
-At 1000px and below, gaps contract and dated experience shifts to two columns. Featured work becomes a horizontal snap rail with a deliberate next-slide peek; touch, mouse-wheel trackpads, buttons and arrow keys share the same sequence. At 680px and below, the rail uses near-full-width slides and side gutters become 22px. Navigation remains visible and wraps; archive fields stack with a full-width submit button. At 1500px and above, the portrait grows to a 400px maximum. Use the actual responsive CSS as the source for component-specific exceptions.
+The shared container is `min(1320px, calc(100% - var(--space)*2))`, centred with fluid side gutters. The desktop hero uses an unequal text/portrait split. Featured work becomes a horizontal snap rail with a deliberate next-slide peek; touch, buttons and arrow keys share the same sequence. At 680px and below, the rail uses near-full-width slides, the hero becomes one column, and navigation wraps beneath the wordmark. Archive fields stack with a full-width submit button.
 
 ## Elevation & Depth
 
-The system has no shadow vocabulary. Fine borders, whitespace and the pale display well distinguish regions. Screenshot links use a small solid caption overlay; the portrait has no glow or decorative frame.
+Depth comes from image wells, one restrained image shadow and the contrast between black, panel and lime surfaces. Fine rules do most of the structural work. Screenshot links use captions beneath the image; the portrait has a thin lime edge and no glow.
 
 **The Flat Surface Rule.** Establish hierarchy with spacing, type and tonal contrast before adding another container.
 
 ## Shapes
 
-Controls, image wells and status labels have square corners. One-pixel rules delimit rows and disclosure panels. The desktop portrait uses a 4:5 crop; mobile uses 5:4 with a deliberate face-preserving position. Lead product screenshots preserve the full source frame on desktop; tall secondary captures are contained inside a pale well.
+Controls and status labels are mostly square; the theme control and rail arrows are circular utility exceptions. One-pixel rules delimit rows and disclosure panels. The portrait uses a 4:5 crop. Project screenshots preserve their full source frame inside dark panel wells.
 
 ## Components
 
 ### Buttons and text links
 
-Primary actions are blue with white text, a matching one-pixel border and a minimum 50px height. Hover changes the background and border to charcoal. Mobile padding is 13px 18px. Secondary actions are underlined text links, not another filled button. Inline SVG arrows communicate direction.
+Primary actions are lime with near-black text, a matching one-pixel border and a minimum 50px height. Hover reverses to a transparent near-black button with lime text. Secondary actions are text links. Inline SVG arrows communicate direction.
 
 Interactive controls use a three-pixel blue focus outline with five-pixel offset; contact-section focus reverses to white. Button and screenshot-caption colour transitions last 180ms with ease-out only when reduced motion is not requested.
 
@@ -147,7 +147,7 @@ Small outlined rectangular labels communicate project or experience status. They
 
 ### Navigation
 
-The compact GBC wordmark uses weight 750 and a blue full stop. Header links use 15px text on desktop and 12px on mobile. Hover and current-section states use blue; current-section links are underlined. A keyboard-visible skip link precedes the header. The header is in normal document flow.
+The G mark and full name sit left in a sticky, translucent header. Header links use tracked uppercase text and the lime signal for hover/current states. A keyboard-visible skip link precedes the header. The header remains compact at 78px desktop and wraps its navigation on mobile.
 
 ### Selected work
 
@@ -157,7 +157,7 @@ Each project is an open article with a genuine capture, caption, title, status, 
 
 Native `details` and `summary` create a ruled disclosure row with a plus/minus indicator. The expanded content describes contribution, implementation, technical approach and current status. It works with keyboard interaction and without JavaScript.
 
-The authored project motion is the swipe rail: the active project settles into full opacity and scale while neighboring work recedes, with a progress line and numbered position preserving orientation. The hero still arrives upward by 10px over 550ms using `cubic-bezier(.16,1,.3,1)`. Content is never initially hidden. Reduced-motion preference disables animation, transitions and smooth scrolling.
+The authored motion is the studio reveal: hero copy arrives through a clipped upward reveal, while the active project settles into full opacity and scale as neighboring work recedes. The rail uses a progress line and numbered position for orientation. Content is never initially hidden. Reduced-motion preference disables animation, transitions and smooth scrolling.
 
 ## Do's and Don'ts
 

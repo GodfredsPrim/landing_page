@@ -4,20 +4,14 @@
 
 {% macro work(project, lead=false) %}
 <article class="work {% if lead %}work-lead{% endif %}" id="{{ project.slug }}" data-project-slide>
-  <div class="work-heading"><h3>{{ project.name }}</h3><span class="status">{{ project.status }}</span></div>
-  <p class="work-summary">{{ project.summary }}</p>
-  <figure class="work-media">
-    <a class="work-image {% if not lead %}work-image-portrait{% endif %}" href="{{ url_for('static', filename=project.image) }}" data-image-viewer data-title="{{ project.name }}" data-caption="{{ project.caption }}" aria-label="Enlarge {{ project.name }} screenshot">
-      <img src="{{ url_for('static', filename=project.image) }}" alt="{{ project.image_alt }}" width="{% if lead %}1440{% elif project.slug == 'dclm' %}772{% else %}684{% endif %}" height="{% if lead %}1000{% else %}1080{% endif %}" loading="lazy" decoding="async">
-    </a>
-    <figcaption class="image-caption"><span>{{ project.caption }}</span><span class="image-instruction">View full image {{ arrow() }}</span></figcaption>
-  </figure>
-  <div class="work-info">
-    <div class="work-intro"><p class="work-description">{{ project.problem }}</p><p class="work-role">{{ project.role }}</p><ul class="tools" aria-label="Technologies">{% for tool in project.stack %}<li>{{ tool }}</li>{% endfor %}</ul></div>
-    <div class="work-more"><details class="project-details"><summary>Inside the project <span aria-hidden="true" class="plus"></span></summary>
-      <div class="details-body"><h4>My contribution</h4><p>{{ project.contribution }}</p><h4>What I built</h4><p>{{ project.built }}</p><h4>Technical approach</h4><p>{{ project.decision }}</p><h4>Where it stands</h4><p>{{ project.outcome }}</p></div>
-    </details>
-    <div class="project-links">{% if project.live %}<a href="{{ project.live }}">Visit {{ project.name }} {{ arrow() }}</a>{% endif %}<a href="{{ project.source }}">Source code<span class="sr-only"> for {{ project.name }}</span> {{ arrow() }}</a></div></div>
+  <div class="work-index" aria-hidden="true">{% if lead %}01{% else %}02{% endif %}</div>
+  <div class="work-copy"><div class="work-heading"><span class="status">{{ project.category }} / {{ project.status }}</span><h3>{{ project.name }}</h3></div>
+    <p class="work-summary">{{ project.summary }}</p>
+    <p class="work-description">{{ project.problem }}</p>
+    <div class="work-meta"><span>{{ project.role }}</span><ul class="tools" aria-label="Technologies">{% for tool in project.stack %}<li>{{ tool }}</li>{% endfor %}</ul></div>
+    <details class="project-details"><summary>Read the build notes <span aria-hidden="true" class="plus"></span></summary><div class="details-body"><h4>My contribution</h4><p>{{ project.contribution }}</p><h4>What I built</h4><p>{{ project.built }}</p><h4>Technical approach</h4><p>{{ project.decision }}</p><h4>Where it stands</h4><p>{{ project.outcome }}</p></div></details>
+    <div class="project-links">{% if project.live %}<a href="{{ project.live }}">Open live project {{ arrow() }}</a>{% endif %}<a href="{{ project.source }}">View source<span class="sr-only"> for {{ project.name }}</span> {{ arrow() }}</a></div>
   </div>
+  <figure class="work-media"><a class="work-image" href="{{ url_for('static', filename=project.image) }}" data-image-viewer data-title="{{ project.name }}" data-caption="{{ project.caption }}" aria-label="Enlarge {{ project.name }} screenshot"><img src="{{ url_for('static', filename=project.image) }}" alt="{{ project.image_alt }}" width="1440" height="1000" loading="lazy" decoding="async"></a><figcaption class="image-caption"><span>{{ project.caption }}</span><span>Open image {{ arrow() }}</span></figcaption></figure>
 </article>
 {% endmacro %}
